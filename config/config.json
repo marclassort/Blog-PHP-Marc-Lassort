@@ -1,0 +1,17 @@
+{
+    "autoloadFolder" : [
+        "../src/Controller",
+        "../src/Core",
+        "../src/Repository", 
+        "../src/Exceptions",
+        "../src/Entity"
+    ],
+    "database" : {
+        "name" : "Ma base de données",
+        "dbname" : "blog_marc_lassort",
+        "host" : "localhost",
+        "user" : "root",
+        "password" : "root"
+    },
+    "basepath" : "/PHP/Blog-PHP"
+}

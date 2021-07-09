@@ -1,0 +1,64 @@
+{% extends '/templates/adminTemplate.html.twig' %}
+
+{% block title %}{{ string }}{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Liste des articles</h1>
+<p class="mb-4">DataTables est un plugin tiers qui est utilisé pour générer la démo des tableaux ci-dessous.
+    Pour plus d'informations sur les DataTables, visitez la <a target="_blank"
+        href="https://datatables.net">documentation officielle de DataTables</a>.</p>
+
+<!-- List of articles -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Liste des articles</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Chapô</th>
+                        <th>Date de création</th>
+                        <th>Date de modification</th>
+                        <th>Contenu</th>
+                        <th>Auteur</th>
+                        <th>Édition</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Chapô</th>
+                        <th>Date de création</th>
+                        <th>Date de modification</th>
+                        <th>Contenu</th>
+                        <th>Auteur</th>
+                        <th>Édition</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for post in posts %}
+                        <tr>
+                        <td>{{ post.title }}</td>
+                        <td>{{ post.blurb }}</td>
+                        <td>{{ post.creation_date }}</td>
+                        <td>{{ post.modif_date }}</td>
+                        <td>{{ post.content }}</td>
+                        <td>{{ post.author }}</td>
+                        <td><a href="http://"><i class="fas fa-trash-alt"></i></a> <a href="/PHP/Blog-PHP/editer-un-article?idPost={{ post.id }}"><i class="fas fa-edit"></i></td></a>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends '/templates/adminTemplate.html.twig' %}
+
+{% block title %}{{ string }}{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Liste des commentaires</h1>
+<p class="mb-4">DataTables est un plugin tiers qui est utilisé pour générer la démo des tableaux ci-dessous.
+    Pour plus d'informations sur les DataTables, visitez la <a target="_blank"
+        href="https://datatables.net">documentation officielle de DataTables</a>.</p>
+
+<!-- List of articles -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Liste des commentaires</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Contenu</th>
+                        <th>Date de création</th>
+                        <th>Validité</th>
+                        <th>Auteur article</th>
+                        <th>Titre de l'article</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Contenu</th>
+                        <th>Date de création</th>
+                        <th>Validité</th>
+                        <th>Auteur article</th>
+                        <th>Titre de l'article</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for comment in comments %}
+                    <tr>
+                        <td>{{ comment.username }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td>{{ comment.creation_date }}</td>
+                        <td>{{ comment.is_valid }}</td>
+                        <td>{{ comment.user_id }}</td>
+                        <td>{{ comment.post_id }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
