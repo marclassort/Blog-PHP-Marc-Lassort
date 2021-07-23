@@ -1,38 +1,21 @@
 <?php
 
-use Core\Router;
+use Pecee\SimpleRouter\SimpleRouter;
 
-// Router::setDefaultNamespace('\App\Controller');
-// Router::get('/', 'HomeController@home');
-// Router::get('/PHP/Blog-PHP/register', 'UserController@register');
-// Router::get('/PHP/Blog-PHP/password', 'UserController@password');
-// Router::get('/PHP/Blog-PHP/login', 'UserController@login');
-// Router::post('/PHP/Blog-PHP/login', 'UserController@authenticate', ['idPost', 'password']);
-// Router::get('/PHP/Blog-PHP/admin', 'AdminController@admin');
-// Router::get('/PHP/Blog-PHP/creer-un-article', 'AdminController@createPost');
-// Router::get('/PHP/Blog-PHP/liste-articles', 'AdminController@listPosts');
-// Router::post('/PHP/Blog-PHP/editer-un-article', 'AdminController@editPost', ['idPost']);
-// Router::get('/PHP/Blog-PHP/gerer-commentaires', 'AdminController@manageComments');
-// Router::get('/PHP/Blog-PHP/profil', 'AdminController@profile');
-// Router::get('/PHP/Blog-PHP/contact', 'ContactController@contact');
-// Router::get('/PHP/Blog-PHP/blog', 'BlogController@blog');
-// Router::get('/PHP/Blog-PHP/services', 'ServicesController@services');
-// Router::get('/PHP/Blog-PHP/projets', 'ProjectsController@projects');
-// Router::get('/PHP/Blog-PHP/politique-de-confidentialite', 'PrivacyController@privacy');
-// Router::get('/PHP/Blog-PHP/error', 'ErrorController@error');
-// Router::get('/PHP/Blog-PHP/style', 'LinksController@css');
-
-
-// {
-//     "path" : "/login",
-//     "controller" : "User",
-//     "action" : "Authenticate",
-//     "method" : "POST",
-//     "param" : [
-//         "login",
-//         "password"
-//     ],
-//     "manager" : [
-//         "User"
-//     ]
-// },
+SimpleRouter::get('/', 'HomeController@home');
+SimpleRouter::get('/register', 'UserController@register');
+SimpleRouter::get('/password', 'UserController@password');
+SimpleRouter::get('/login', 'UserController@login');
+SimpleRouter::post('/login', 'UserController@authenticate', ['idPost', 'password']);
+SimpleRouter::get('/admin', 'AdminController@admin');
+SimpleRouter::get('/creer-un-article', 'AdminController@createPost');
+SimpleRouter::get('/liste-articles', 'AdminController@listPosts');
+SimpleRouter::post('/editer-un-article', 'AdminController@editPost', ['idPost']);
+SimpleRouter::get('/gerer-commentaires', 'AdminController@manageComments');
+SimpleRouter::get('/profil', 'AdminController@profile');
+SimpleRouter::get('/contact', 'ContactController@contact');
+SimpleRouter::get('/blog', 'BlogController@blog');
+SimpleRouter::get('/services', 'ServicesController@services');
+SimpleRouter::get('/projets', 'ProjectsController@projects');
+SimpleRouter::get('/politique-de-confidentialite', 'PrivacyController@privacy');
+SimpleRouter::get('/error', 'ErrorController@error');

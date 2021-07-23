@@ -37,7 +37,7 @@ class BaseController
 
     public function redirect(string $path)
     {
-        header("Location: /PHP/Blog-PHP/" . $path);
+        header("Location: /" . $path);
         exit();
     }
 

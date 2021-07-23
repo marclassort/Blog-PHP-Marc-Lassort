@@ -13,5 +13,5 @@
         "user" : "root",
         "password" : "root"
     },
-    "basepath" : "/PHP/Blog-PHP"
+    "basepath" : "/"
 }
