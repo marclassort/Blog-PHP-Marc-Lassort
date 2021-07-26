@@ -5,7 +5,7 @@ namespace App\Controller;
 use Core\BaseController;
 use Entity\Post;
 use Repository\CommentManager;
-use Repository\PostManager;
+use App\Repository\PostManager;
 
 class AdminController extends BaseController
 {
@@ -17,11 +17,6 @@ class AdminController extends BaseController
         return $this->render('backend/admin.html.twig', [
             "string" => $string
         ]);
-    }
-
-    public function getCssFiles()
-    {
-        
     }
 
     public function createPost()

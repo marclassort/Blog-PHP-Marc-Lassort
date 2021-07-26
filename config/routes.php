@@ -13,6 +13,7 @@ SimpleRouter::get('/liste-articles', 'AdminController@listPosts');
 SimpleRouter::post('/editer-un-article', 'AdminController@editPost', ['idPost']);
 SimpleRouter::get('/gerer-commentaires', 'AdminController@manageComments');
 SimpleRouter::get('/profil', 'AdminController@profile');
+SimpleRouter::get('/a-propos', 'HomeController@aPropos');
 SimpleRouter::get('/contact', 'ContactController@contact');
 SimpleRouter::get('/blog', 'BlogController@blog');
 SimpleRouter::get('/services', 'ServicesController@services');

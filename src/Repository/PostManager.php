@@ -1,10 +1,10 @@
 <?php
 
-namespace Repository;
+namespace App\Repository;
 
 use Entity\Post;
 use PDO;
-use Repository\Manager;
+use App\Repository\Manager;
 
 class PostManager
 {

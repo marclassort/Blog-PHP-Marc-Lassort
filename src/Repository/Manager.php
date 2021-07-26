@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace App\Repository;
 
 use Core\Database;
 use Exception;
