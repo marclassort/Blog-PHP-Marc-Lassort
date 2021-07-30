@@ -43,9 +43,7 @@ class Post extends Entity
 
     public function __construct(array $data = [])
     {
-        if (!empty($data)) {
-            $this->hydrate($data);
-        }
+        parent::__construct($data);
     }
 
     /**
