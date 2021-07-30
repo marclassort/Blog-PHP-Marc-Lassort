@@ -39,7 +39,7 @@ class BaseController
         exit();
     }
 
-    public function isSubmitted($submit)
+    public function isSubmitted(string $submit)
     {
         if (isset($_POST[$submit]))
         {
@@ -48,7 +48,7 @@ class BaseController
         return false;
     }
 
-    public function isValid(array $data)
+    public function isValid(object $data)
     {
         $isValid = true;
 

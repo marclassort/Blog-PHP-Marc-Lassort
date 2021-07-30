@@ -1,6 +1,6 @@
 <?php 
 
-namespace Entity;
+namespace App\Entity;
 use App\Core\Entity;
 
 class Post extends Entity
@@ -43,7 +43,9 @@ class Post extends Entity
 
     public function __construct(array $data = [])
     {
-        parent::__construct($data);
+        if (!empty($data)) {
+            $this->hydrate($data);
+        }
     }
 
     /**

@@ -2,7 +2,9 @@
 
 namespace Entity;
 
-class Contact 
+use App\Core\Entity;
+
+class Contact extends Entity
 {
 
     /**
@@ -40,15 +42,11 @@ class Contact
      */
     private $isHandled;
 
-    public function __construct(int $id, string $a, mixed $cd, string $s, string $c, string $e, bool $i) 
+    public function __construct(array $data = []) 
     {
-        $this->id = $id;
-        $this->author = $a;
-        $this->creationDate = $cd;
-        $this->subject = $s;
-        $this->content = $c;
-        $this->emailAddress = $e;
-        $this->isHandled = $i;
+        if (!empty($data)) {
+            $this->hydrate($data);
+        }
     }
 
     /**

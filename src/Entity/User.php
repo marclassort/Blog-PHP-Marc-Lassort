@@ -2,7 +2,9 @@
 
 namespace Entity;
 
-class User 
+use App\Core\Entity;
+
+class User extends Entity
 {
 
     /**
@@ -45,17 +47,11 @@ class User
      */
     private $role;
 
-    public function __construct(string $un, string $fn, string $ln, string $pn, string $e, string $p, array $r)
+    public function __construct(array $data = [])
     {
-
-        $this->username = $un;
-        $this->firstName = $fn;
-        $this->lastName = $ln;
-        $this->phoneNumber = $pn;
-        $this->email = $e;
-        $this->password = $p;
-        $this->role = $r;
-
+        if (!empty($data)) {
+            $this->hydrate($data);
+        }    
     }
 
     /**

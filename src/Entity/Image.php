@@ -2,7 +2,9 @@
 
 namespace Entity;
 
-class Image 
+use App\Core\Entity;
+
+class Image extends Entity
 {
 
     /**
@@ -25,12 +27,11 @@ class Image
      */
     private $name;
 
-    public function __construct(int $id, string $u, string $a, string $n)
+    public function __construct(array $data = [])
     {
-        $this->id = $id;
-        $this->url = $u;
-        $this->altText = $a;
-        $this->name = $n;
+        if (!empty($data)) {
+            $this->hydrate($data);
+        }
     }
 
     /**

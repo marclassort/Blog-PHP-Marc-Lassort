@@ -2,20 +2,22 @@
 
 namespace App\Repository;
 
-use Entity\Post;
+use App\Entity\Post;
 use PDO;
 use Core\Database;
 
 class PostManager
 {
     protected $table;
+    protected $object;
     protected $post;
     protected $bdd;
     public const SELECTQUERY = 'SELECT * FROM ';
 
-    public function __construct($table)
+    public function __construct($table, $object)
     {
         $this->table = $table;
+        $this->object = $object;
         $this->bdd = Database::getInstance();
     }
 
@@ -27,7 +29,7 @@ class PostManager
         $sql = self::SELECTQUERY . $this->table;
         $query = $this->bdd->preparation($sql);
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        return $query->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -38,7 +40,7 @@ class PostManager
         $sql = self::SELECTQUERY . $this->table . ' WHERE author = ?';
         $query = $this->bdd->preparation($sql);
         $query->execute([$author]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        return $query->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -49,7 +51,8 @@ class PostManager
         $sql = self::SELECTQUERY . $this->table . ' WHERE id = ?';
         $query = $this->bdd->preparation($sql);
         $query->execute([$postId]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $query->setFetchMode(PDO::FETCH_CLASS, '\App\Entity\\Post');
+        return $query->fetch();
     }
 
     /**
@@ -65,7 +68,7 @@ class PostManager
             $post->getContent(),
             $post->getAuthor()
         ]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        return $query->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE);
     }
 
     /**
@@ -79,7 +82,7 @@ class PostManager
         $query = $this->bdd->preparation($sql);
         $query->bindValue(':id', $post->getId());
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        return $query->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -90,7 +93,7 @@ class PostManager
         $sql = 'DELETE FROM ' . $this->table . ' WHERE id = ?';
         $query = $this->bdd->preparation($sql);
         $query->execute([$postId]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        return $query->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**

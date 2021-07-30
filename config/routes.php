@@ -10,7 +10,7 @@ SimpleRouter::post('/login', 'UserController@authenticate', ['idPost', 'password
 SimpleRouter::get('/admin', 'AdminController@admin');
 SimpleRouter::get('/creer-un-article', 'AdminController@createPost');
 SimpleRouter::get('/liste-articles', 'AdminController@listPosts');
-SimpleRouter::post('/editer-un-article', 'AdminController@editPost', ['idPost']);
+SimpleRouter::all('/editer-un-article/{idPost?}', 'AdminController@editPost', ['idPost']);
 SimpleRouter::get('/gerer-commentaires', 'AdminController@manageComments');
 SimpleRouter::get('/profil', 'AdminController@profile');
 SimpleRouter::get('/a-propos', 'HomeController@aPropos');

@@ -2,7 +2,9 @@
 
 namespace Entity;
 
-class Comment 
+use App\Core\Entity;
+
+class Comment extends Entity
 {
     /**
      * @var int
@@ -29,13 +31,11 @@ class Comment
      */
     private $isValid;
 
-    public function __construct(int $id, string $u, string $c, mixed $cd, bool $i) 
+    public function __construct(array $data = []) 
     {
-        $this->id = $id;
-        $this->username = $u;
-        $this->content = $c;
-        $this->creationDate = $cd;
-        $this->isValid = $i;
+        if (!empty($data)) {
+            $this->hydrate($data);
+        }
     }
 
     /**
