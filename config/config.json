@@ -9,9 +9,9 @@
     "database" : {
         "name" : "Ma base de données",
         "dbname" : "blog_marc_lassort",
-        "host" : "localhost",
+        "host" : "127.0.0.1",
         "user" : "root",
         "password" : "root"
     },
-    "basepath" : "/PHP/Blog-PHP"
+    "basepath" : "/"
 }

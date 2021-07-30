@@ -21,8 +21,6 @@ class BaseController
 	{
 		if (file_exists(VIEW_DIR . '//' . $filename))
 		{
-			// extract($this->param);
-
             $view = $this->twig->load($filename);
             $content = $view->render($array);
             $response = new Response($content);
@@ -37,11 +35,11 @@ class BaseController
 
     public function redirect(string $path)
     {
-        header("Location: /PHP/Blog-PHP/" . $path);
+        header("Location: /" . $path);
         exit();
     }
 
-    public function isSubmitted($submit)
+    public function isSubmitted(string $submit)
     {
         if (isset($_POST[$submit]))
         {
@@ -50,7 +48,7 @@ class BaseController
         return false;
     }
 
-    public function isValid(array $data)
+    public function isValid(object $data)
     {
         $isValid = true;
 

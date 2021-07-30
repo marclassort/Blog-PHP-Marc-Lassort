@@ -5,7 +5,7 @@ namespace App\Controller;
 use Core\BaseController;
 use Entity\Post;
 use Repository\CommentManager;
-use Repository\PostManager;
+use App\Repository\PostManager;
 
 class AdminController extends BaseController
 {
@@ -17,11 +17,6 @@ class AdminController extends BaseController
         return $this->render('backend/admin.html.twig', [
             "string" => $string
         ]);
-    }
-
-    public function getCssFiles()
-    {
-        
     }
 
     public function createPost()
@@ -56,20 +51,20 @@ class AdminController extends BaseController
 
     public function editPost($idPost)
     {
-        echo('Coucou Thibaut');
-        die();
         // récupérer en BDD le post à modifier (stocker dans la variable $post et le passer au render)
         $postManager = new PostManager('post', 'Post');
         $post = $postManager->getPost($idPost);
         
         // vérifier que le formulaire a été soumis et valide (méthodes de BaseController) -> if 
-        if ($this->isValid($post) && $this->isSubmitted($post))
+        if ($this->isValid($post) && $this->isSubmitted('editInput'))
         {
             // on rentre dans le if, il faut hydrater l'objet avec les nouvelles valeurs du form 
-            $this->hydrate($post);
+            // je set le contenu, le titre, etc. 
+            $post->setContent();
 
             // envoyer ces valeurs en BDD
             
+            // Appeler sa méthode pour update en base de données et faire passer le $post en paramètre 
             // return à la fin du if et redirect du BaseController vers le tableau des posts (? message flash)
             return $this->redirect('liste-articles');
         }

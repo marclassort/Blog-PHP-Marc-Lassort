@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Core\BaseController;
-use Repository\PostManager;
+use App\Repository\PostManager;
 
 class PostController extends BaseController
 {

@@ -1,47 +1,65 @@
 <?php
 namespace App\Core;
 
-use AltoRouter;
+use Pecee\SimpleRouter\SimpleRouter;
 
 class Router
 {
     /**
      * @var string
      */
-    private $viewPath;
+    private $controllerPath;
 
     /**
-     * @var AltoRouter
+     * @var SimpleRouter
      */
     private $router;
 
-    public function __construct(string $viewPath)
+    /**
+     * @param string $viewPath
+     */
+    public function __construct(string $controllerPath)
     {
-        $this->viewPath = $viewPath;
-        $this->router = new AltoRouter();
+        $this->controllerPath = $controllerPath;
+        $this->router = new SimpleRouter();
     }
 
-    public function get(string $url, string $view, ?string $name = null): self
+    /**
+     * @param string $route
+     * @param mixed $target
+     * @param $name
+     */
+    public function get(string $route, mixed $target, ?string $name = null): self
     {
-        $this->router->map('GET', $url, $view, $name);
+        $this->router->map('GET', $route, $target, $name);
+        return $this;
+    }
+
+    public function setBasePath()
+    {
+        $this->router->setBasePath('/');
         return $this;
     }
 
     public function run(): self
     {
-        // require_once CONF_DIR . '/routes.php';
+        require_once CONF_DIR . DIRECTORY_SEPARATOR . 'routes.php';
         $match = $this->router->match();
+        
         if(is_array($match)) {
             $view = $match['target'];
-            ob_start();
-            $content = ob_get_clean();
             require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.html.twig';
             return $this;
         } else {
-            require $this->viewPath . DIRECTORY_SEPARATOR . 'templates/template.html.twig';
+            require $this->controllerPath . DIRECTORY_SEPARATOR . 'HomeController.php';
             return $this;
         }
         return $this;
+    }
 
+    public function runFunction()
+    {
+        require_once CONF_DIR . DIRECTORY_SEPARATOR . 'routes.php';
+        return $this->router->match();
     }
 }

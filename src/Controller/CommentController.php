@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Core\BaseController;
-use Repository\CommentManager;
+use App\Repository\CommentManager;
 
 class CommentController extends BaseController
 {

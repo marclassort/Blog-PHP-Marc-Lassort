@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Core\BaseController;
-use Repository\PostManager;
+use App\Repository\PostManager;
 
 class HomeController extends BaseController 
 {
@@ -22,4 +22,12 @@ class HomeController extends BaseController
         ]);
     }
 
+    public function aPropos()
+    {
+        $string = "Marc Lassort";
+
+        return $this->render('frontend/a-propos.html.twig', [
+            "string" => $string
+        ]);
+    }
 }
