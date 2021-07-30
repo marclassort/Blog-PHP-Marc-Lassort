@@ -51,7 +51,7 @@ class Database
 
     // Permet de préparer une requête SQL. Retourne la requête préparée sous forme d'objet
     public function preparation($req){
-        return $query = $this->bdd->prepare($req);
+        return $this->bdd->prepare($req);
     }
 
     // Permet d'exécuter une requête SQL préparée. Retourne le résultat (s'il y en a un) de la requête sous forme d'objet

@@ -11,6 +11,7 @@ class PostManager
     protected $table;
     protected $post;
     protected $bdd;
+    public const selectQuery = 'SELECT * FROM ';
 
     public function __construct($table)
     {
@@ -23,7 +24,7 @@ class PostManager
      */
     public function getAllPosts()
     {
-        $sql = 'SELECT * FROM ' . $this->table;
+        $sql = self::selectQuery . $this->table;
         $query = $this->bdd->preparation($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -34,7 +35,7 @@ class PostManager
      */
     public function getPostsbyAuthor($author)
     {
-        $sql = 'SELECT * FROM ' . $this->table . ' WHERE author = ?';
+        $sql = self::selectQuery . $this->table . ' WHERE author = ?';
         $query = $this->bdd->preparation($sql);
         $query->execute([$author]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -45,7 +46,7 @@ class PostManager
      */
     public function getPost($postId)
     {
-        $sql = 'SELECT * FROM ' . $this->table . ' WHERE id = ?';
+        $sql = self::selectQuery . $this->table . ' WHERE id = ?';
         $query = $this->bdd->preparation($sql);
         $query->execute([$postId]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
