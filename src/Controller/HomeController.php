@@ -12,13 +12,13 @@ class HomeController extends BaseController
     {
         $string = "Marc Lassort";
 
-        // $postManager = new PostManager('post', 'Post');
+        $postManager = new PostManager('post', 'Post');
 
-        // $posts = $postManager->getAllPosts();
+        $posts = $postManager->getAllPosts();
         
         return $this->render('frontend/home.html.twig', [
-            "string" => $string//,
-            // "posts" => $posts
+            "string" => $string,
+            "posts" => $posts
         ]);
     }
 

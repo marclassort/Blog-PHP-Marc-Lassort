@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use Entity\Post;
 use PDO;
-use App\Repository\Manager;
+use Core\Database;
 
 class PostManager
 {
@@ -15,7 +15,7 @@ class PostManager
     public function __construct($table)
     {
         $this->table = $table;
-        $this->bdd = Manager::getInstance();
+        $this->bdd = Database::getInstance();
     }
 
     /**
@@ -66,20 +66,6 @@ class PostManager
         ]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-
-
-    // public function createPost($post): bool
-    // {
-    //     $properties[] = array_values($this->getTables($post));
-
-    //     $tables = implode(', ', $this->getTables($post[0]));
-    //     $values = implode(', ', $this->getValues($post[0]));
-
-    //     $sql = 'INSERT INTO ' . $this->table . '(' . $tables . ') VALUES (' . $values . ')';
-    //     $query = $this->bdd->preparation($sql);
-    //     $query->execute();
-    //     return $query->fetchAll(PDO::FETCH_ASSOC);
-    // }
 
     /**
      * Edit a specific blog post

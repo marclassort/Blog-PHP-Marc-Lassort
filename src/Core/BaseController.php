@@ -21,8 +21,6 @@ class BaseController
 	{
 		if (file_exists(VIEW_DIR . '//' . $filename))
 		{
-			// extract($this->param);
-
             $view = $this->twig->load($filename);
             $content = $view->render($array);
             $response = new Response($content);

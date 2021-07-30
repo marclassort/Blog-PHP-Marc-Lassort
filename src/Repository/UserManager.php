@@ -2,8 +2,8 @@
 
 namespace Repository;
 
+use Core\Database;
 use PDO;
-use Repository\Manager;
 
 class UserManager
 {
@@ -13,13 +13,8 @@ class UserManager
     public function __construct($table)
     {
         $this->table = $table;
-        $this->bdd = Manager::getInstance();
+        $this->bdd = Database::getInstance();
     }
-
-    // public function __construct($datasource)
-    // {
-    //     parent::__construct("user", "User", $datasource);
-    // }
 
     public function getByMail($mail, $password)
     {
@@ -27,10 +22,5 @@ class UserManager
         $query = $this->bdd->preparation($sql);
         $query->execute(array($mail, $password));
         return $query->fetchAll(PDO::FETCH_ASSOC|PDO::FETCH_PROPS_LATE, "User");
-
-        // $query = $this->database->prepare();
-        // $req->execute(array($mail, $password));
-        // $req->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "User");
-        // return $req->fetch();
     }
 }
