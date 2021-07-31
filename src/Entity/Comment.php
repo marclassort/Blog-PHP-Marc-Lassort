@@ -31,6 +31,9 @@ class Comment extends Entity
      */
     private $isValid;
 
+    /**
+     * @param array $data Data used with the comment form 
+     */
     public function __construct(array $data = []) 
     {
         parent::__construct($data);
@@ -74,5 +77,50 @@ class Comment extends Entity
     public function getIsValid(): bool
     {
         return $this->isValid;
+    }
+
+    /**
+     * @param int $id 
+     * @return void 
+     */
+    public function setId($id)
+    {
+        $this->id = $id; 
+    }
+
+    /**
+     * @param string $username 
+     * @return void 
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username; 
+    }
+
+    /**
+     * @param string $content 
+     * @return void 
+     */
+    public function setContent($content)
+    {
+        $this->content = $content; 
+    }
+
+    /**
+     * @param mixed $creationDate 
+     * @return void 
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate; 
+    }
+
+    /**
+     * @param bool $isValid 
+     * @return void 
+     */
+    public function setIsValid($isValid)
+    {
+        $this->isValid = $isValid; 
     }
 }
