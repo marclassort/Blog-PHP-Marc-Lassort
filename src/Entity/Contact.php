@@ -1,7 +1,6 @@
 <?php 
 
-namespace Entity;
-
+namespace App\Entity;
 use App\Core\Entity;
 
 class Contact extends Entity

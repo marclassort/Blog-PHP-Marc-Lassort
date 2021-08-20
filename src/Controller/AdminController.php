@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use Core\BaseController;
-use Entity\Post;
-use Repository\CommentManager;
+use App\Entity\Post;   
+use App\Entity\Image;
+use App\Repository\CommentManager;
+use App\Repository\ImageManager;
 use App\Repository\PostManager;
 
 class AdminController extends BaseController
@@ -21,46 +23,71 @@ class AdminController extends BaseController
 
     public function createPost()
     {
-        // $string = "Blog pro de Marc Lassort";
+        $string = "Blog pro de Marc Lassort";
 
-        // $post = new Post();
+        $post = new Post($_POST);
+        $image = new Image($_POST);
+
         // $this->hydrate($post, $_POST);
+        // $this->hydrate($image, $_POST);
 
-        // return $this->render('backend/postForm.html.twig', [
-        //     "string" => $string
-        // ]);
+        if (!empty($_POST))
+        {
+            $postManager = new PostManager('post', 'Post');
+            $postManager->createPost($post);
 
-        // if (!empty($_POST))
-        // {
-        //     $this->postManager->createPost($_POST);
-        // }
+            $imageManager = new ImageManager('image', 'Image');
+            $imageManager->setImage($image, 1);
+
+            return $this->redirect('liste-articles');
+        }
         
-        return $this->render('backend/postForm.html.twig', []);
+        return $this->render('backend/postForm.html.twig', [
+            "string" => $string
+        ]);
     }
 
     public function listPosts()
     {
+        $string = "Blog pro de Marc Lassort";
+
         $postManager = new PostManager('post', 'Post');
+        $imageManager = new ImageManager('image', 'Image');
 
         $posts = $postManager->getAllPosts();
+        $images = $imageManager->getImages();
 
         return $this->render('backend/postList.html.twig', [
-            "posts" => $posts
+            "string" => $string,
+            "posts" => $posts,
+            "images" => $images
         ]);
     }
 
     public function editPost($idPost)
     {
+        $string = "Blog pro de Marc Lassort";
+
         // récupérer en BDD le post à modifier (stocker dans la variable $post et le passer au render)
         $postManager = new PostManager('post', 'Post');
         $post = $postManager->getPost($idPost);
+        $imageManager = new ImageManager('image', 'Image');
+        $image = $imageManager->getImage($idPost);
+
+        var_dump($post);
+        var_dump('<br><br><br>');
         
         // vérifier que le formulaire a été soumis et valide (méthodes de BaseController) -> if 
-        if ($this->isValid($post) && $this->isSubmitted('editInput'))
+        if ($this->isSubmitted('editInput') && $this->isValid($post))
         {
-            // on rentre dans le if, il faut hydrater l'objet avec les nouvelles valeurs du form 
+            // on rentre dans le if, il faut hydrater l'objet avec les nouvelles valeurs du form
+            // $this->hydrate($postManager);
+
             // je set le contenu, le titre, etc. 
-            $post->setContent();
+            $post->setTitle()
+                ->setBlurb()
+                ->setContent()
+                ->setAuthor();
 
             // envoyer ces valeurs en BDD
             
@@ -70,8 +97,18 @@ class AdminController extends BaseController
         }
 
         return $this->render('backend/postEdit.html.twig', [
-            "post" => $post
+            "string" => $string,
+            "post" => $post,
+            "image" => $image
         ]);
+    }
+
+    public function deletePost($idPost)
+    {
+        $postManager = new PostManager('post', 'Post');
+        $postManager->deletePost($idPost);
+
+        return $this->redirect('liste-articles');
     }
 
     public function manageComments()

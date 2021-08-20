@@ -9,7 +9,7 @@ class Post extends Entity
     /**
      * @var int
      */
-    private $id;
+    public $id;
 
     /**
      * @var string

@@ -1,7 +1,6 @@
 <?php 
 
-namespace Entity;
-
+namespace App\Entity;
 use App\Core\Entity;
 
 class Comment extends Entity
@@ -37,6 +36,7 @@ class Comment extends Entity
     public function __construct(array $data = []) 
     {
         parent::__construct($data);
+        $this->isValid = false;
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use PDO;
 use Core\Database;
+use DateTime;
 
 class PostManager
 {
@@ -60,7 +61,7 @@ class PostManager
      */
     public function createPost(Post $post)
     {
-        $sql = 'INSERT INTO ' . $this->table . ' (title, blurb, creation_date, content, author) VALUES (?, ?, NOW(), ?, ?)';
+        $sql = 'INSERT INTO ' . $this->table . ' (title, blurb, creation_date, modif_date, content, author, user_id) VALUES (?, ?, NOW(), NULL, ?, ?, 1)';
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $post->getTitle(),
@@ -68,19 +69,22 @@ class PostManager
             $post->getContent(),
             $post->getAuthor()
         ]);
-        return $query->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE);
     }
 
     /**
      * Edit a specific blog post
      */
-    public function editPost($post): bool
+    public function editPost(Post $post): bool
     {
         $tables = implode(', ', $this->getTables($post));
 
-        $sql = 'UPDATE ' . $this->table . ' SET ' . $tables . ' WHERE id = :id';
+        $sql = 'UPDATE ' . $this->table . ' SET ' . $tables . ' WHERE id = :id, title = :title, blurb = :blurb, modif_date = :modifDate, content = :content, author = :author';
+
+        $dateTime = new \DateTime();
+        var_dump($dateTime);
+
         $query = $this->bdd->preparation($sql);
-        $query->bindValue(':id', $post->getId());
+        $query->bindValue(':id', $post->getId(), ':title', $post->getTitle(), ':blurb', $post->getBlurb(), ':modifDate', $dateTime, ':content', $post->getContent(), ':author', $post->getAuthor());
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS);
     }
@@ -88,18 +92,18 @@ class PostManager
     /**
      * Delete a specific blog post
      */
-    public function deletePost($postId): bool
+    public function deletePost($postId): void
     {
-        $sql = 'DELETE FROM ' . $this->table . ' WHERE id = ?';
+        $sql = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
         $query = $this->bdd->preparation($sql);
-        $query->execute([$postId]);
-        return $query->fetchAll(PDO::FETCH_CLASS);
+        $query->bindValue(':id', $postId);
+        $query->execute();
     }
 
     /**
      * Retrieve an array of columns name to use in SQL queries 
      */
-    protected function getTables(array $properties): array
+    protected function getTables(Post $properties): array
     {
         $tables = [];
         foreach ($properties as $table)
