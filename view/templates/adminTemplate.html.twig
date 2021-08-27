@@ -8,7 +8,11 @@
     <meta name="description" content="Blog professionnel de Marc Lassort">
 	<meta name="author" content="Marc Lassort">
 	<meta name="title" content="Blog de Marc Lassort">
-    <title>{% block title %}{% endblock %} - Administration</title>
+
+    <!-- Favicon-->
+    <link rel="shortcut icon" type="image/svg" href="/public/img/avataaars.svg"/>
+
+    <title>Blog pro de Marc Lassort - Administration</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -18,6 +22,23 @@
 
     <!-- Custom styles for this template-->
     <link href="/public/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- TinyMCE -->
+    <script src="/vendor/tinymce/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+    tinymce.init({
+        selector: 'textarea',
+        language : "fr_FR",
+        spellchecker_language: 'fr'
+    });
+    </script>
+
+{# plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+spellchecker_language: 'fr',
+toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
+toolbar_mode: 'floating',
+tinycomments_mode: 'embedded',
+tinycomments_author: 'Author name', #}
 
     {% endblock %}
 </head>
@@ -70,7 +91,6 @@
                         <h6 class="collapse-header">Gestion des articles :</h6>
                         <a class="collapse-item" href="/creer-un-article">Créer un article</a>
                         <a class="collapse-item" href="/liste-articles">Voir les articles</a>
-                        <a class="collapse-item" href="/editer-un-article">Éditer un article</a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>

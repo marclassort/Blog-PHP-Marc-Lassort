@@ -1,7 +1,6 @@
 <?php 
 
-namespace Entity;
-
+namespace App\Entity;
 use App\Core\Entity;
 
 class User extends Entity
@@ -47,6 +46,9 @@ class User extends Entity
      */
     private $role;
 
+    /**
+     * @param array $data Data used with the comment form 
+     */
     public function __construct(array $data = [])
     {
         parent::__construct($data);
@@ -114,5 +116,77 @@ class User extends Entity
     public function getRole(): array
     {
         return $this->role;
+    }
+
+    /**
+     * @param int $id 
+     * @return void 
+     */
+    public function setId($id)
+    {
+        $this->id = $id; 
+    }
+
+    /**
+     * @param string $username 
+     * @return void 
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username; 
+    }
+
+    /**
+     * @param string $firstName 
+     * @return void 
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName; 
+    }
+
+    /**
+     * @param string $lastName 
+     * @return void 
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName; 
+    }
+
+    /**
+     * @param string $lastName 
+     * @return void 
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber; 
+    }
+
+    /**
+     * @param string $email 
+     * @return void 
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email; 
+    }
+
+    /**
+     * @param string $password 
+     * @return void 
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password; 
+    }
+
+    /**
+     * @param array $role 
+     * @return void 
+     */
+    public function setRole($role)
+    {
+        $this->role = $role; 
     }
 }

@@ -1,7 +1,6 @@
 <?php 
 
-namespace Entity;
-
+namespace App\Entity;
 use App\Core\Entity;
 
 class Image extends Entity
@@ -27,6 +26,9 @@ class Image extends Entity
      */
     private $name;
 
+    /**
+     * @param array $data Data used with the comment form 
+     */
     public function __construct(array $data = [])
     {
         parent::__construct($data);
@@ -62,5 +64,41 @@ class Image extends Entity
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @param int $id 
+     * @return void 
+     */
+    public function setId($id)
+    {
+        $this->id = $id; 
+    }
+
+    /**
+     * @param string $url 
+     * @return void 
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url; 
+    }
+
+    /**
+     * @param string $altText 
+     * @return void 
+     */
+    public function setAltText($altText)
+    {
+        $this->altText = $altText; 
+    }
+
+    /**
+     * @param string $name 
+     * @return void 
+     */
+    public function setName($name)
+    {
+        $this->name = $name; 
     }
 }

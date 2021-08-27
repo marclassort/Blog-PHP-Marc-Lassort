@@ -9,15 +9,12 @@
 
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Liste des articles</h1>
-<p class="mb-4">DataTables est un plugin tiers qui est utilisé pour générer la démo des tableaux ci-dessous.
-    Pour plus d'informations sur les DataTables, visitez la <a target="_blank"
-        href="https://datatables.net">documentation officielle de DataTables</a>.</p>
 
 <!-- List of articles -->
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Liste des articles</h6>
-    </div>
+    {# <div class="card-header py-3"> #}
+        {# <h6 class="m-0 font-weight-bold text-primary">Liste des articles</h6> #}
+    {# </div> #}
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -28,6 +25,7 @@
                         <th>Date de création</th>
                         <th>Date de modification</th>
                         <th>Contenu</th>
+                        <th>Photo</th>
                         <th>Auteur</th>
                         <th>Édition</th>
                     </tr>
@@ -39,6 +37,7 @@
                         <th>Date de création</th>
                         <th>Date de modification</th>
                         <th>Contenu</th>
+                        <th>Photo</th>
                         <th>Auteur</th>
                         <th>Édition</th>
                     </tr>
@@ -50,10 +49,33 @@
                         <td>{{ post.blurb }}</td>
                         <td>{{ post.creation_date }}</td>
                         <td>{{ post.modif_date }}</td>
-                        <td>{{ post.content }}</td>
+                        <td width="500">{{ post.content }}</td>
+                        <td><img src="/public/img/blog/{{ post.imageName }}" alt="{{ post.imageAlt }}" width="200"></td>
                         <td>{{ post.author }}</td>
-                        <td><button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-trash-alt" style="display: flex;"></i></button><a href="/editer-un-article/{{ post.id }}"><button type="button" class="btn" style="display: flex;"><i class="fas fa-edit"></i></button></a></td>         
+                        <td><button type="button" id="buttonDelete{{ post.id }}" class="btn" data-toggle="modal" data-target="#modalDelete{{ post.id }}"><i class="fas fa-trash-alt" style="display: flex;"></i></button><a href="/editer-un-article/{{ post.id }}"><button type="button" class="btn" style="display: flex;"><i class="fas fa-edit"></i></button></a></td>
                     </tr>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalDelete{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Suppression de l'article {{ post.title }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            Êtes-vous sûr de vouloir supprimer cet article ? 
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                            <a href="/supprimer-un-article/{{ post.id }}">Supprimer</a>
+                            {# <button  id="modalButton" type="button" class="btn btn-primary"> #}
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </tbody>
             </table>
@@ -61,25 +83,14 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Suppression de l'article {{ post.title }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-        <div class="modal-body">
-        Êtes-vous sûr de vouloir supprimer cet article ? 
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-        <button type="button" class="btn btn-primary">Supprimer</button>
-        </div>
-    </div>
-    </div>
-</div>
+
+
+<script>
+var button = document.getElementById('buttonDelete');
+var buttonId = button.dataset.id;
+
+var modalButton = document.getElementById('modalButton');
+
+</script>
 
 {% endblock %}

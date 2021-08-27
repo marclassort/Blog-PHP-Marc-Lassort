@@ -8,6 +8,8 @@
     "require": {
         "symfony/var-dumper": "^5.3",
         "twig/twig": "^3.0",
-        "pecee/simple-router": "4.3.6.2"
+        "pecee/simple-router": "4.3.6.2",
+        "tinymce/tinymce": "^5.8",
+        "cocur/slugify": "^4.0"
     }
 }

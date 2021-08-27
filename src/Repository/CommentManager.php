@@ -1,25 +1,27 @@
 <?php
 
-namespace Repository;
+namespace App\Repository;
 
 use PDO;
-use Repository\Manager;
+use Core\Database;
 
 class CommentManager
 {
     protected ?string $table;
+    protected $object;
     protected string $entity;
-    protected string $post;
+    protected string $comment;
     protected $bdd;
 
-    public function __construct($table)
+    public function __construct($table, $object)
     {
         $this->table = $table;
-        $this->bdd = Manager::getInstance();
+        $this->object = $object;
+        $this->bdd = Database::getInstance();
     }
 
     /**
-     * Find all blog posts
+     * Find all blog comments
      */
     public function getAllComments()
     {

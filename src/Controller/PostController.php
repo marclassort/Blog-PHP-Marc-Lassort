@@ -10,7 +10,7 @@ class PostController extends BaseController
 
     private PostManager $postManager;
 
-    public function post(string $slug = 1) {
+    public function post(string $slug) {
 
         $post = $this->postManager->getPost($slug);
 

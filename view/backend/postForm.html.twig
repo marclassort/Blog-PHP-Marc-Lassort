@@ -10,24 +10,39 @@
 <!-- 404 Error Text -->
 <div class="text-center">
     <h1 class="h3 mb-2 text-gray-800">Créer un article</h1>
-    {# <p class="lead text-gray-800 mb-5">Page non trouvée</p> #}
-    {# <p class="text-gray-500 mb-0">Il semble que vous ayez trouvé un trou dans la matrice...</p> #}
 
     <form action="/creer-un-article" method="post">
         <div class="titre-article mb-2 mt-5">
-            <span>Titre : </span>
-            <input type="text" name="content" id="" class="w-50">
+            <p>Titre : </p>
+            <input type="text" name="title" id="" class="w-50">
         </div>
-        <div class="contenu-article">
-            <span>Contenu : </span>
-            <textarea type="text" name="content" id="" class="w-50 mt-5" style="height: 150px;"></textarea>
+        <div class="titre-article mb-2 mt-5">
+            <p>Chapô : </p>
+            <input type="text" name="blurb" id="" class="w-50">
         </div>
-        <button type="submit" class="btn-primary mt-5 mb-4">Envoyer</button>
+        <div class="titre-article mb-2 mt-5">
+            <p>Image : </p>
+            <input type="file" name="imageName" id="" class="" accept=".jpg, .jpeg, .png">
+        </div>
+        <div class="titre-article mb-2 mt-5">
+            <p>Texte alternatif : </p>
+            <input type="text" name="imageAlt" id="" class="w-50">
+        </div>
+        <div class="contenu-article mb-2 mt-5" style="text-align: -webkit-center;">
+            <p>Contenu : </p>
+            <textarea class="mytextarea w-50 mt-5" name="content">
+                Veuillez écrire votre article ici.
+            </textarea>
+            <style>.tox-tinymce { max-width: 50%; }</style>
+        </div>
+        <div class="titre-article mb-2 mt-5">
+            <p>Auteur : </p>
+            <input type="text" name="author" id="" class="w-50">
+        </div>
+        <button type="submit" name="editInput" class="btn-primary mt-5 mb-4">Envoyer</button>
     </form>
 
     <a href="/admin">&larr; Retour au tableau de bord</a>
-
-    
 
 </div>
 {% endblock %}

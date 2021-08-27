@@ -60,51 +60,59 @@ class PostManager
      */
     public function createPost(Post $post)
     {
-        $sql = 'INSERT INTO ' . $this->table . ' (title, blurb, creation_date, content, author) VALUES (?, ?, NOW(), ?, ?)';
+        $sql = 'INSERT INTO ' . $this->table . ' (title, blurb, creation_date, modif_date, content, author, user_id, imageName, imageAlt) VALUES (?, ?, NOW(), NULL, ?, ?, 1, ?, ?)';
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $post->getTitle(),
             $post->getBlurb(),
             $post->getContent(),
-            $post->getAuthor()
+            $post->getAuthor(),
+            $post->getImageName(),
+            $post->getImageAlt()
         ]);
-        return $query->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE);
     }
 
     /**
      * Edit a specific blog post
      */
-    public function editPost($post): bool
+    public function editPost(Post $post)
     {
-        $tables = implode(', ', $this->getTables($post));
-
-        $sql = 'UPDATE ' . $this->table . ' SET ' . $tables . ' WHERE id = :id';
+        $sql = "UPDATE post
+                SET title = ?, blurb = ?, modif_date = NOW(), content = ?, author = ?, user_id = 1, imageName = ?, imageAlt = ?
+                WHERE id = ?";
         $query = $this->bdd->preparation($sql);
-        $query->bindValue(':id', $post->getId());
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_CLASS);
+        $query->execute([
+            $post->getTitle(),
+            $post->getBlurb(),
+            $post->getContent(),
+            $post->getAuthor(),
+            $post->getImageName(),
+            $post->getImageAlt(),
+            $post->getId()
+        ]);
     }
 
     /**
      * Delete a specific blog post
      */
-    public function deletePost($postId): bool
+    public function deletePost($postId): void
     {
-        $sql = 'DELETE FROM ' . $this->table . ' WHERE id = ?';
+        $sql = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
         $query = $this->bdd->preparation($sql);
-        $query->execute([$postId]);
-        return $query->fetchAll(PDO::FETCH_CLASS);
+        $query->bindValue(':id', $postId);
+        $query->execute();
     }
 
     /**
      * Retrieve an array of columns name to use in SQL queries 
      */
-    protected function getTables(array $properties): array
+    protected function getTables(Post $properties): array
     {
-        $tables = [];
-        foreach ($properties as $table)
+        $this->tables = [];
+        $array = (array)$properties;
+        foreach ($array as $table)
         {
-            $tables[] = $this->table . '.' . $table;
+            $this->tables[] = $this->table . '.' . $table;
         }
 
         return $this->tables;

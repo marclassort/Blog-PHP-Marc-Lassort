@@ -9,7 +9,7 @@ class Post extends Entity
     /**
      * @var int
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
@@ -24,12 +24,12 @@ class Post extends Entity
     /**
      * @var mixed
      */
-    private $creationDate;
+    private $creation_date;
 
     /**
      * @var mixed 
      */
-    private $modifDate;
+    private $modif_date;
 
     /**
      * @var string
@@ -41,6 +41,19 @@ class Post extends Entity
      */
     private $author;
 
+    /**
+     * @var string
+     */
+    private $imageName;
+
+    /**
+     * @var string
+     */ 
+    private $imageAlt;
+
+    /**
+     * @param array $data Data used with the comment form 
+     */
     public function __construct(array $data = [])
     {
         parent::__construct($data);
@@ -75,7 +88,7 @@ class Post extends Entity
      */
     public function getCreationDate(): ?string
     {
-        return $this->creationDate;
+        return $this->creation_date;
     }
 
     /**
@@ -83,7 +96,7 @@ class Post extends Entity
      */
     public function getModifDate(): ?string
     {
-        return $this->modifDate;
+        return $this->modif_date;
     }
 
     /**
@@ -100,5 +113,102 @@ class Post extends Entity
     public function getAuthor(): string
     {
         return $this->author;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageName(): string
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageAlt(): string
+    {
+        return $this->imageAlt;
+    }
+
+    /**
+     * @param int $id 
+     * @return void 
+     */
+    public function setId($id)
+    {
+        $this->id = $id; 
+    }
+
+    /**
+     * @param string $title 
+     * @return void 
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @param string $blurb 
+     * @return void 
+     */
+    public function setBlurb($blurb)
+    {
+        $this->blurb = $blurb; 
+    }
+
+    /**
+     * @param mixed $creation_date 
+     * @return void 
+     */
+    public function setCreationDate($creation_date)
+    {
+        $this->creation_date = $creation_date; 
+    }
+
+    /**
+     * @param mixed $modif_date 
+     * @return void 
+     */
+    public function setModifDate($modif_date)
+    {
+        $this->modif_date = $modif_date; 
+    }
+
+    /**
+     * @param string $content 
+     * @return void 
+     */
+    public function setContent($content)
+    {
+        $this->content = $content; 
+    }
+
+    /**
+     * @param string $author 
+     * @return void 
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author; 
+    }
+
+    /**
+     * @param string $imageName 
+     * @return void 
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName; 
+    }
+
+    /**
+     * @param string $imageAlt 
+     * @return void 
+     */
+    public function setImageAlt($imageAlt)
+    {
+        $this->imageAlt = $imageAlt; 
     }
 }
