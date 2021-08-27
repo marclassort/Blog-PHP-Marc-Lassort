@@ -81,14 +81,13 @@ class PostManager
                 SET title = ?, blurb = ?, modif_date = NOW(), content = ?, author = ?, user_id = 1, imageName = ?, imageAlt = ?
                 WHERE id = ?";
         $query = $this->bdd->preparation($sql);
-        
         $query->execute([
-            $_POST['title'],
-            $_POST['blurb'],
-            $_POST['content'],
-            $_POST['author'],
-            $_POST['imageName'],
-            $_POST['imageAlt'],
+            $post->getTitle(),
+            $post->getBlurb(),
+            $post->getContent(),
+            $post->getAuthor(),
+            $post->getImageName(),
+            $post->getImageAlt(),
             $post->getId()
         ]);
     }

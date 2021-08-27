@@ -56,6 +56,12 @@ class AdminController extends BaseController
 
         if ($this->isSubmitted('editInput') && $this->isValid($post))
         {   
+            $post->setTitle($_POST['title']);
+            $post->setBlurb($_POST['blurb']);
+            $post->setContent($_POST['content']);
+            $post->setAuthor($_POST['author']);
+            $post->setImageName($_POST['imageName']);
+            $post->setImageAlt($_POST['imageAlt']);
             $postManager->editPost($post);
             $this->redirect('liste-articles');
         }
