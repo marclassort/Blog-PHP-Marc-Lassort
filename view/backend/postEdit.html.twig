@@ -14,7 +14,7 @@
     <form action="/editer-un-article/{{ post.id }}" method="post">
         <div class="titre-article mb-2 mt-5">
             <p>Titre : </p>
-            <input type="text" name="content" id="" class="w-50" value="{{ post.title }}">
+            <input type="text" name="title" id="" class="w-50" value="{{ post.title }}">
         </div>
          <div class="titre-article mb-2 mt-5">
             <p>Chapô : </p>
@@ -22,19 +22,15 @@
         </div>
         <div class="titre-article mb-2 mt-5">
             <p>Image : </p>
-            <input type="file" name="url" id="" class="" accept=".jpg, .jpeg, .png" placeholder="{{ image.url }}">
+            <input type="file" name="imageName" id="" class="" accept=".jpg, .jpeg, .png" placeholder="{{ post.imageName }}">
         </div>
         <div class="titre-article mb-2 mt-5">
             <p>Texte alternatif : </p>
-            <input type="text" name="altText" id="" class="w-50" value="{{ image.alt_text }}">
-        </div>
-        <div class="titre-article mb-2 mt-5">
-            <p>Nom de l'image : </p>
-            <input type="text" name="name" id="" class="w-50" value="{{ image.name }}">
+            <input type="text" name="imageAlt" id="" class="w-50" value="{{ post.imageAlt }}">
         </div>
         <div class="contenu-article mb-2 mt-5" style="text-align: -webkit-center;">
             <p>Contenu : </p>
-            <textarea class="mytextarea w-50 mt-5" name="mytextarea">
+            <textarea class="mytextarea w-50 mt-5" name="content">
                 {{ post.content }}
             </textarea>
             <style>.tox-tinymce { max-width: 50%; }</style>

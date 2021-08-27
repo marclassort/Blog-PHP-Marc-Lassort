@@ -24,12 +24,12 @@ class Post extends Entity
     /**
      * @var mixed
      */
-    private $creationDate;
+    private $creation_date;
 
     /**
      * @var mixed 
      */
-    private $modifDate;
+    private $modif_date;
 
     /**
      * @var string
@@ -40,6 +40,16 @@ class Post extends Entity
      * @var string
      */
     private $author;
+
+    /**
+     * @var string
+     */
+    private $imageName;
+
+    /**
+     * @var string
+     */ 
+    private $imageAlt;
 
     /**
      * @param array $data Data used with the comment form 
@@ -78,7 +88,7 @@ class Post extends Entity
      */
     public function getCreationDate(): ?string
     {
-        return $this->creationDate;
+        return $this->creation_date;
     }
 
     /**
@@ -86,7 +96,7 @@ class Post extends Entity
      */
     public function getModifDate(): ?string
     {
-        return $this->modifDate;
+        return $this->modif_date;
     }
 
     /**
@@ -106,6 +116,22 @@ class Post extends Entity
     }
 
     /**
+     * @return string
+     */
+    public function getImageName(): string
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageAlt(): string
+    {
+        return $this->imageAlt;
+    }
+
+    /**
      * @param int $id 
      * @return void 
      */
@@ -120,7 +146,7 @@ class Post extends Entity
      */
     public function setTitle($title)
     {
-        $this->title = $title; 
+        $this->title = $title;
     }
 
     /**
@@ -133,21 +159,21 @@ class Post extends Entity
     }
 
     /**
-     * @param mixed $creationDate 
+     * @param mixed $creation_date 
      * @return void 
      */
-    public function setCreationDate($creationDate)
+    public function setCreationDate($creation_date)
     {
-        $this->creationDate = $creationDate; 
+        $this->creation_date = $creation_date; 
     }
 
     /**
-     * @param mixed $modifDate 
+     * @param mixed $modif_date 
      * @return void 
      */
-    public function setModifDate($modifDate)
+    public function setModifDate($modif_date)
     {
-        $this->modifDate = $modifDate; 
+        $this->modif_date = $modif_date; 
     }
 
     /**
@@ -166,5 +192,23 @@ class Post extends Entity
     public function setAuthor($author)
     {
         $this->author = $author; 
+    }
+
+    /**
+     * @param string $imageName 
+     * @return void 
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName; 
+    }
+
+    /**
+     * @param string $imageAlt 
+     * @return void 
+     */
+    public function setImageAlt($imageAlt)
+    {
+        $this->imageAlt = $imageAlt; 
     }
 }

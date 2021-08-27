@@ -23,28 +23,21 @@ class AdminController extends BaseController
 
     public function createPost()
     {
-        $string = "Blog pro de Marc Lassort";
-
         $post = new Post($_POST);
-        $image = new Image($_POST);
-
-        // $this->hydrate($post, $_POST);
-        // $this->hydrate($image, $_POST);
+        // $image = new Image($_POST);
 
         if (!empty($_POST))
         {
             $postManager = new PostManager('post', 'Post');
             $postManager->createPost($post);
 
-            $imageManager = new ImageManager('image', 'Image');
-            $imageManager->setImage($image, 1);
+            // $imageManager = new ImageManager('image', 'Image');
+            // $imageManager->setImage($image, 1);
 
             return $this->redirect('liste-articles');
         }
         
-        return $this->render('backend/postForm.html.twig', [
-            "string" => $string
-        ]);
+        return $this->render('backend/postForm.html.twig', []);
     }
 
     public function listPosts()
@@ -66,30 +59,24 @@ class AdminController extends BaseController
 
     public function editPost($idPost)
     {
-        $string = "Blog pro de Marc Lassort";
-
         // récupérer en BDD le post à modifier (stocker dans la variable $post et le passer au render)
         $postManager = new PostManager('post', 'Post');
         $post = $postManager->getPost($idPost);
         $imageManager = new ImageManager('image', 'Image');
         $image = $imageManager->getImage($idPost);
 
-        var_dump($post);
-        var_dump('<br><br><br>');
-        
         // vérifier que le formulaire a été soumis et valide (méthodes de BaseController) -> if 
         if ($this->isSubmitted('editInput') && $this->isValid($post))
-        {
-            // on rentre dans le if, il faut hydrater l'objet avec les nouvelles valeurs du form
-            // $this->hydrate($postManager);
-
+        {   
+            $postManager->editPost($post);
             // je set le contenu, le titre, etc. 
-            $post->setTitle()
-                ->setBlurb()
-                ->setContent()
-                ->setAuthor();
+            // $post->setTitle($idPost)
+            //     ->setBlurb()
+            //     ->setContent()
+            //     ->setAuthor();
 
             // envoyer ces valeurs en BDD
+
             
             // Appeler sa méthode pour update en base de données et faire passer le $post en paramètre 
             // return à la fin du if et redirect du BaseController vers le tableau des posts (? message flash)
@@ -97,7 +84,6 @@ class AdminController extends BaseController
         }
 
         return $this->render('backend/postEdit.html.twig', [
-            "string" => $string,
             "post" => $post,
             "image" => $image
         ]);

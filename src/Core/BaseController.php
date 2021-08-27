@@ -54,7 +54,6 @@ class BaseController
 
         foreach ($data as $value)
         {
-            // var_dump($value);
             if ($value == NULL || !isset($value) || empty($value))
             {
                 $isValid = false;

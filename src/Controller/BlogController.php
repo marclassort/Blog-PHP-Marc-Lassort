@@ -5,6 +5,7 @@ namespace App\Controller;
 use Core\BaseController;
 use App\Repository\PostManager;
 use App\Repository\ImageManager;
+use Cocur\Slugify\Slugify;
 
 class BlogController extends BaseController 
 {
@@ -23,6 +24,16 @@ class BlogController extends BaseController
             "string" => $string,
             "posts" => $posts,
             "images" => $images
+        ]);
+    }
+
+    public function openPost()
+    {
+        $slugify = new Slugify();
+        $slug = $slugify->slugify('Hello World', '_');
+
+        return $this->render('post/post.html.twig', [
+            "slug" => $slug
         ]);
     }
 }

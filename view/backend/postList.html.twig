@@ -12,9 +12,9 @@
 
 <!-- List of articles -->
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Liste des articles</h6>
-    </div>
+    {# <div class="card-header py-3"> #}
+        {# <h6 class="m-0 font-weight-bold text-primary">Liste des articles</h6> #}
+    {# </div> #}
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -49,8 +49,8 @@
                         <td>{{ post.blurb }}</td>
                         <td>{{ post.creation_date }}</td>
                         <td>{{ post.modif_date }}</td>
-                        <td>{{ post.content }}</td>
-                        <td><img src="public/img/blog/{{ image.0.url }}" alt="{{ image.altText }}"></td>
+                        <td width="500">{{ post.content }}</td>
+                        <td><img src="/public/img/blog/{{ post.imageName }}" alt="{{ post.imageAlt }}" width="200"></td>
                         <td>{{ post.author }}</td>
                         <td><button type="button" id="buttonDelete{{ post.id }}" class="btn" data-toggle="modal" data-target="#modalDelete{{ post.id }}"><i class="fas fa-trash-alt" style="display: flex;"></i></button><a href="/editer-un-article/{{ post.id }}"><button type="button" class="btn" style="display: flex;"><i class="fas fa-edit"></i></button></a></td>
                     </tr>

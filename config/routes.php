@@ -17,6 +17,7 @@ SimpleRouter::get('/profil', 'AdminController@profile');
 SimpleRouter::get('/a-propos', 'HomeController@aPropos');
 SimpleRouter::get('/contact', 'ContactController@contact');
 SimpleRouter::get('/blog', 'BlogController@blog');
+SimpleRouter::get('/blog/articles/{slug?}', 'BlogController@openPost', ['slug']);
 SimpleRouter::get('/services', 'ServicesController@services');
 SimpleRouter::get('/projets', 'ProjectsController@projects');
 SimpleRouter::get('/politique-de-confidentialite', 'PrivacyController@privacy');

@@ -12,7 +12,7 @@
     <!-- Favicon-->
     <link rel="shortcut icon" type="image/svg" href="/public/img/avataaars.svg"/>
 
-    <title>{% block title %}{% endblock %} - Administration</title>
+    <title>Blog pro de Marc Lassort - Administration</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -24,14 +24,14 @@
     <link href="/public/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- TinyMCE -->
-    <script src='https://cdn.tiny.cloud/1/7qauk7uq2sp07zseukxuqzymzy24p4n803b9lio2b8s0fee3/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+    <script src="/vendor/tinymce/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+    tinymce.init({
+        selector: 'textarea',
+        language : "fr_FR",
+        spellchecker_language: 'fr'
+    });
     </script>
-    <script>
-        tinymce.init({
-            selector: 'textarea',
-            language : "fr_FR"
-        });
-  </script>
 
 {# plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
 spellchecker_language: 'fr',
