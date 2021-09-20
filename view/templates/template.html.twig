@@ -25,7 +25,28 @@
         {% endblock %}
     </head>
     <body id="page-top">
-        {# <header>{% include 'elements/header.html.twig' %}</header> #}
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '243173601020394',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v11.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 
         <div id="content">{% block content %}{% endblock %}</div>
         <div id="footer">
@@ -72,16 +93,21 @@
     </body>
 </html>
 
+<script>
+
+FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+});
 
 
+{
+    status: 'connected',
+    authResponse: {
+        accessToken: '...',
+        expiresIn:'...',
+        signedRequest:'...',
+        userID:'...'
+    }
+}
 
-{# 
-
-    <hr><hr><hr>
-    <main class="container">
-        {% block body %}
-        {% endblock %}
-    </main>
-
-<footer>{% include 'elements/footer.html.twig' %}</footer>
-</body> #}
+</script>

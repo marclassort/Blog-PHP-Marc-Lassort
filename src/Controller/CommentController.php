@@ -12,9 +12,9 @@ class CommentController extends BaseController
     {
         $string = "Marc Lassort";
 
-        $postManager = new CommentManager('comment', 'Comment');
+        $commentManager = new CommentManager('comment', 'Comment');
 
-        $comments = $postManager->getAllComments();
+        $comments = $commentManager->getAllComments();
         
         return $this->render('frontend/comment.html.twig', [
             "string" => $string,

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use Core\BaseController;
 use App\Entity\Post;   
-use App\Entity\Image;
 use App\Repository\CommentManager;
 use App\Repository\ImageManager;
 use App\Repository\PostManager;
@@ -30,7 +29,7 @@ class AdminController extends BaseController
             $this->redirect('liste-articles');
         }
         
-        return $this->render('backend/postForm.html.twig', []);
+        $this->render('backend/postForm.html.twig', []);
     }
 
     public function listPosts()
@@ -41,7 +40,7 @@ class AdminController extends BaseController
         $posts = $postManager->getAllPosts();
         $images = $imageManager->getImages();
 
-        return $this->render('backend/postList.html.twig', [
+        $this->render('backend/postList.html.twig', [
             "posts" => $posts,
             "images" => $images
         ]);
@@ -94,5 +93,12 @@ class AdminController extends BaseController
     public function profile()
     {
         return $this->render('backend/profile.html.twig');
+    }
+
+    public function deconnect()
+    {
+        session_destroy();
+        header('Location: /');
+        return $this->render('frontend/home.html.twig');
     }
 }

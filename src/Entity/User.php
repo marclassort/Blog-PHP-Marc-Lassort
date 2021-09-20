@@ -39,12 +39,22 @@ class User extends Entity
     /**
      * @var string
      */
-    private $password;
+    public $password;
 
     /**
-     * @var array
+     * @var bool
      */
     private $role;
+
+    /**
+     * @var string
+     */
+    public $token;
+
+    /**
+     * @var bool
+     */
+    public $isActive;
 
     /**
      * @param array $data Data used with the comment form 
@@ -78,12 +88,28 @@ class User extends Entity
         return $this->firstName;
     }
 
+     /**
+     * @return string
+     */
+    public function getFirstNameSQL(): string
+    {
+        return $this->first_name;
+    }
+
     /**
      * @return string
      */
     public function getLastName(): string
     {
         return $this->lastName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastNameSQL(): string
+    {
+        return $this->last_name;
     }
 
     /**
@@ -111,11 +137,27 @@ class User extends Entity
     }
 
     /**
-     * @return array
+     * @return bool|null
      */
-    public function getRole(): array
+    public function getRole(): bool
     {
         return $this->role;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsActive(): bool
+    {
+        return $this->isActive;
     }
 
     /**
@@ -182,11 +224,29 @@ class User extends Entity
     }
 
     /**
-     * @param array $role 
+     * @param bool $role 
      * @return void 
      */
     public function setRole($role)
     {
         $this->role = $role; 
+    }
+
+    /**
+     * @param string $token 
+     * @return void 
+     */
+    public function setToken($token)
+    {
+        $this->token = $token; 
+    }
+
+    /**
+     * @param bool $isActive 
+     * @return void 
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive; 
     }
 }

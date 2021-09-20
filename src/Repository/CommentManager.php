@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use PDO;
 use Core\Database;
+use PDO;
 
 class CommentManager
 {
@@ -12,6 +12,7 @@ class CommentManager
     protected string $entity;
     protected string $comment;
     protected $bdd;
+    public const SELECTQUERY = 'SELECT * FROM ';
 
     public function __construct($table, $object)
     {
@@ -25,9 +26,21 @@ class CommentManager
      */
     public function getAllComments()
     {
-        $sql = 'SELECT * FROM ' . $this->table;
+        $sql = self::SELECTQUERY . $this->table;
         $query = $this->bdd->preparation($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Find all blog comments for a specific post
+     */
+    public function getAllCommentsForABlogPost($postId)
+    {
+        $sql = self::SELECTQUERY . $this->table . ' WHERE id = ?';
+        $query = $this->bdd->preparation($sql);
+        $query->execute([$postId]);
+        $query->setFetchMode(PDO::FETCH_CLASS, '\App\Entity\\Comment');
+        return $query->fetch();
     }
 }

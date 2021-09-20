@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CommentManager;
 use Core\BaseController;
 use App\Repository\PostManager;
 use App\Repository\ImageManager;
@@ -12,28 +13,44 @@ class BlogController extends BaseController
 
     public function blog() 
     {
-        $string = "Marc Lassort";
-
         $postManager = new PostManager('post', 'Post');
         $imageManager = new ImageManager('image', 'Image');
 
         $posts = $postManager->getAllPosts();
         $images = $imageManager->getImages();
+
+        $titles = array_column($posts, 'title');
+
+        $slugify = new Slugify();
+        $slugs = array();
+
+        foreach ($titles as $title) {
+            $slugs[] = $slugify->slugify($title, '-');
+        }
         
         return $this->render('frontend/blog.html.twig', [
-            "string" => $string,
             "posts" => $posts,
-            "images" => $images
+            "images" => $images,
+            "slugs" => $slugs
         ]);
     }
 
-    public function openPost()
+    public function openPost($postId)
     {
-        $slugify = new Slugify();
-        $slug = $slugify->slugify('Hello World', '_');
+        $postManager = new PostManager('post', 'Post');
+        $commentManager = new CommentManager('comment', 'Comment');
+
+        date_default_timezone_set('Europe/Paris');
+        setlocale(LC_TIME, ['fr', 'fra', 'fr_FR']);
+        $date = strftime('%d %B %Y - %Hh%M');
+
+        $post = $postManager->getPost($postId);
+        $comments = $commentManager->getAllCommentsForABlogPost($postId);
 
         return $this->render('post/post.html.twig', [
-            "slug" => $slug
+            "post" => $post,
+            "comments" => $comments,
+            "date" => $date
         ]);
     }
 }

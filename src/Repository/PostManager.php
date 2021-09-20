@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Post;
-use PDO;
 use Core\Database;
+use PDO;
 
 class PostManager
 {

@@ -49,7 +49,7 @@
                         <td>{{ post.blurb }}</td>
                         <td>{{ post.creation_date }}</td>
                         <td>{{ post.modif_date }}</td>
-                        <td width="500">{{ post.content }}</td>
+                        <td width="500">{{ post.content|e }}</td>
                         <td><img src="/public/img/blog/{{ post.imageName }}" alt="{{ post.imageAlt }}" width="200"></td>
                         <td>{{ post.author }}</td>
                         <td><button type="button" id="buttonDelete{{ post.id }}" class="btn" data-toggle="modal" data-target="#modalDelete{{ post.id }}"><i class="fas fa-trash-alt" style="display: flex;"></i></button><a href="/editer-un-article/{{ post.id }}"><button type="button" class="btn" style="display: flex;"><i class="fas fa-edit"></i></button></a></td>
