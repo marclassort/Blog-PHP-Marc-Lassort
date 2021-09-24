@@ -9,6 +9,7 @@ use Core\BaseController;
 
 class LoginHandler extends BaseController
 {
+    const URL = "http://localhost:8888";
 
     /**
      * Allows the user to register an account on the blog
@@ -36,7 +37,10 @@ class LoginHandler extends BaseController
 
                 $mailer = new Mailer();
 
-                $mailer->sendEmailCreation($lastUser->getEmail(), $lastUser->getFirstNameSQL(), $lastUser->getLastNameSQL(), $lastUser->getToken());
+                $subject = "Confirmation d'inscription au blog de Marc Lassort";
+                $body = "<p>Bonjour " . $lastUser->getFirstNameSQL() . " " . $lastUser->getLastNameSQL() . ",</p><p>Pour valider votre inscription, vous devez prouver que vous disposez d'une adresse courriel valide :</p><a href='" . self::URL . "/verification/" . $lastUser->getToken() . "'><button>Cliquez ici pour vérifier mon adresse</button></a></p><p>Merci pour votre confiance,</p><p>Marc Lassort</p>";
+
+                $mailer->sendEmail($lastUser->getEmail(), $subject, $body);
                 
                 $this->render('frontend/registering.html.twig', []);
             } else 
@@ -93,7 +97,10 @@ class LoginHandler extends BaseController
             
             $mailer = new Mailer();
 
-            $mailer->sendEmailForNewPassword($user->getEmail(), $user->getFirstNameSQL(), $user->getLastNameSQL(), $user->getToken());
+            $subject = "Blog Marc Lassort - Création d'un nouveau mot de passe";
+            $body = "<p>Bonjour " . $user->getFirstNameSQL() . ' ' . $user->getLastNameSQL() . ",</p><p>Pour créer un nouveau mot de passe, vous devez valider la procédure via ce courriel :</p><a href='" . self::URL . "/verification-password/" . $user->getToken() . "'><button>Cliquez ici pour recréer mon mot de passe</button></a></p><p>Merci pour votre confiance,</p><p>Marc Lassort</p>";
+
+            $mailer->sendEmail($user->getEmail(), $subject, $body);
             
             $this->render('frontend/password-sent.html.twig');
         } else 
