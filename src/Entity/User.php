@@ -19,12 +19,12 @@ class User extends Entity
     /**
      * @var string
      */
-    private $firstName; 
+    private $first_name; 
 
     /**
      * @var string
      */
-    private $lastName; 
+    private $last_name; 
 
     /**
      * @var string
@@ -80,18 +80,10 @@ class User extends Entity
         return $this->username;
     }
 
-    /**
-     * @return string
-     */
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
      /**
      * @return string
      */
-    public function getFirstNameSQL(): string
+    public function getFirstName(): string
     {
         return $this->first_name;
     }
@@ -100,14 +92,6 @@ class User extends Entity
      * @return string
      */
     public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastNameSQL(): string
     {
         return $this->last_name;
     }
@@ -161,15 +145,6 @@ class User extends Entity
     }
 
     /**
-     * @param int $id 
-     * @return void 
-     */
-    public function setId($id)
-    {
-        $this->id = $id; 
-    }
-
-    /**
      * @param string $username 
      * @return void 
      */
@@ -179,21 +154,21 @@ class User extends Entity
     }
 
     /**
-     * @param string $firstName 
+     * @param string $first_name 
      * @return void 
      */
-    public function setFirstName($firstName)
+    public function setFirstName($first_name)
     {
-        $this->firstName = $firstName; 
+        $this->first_name = $first_name; 
     }
 
     /**
      * @param string $lastName 
      * @return void 
      */
-    public function setLastName($lastName)
+    public function setLastName($last_name)
     {
-        $this->lastName = $lastName; 
+        $this->last_name = $last_name; 
     }
 
     /**

@@ -14,8 +14,8 @@ class AdminController extends BaseController
 
     public function admin() 
     {
-        // $session = new SessionHandler();
-        // $session->checkAdmin();
+        $session = new SessionHandler();
+        $session->checkAdmin();
 
         $this->render('backend/admin.html.twig', []);
     }

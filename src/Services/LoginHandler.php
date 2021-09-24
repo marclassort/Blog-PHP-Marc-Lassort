@@ -44,7 +44,7 @@ class LoginHandler extends BaseController
                 $mailer = new Mailer();
 
                 $subject = "Confirmation d'inscription au blog de Marc Lassort";
-                $body = "<p>Bonjour " . $lastUser->getFirstNameSQL() . " " . $lastUser->getLastNameSQL() . ",</p><p>Pour valider votre inscription, vous devez prouver que vous disposez d'une adresse courriel valide :</p><a href='" . self::URL . "/verification/" . $lastUser->getToken() . "'><button>Cliquez ici pour vérifier mon adresse</button></a></p><p>Merci pour votre confiance,</p><p>Marc Lassort</p>";
+                $body = "<p>Bonjour " . $lastUser->getFirstName() . " " . $lastUser->getLastName() . ",</p><p>Pour valider votre inscription, vous devez prouver que vous disposez d'une adresse courriel valide :</p><a href='" . self::URL . "/verification/" . $lastUser->getToken() . "'><button>Cliquez ici pour vérifier mon adresse</button></a></p><p>Merci pour votre confiance,</p><p>Marc Lassort</p>";
 
                 $mailer->sendEmail($lastUser->getEmail(), $subject, $body);
                 
@@ -101,7 +101,7 @@ class LoginHandler extends BaseController
             $mailer = new Mailer();
 
             $subject = "Blog Marc Lassort - Création d'un nouveau mot de passe";
-            $body = "<p>Bonjour " . $user->getFirstNameSQL() . ' ' . $user->getLastNameSQL() . ",</p><p>Pour créer un nouveau mot de passe, vous devez valider la procédure via ce courriel :</p><a href='" . self::URL . "/verification-password/" . $user->getToken() . "'><button>Cliquez ici pour recréer mon mot de passe</button></a></p><p>Merci pour votre confiance,</p><p>Marc Lassort</p>";
+            $body = "<p>Bonjour " . $user->getFirstName() . ' ' . $user->getLastName() . ",</p><p>Pour créer un nouveau mot de passe, vous devez valider la procédure via ce courriel :</p><a href='" . self::URL . "/verification-password/" . $user->getToken() . "'><button>Cliquez ici pour recréer mon mot de passe</button></a></p><p>Merci pour votre confiance,</p><p>Marc Lassort</p>";
 
             $mailer->sendEmail($user->getEmail(), $subject, $body);
             
@@ -190,11 +190,11 @@ class LoginHandler extends BaseController
      */
     public function checkLogin()
     {
+        $userManager = new UserManager('user', 'User');
+        $user = $userManager->getByMail($_POST['email']);
+
         if (!empty($user) && password_verify($_POST['password'], $user->getPassword()))
         {
-            $userManager = new UserManager('user', 'User');
-            $user = $userManager->getByMail($_POST['email']);
-
             if ($user->getRole() != NULL && $user->getRole() != "" && $user->getRole() == 1)
             {
                 $session = new Session();
