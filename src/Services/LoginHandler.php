@@ -10,7 +10,12 @@ use Core\BaseController;
 class LoginHandler extends BaseController
 {
     const URL = "http://localhost:8888";
-    const invalidLogin = "<p class='text-white'>Veuillez saisir votre identifiant et/ou votre mot de passe.</p>";
+    const INVALID_LOGIN = "<p class='text-white'>Votre identifiant et/ou votre mot de passe ne sont pas valides.</p>";
+    const UNACTIVATED_ACCOUNT = "<p class='text-white'>Vous n'avez pas encore activé votre compte. Veuillez vérifier votre boîte mail.</p>";
+    const LOGIN = "frontend/login.html.twig";
+    const REGISTER = 'frontend/register.html.twig';
+    const REGISTERED = 'frontend/registered.html.twig';
+    const FORGOT_PASSWORD = 'frontend/forgot-password.html.twig';
 
     /**
      * Allows the user to register an account on the blog
@@ -43,15 +48,15 @@ class LoginHandler extends BaseController
 
                 $mailer->sendEmail($lastUser->getEmail(), $subject, $body);
                 
-                $this->render('frontend/registering.html.twig', []);
+                $this->render(SELF::REGISTER, []);
             } else 
             {
                 echo 'Vous ne pouvez pas utiliser cette adresse email.';
-                $this->render('frontend/register.html.twig', []);
+                $this->render(SELF::REGISTER, []);
             }
         } else
         {
-            $this->render('frontend/register.html.twig', []);
+            $this->render(SELF::REGISTER, []);
         }
     }
 
@@ -70,7 +75,7 @@ class LoginHandler extends BaseController
             $userManager->setActiveModeForUser($user);
 
             $this->redirect('registered');
-            $this->render('frontend/registered.html.twig', []);
+            $this->render(SELF::REGISTERED, []);
         } else
         {
             $this->render('frontend/registering.html.twig', []);
@@ -104,7 +109,7 @@ class LoginHandler extends BaseController
         } else 
         {
             $this->redirect('password');
-            $this->render('frontend/forgot-password.html.twig', []);
+            $this->render(SELF::FORGOT_PASSWORD, []);
         }
     }
 
@@ -128,12 +133,12 @@ class LoginHandler extends BaseController
             } else
             {
                 $this->redirect('password');
-                $this->render('frontend/forgot-password.html.twig', []);
+                $this->render(SELF::FORGOT_PASSWORD, []);
             }
         } else
         {
             $this->redirect('password');
-            $this->render('frontend/forgot-password.html.twig', []);
+            $this->render(SELF::FORGOT_PASSWORD, []);
         }
     }
 
@@ -155,7 +160,7 @@ class LoginHandler extends BaseController
         } else 
         {
             $this->redirect('password');
-            $this->render('frontend/forgot-password.html.twig', []);
+            $this->render(SELF::FORGOT_PASSWORD, []);
         }
     }
 
@@ -171,10 +176,10 @@ class LoginHandler extends BaseController
             $userManager = new UserManager('user', 'User');
             $userManager->addUser($user);
             
-            $this->render('frontend/registered.html.twig', []);
+            $this->render(SELF::REGISTERED, []);
         } else 
         {
-            $this->render('frontend/login.html.twig', []);
+            $this->render(SELF::LOGIN, []);
         }
     }
 
@@ -185,66 +190,39 @@ class LoginHandler extends BaseController
      */
     public function checkLogin()
     {
-        if (!empty($_POST))
+        if (!empty($user) && password_verify($_POST['password'], $user->getPassword()))
         {
             $userManager = new UserManager('user', 'User');
             $user = $userManager->getByMail($_POST['email']);
 
-            if (!empty($user))
+            if ($user->getRole() != NULL && $user->getRole() != "" && $user->getRole() == 1)
             {
-                if ($user->getRole() != NULL && $user->getRole() != "" && $user->getRole() == 1)
-                {
-                    if (password_verify($_POST['password'], $user->getPassword()) == true)
-                    {
-                        $session = new Session();
-                        $session->set('username', $user->getUsername());
-                        $session->set('email', $user->getEmail());
+                $session = new Session();
+                $session->set('username', $user->getUsername());
+                $session->set('email', $user->getEmail());
 
-                        $this->redirect('admin');
-                        $this->render('backend/admin.html.twig', []);
-                    } else 
-                    {
-                        echo SELF::invalidLogin;
-                        $this->render('frontend/login.html.twig', []);
-                    };
-                } else 
-                {
-                    if ($user->getIsActive() != NULL && $user->getIsActive() != "" && $user->getIsActive() == 1)
-                    {
-                        if (password_verify($_POST['password'], $user->getPassword()) == true)
-                        {
-                            $session = new Session();
-                            $session->set('username', $user->getUsername());
-                            $session->set('email', $user->getEmail());
-                            
-                            $this->redirect('profil');
-                            $this->render('frontend/profile.html.twig', []);
-                        } else 
-                        {
-                            echo SELF::invalidLogin;
-                            $this->render('frontend/login.html.twig', []);
-                        };
-                    } else
-                    {
-                        if (password_verify($_POST['password'], $user->getPassword()) == true)
-                        {
-                            echo "<p class='text-white'>Vous n'avez pas encore activé votre compte. Veuillez vérifier votre boîte mail.</p>";
-                            $this->render('frontend/login.html.twig', []);
-                        } else 
-                        {
-                            echo SELF::invalidLogin;
-                            $this->render('frontend/login.html.twig', []);
-                        };
-                    }
-                }
+                $this->redirect('admin');
+                $this->render('backend/admin.html.twig', []);
             } else 
             {
-                echo SELF::invalidLogin;
-                $this->render('frontend/login.html.twig', []);
+                if ($user->getIsActive() != NULL && $user->getIsActive() != "" && $user->getIsActive() == 1)
+                {
+                    $session = new Session();
+                    $session->set('username', $user->getUsername());
+                    $session->set('email', $user->getEmail());
+                    
+                    $this->redirect('profil');
+                    $this->render('frontend/profile.html.twig', []);
+                } else
+                {
+                    echo SELF::UNACTIVATED_ACCOUNT;
+                    $this->render(SELF::LOGIN, []);
+                }
             }
-        } else
+        } else 
         {
-            $this->render('frontend/login.html.twig', []);
+            echo SELF::INVALID_LOGIN;
+            $this->render(SELF::LOGIN, []);
         }
     }
 }
