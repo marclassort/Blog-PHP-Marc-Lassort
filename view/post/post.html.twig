@@ -1,4 +1,4 @@
-{% extends "/frontend/template.html.twig" %}
+{% extends "/templates/template.html.twig" %}
 
 {% block title %}{{ string }}{% endblock %}
 {% block head %}
@@ -24,16 +24,26 @@
                     <h1 class="mt-4 mb-4">{{ post.title }}</h1>
                     <div class="mt-2 mb-4">{{ post.content|e }}</div>
                     <div class="mt-5 mb-3 text-center"><h3>Commentaires</h3></div>
-                    {% if comments %}
-                        <div>{{ comments.username }} - {{ comments.creation_date }}</div>
-                        <div>{{ comments.content }}</div>
+                    <form action="/poster-un-commentaire" method="post">
+                        {% if comments is not empty %}
+                            <div>{{ comments.username }} {{ comments.creation_date }}</div>
+                            <div>{{ comments.content }}</div>
+                        {% else %}
+                            <div class="mt-5">Aucun commentaire publié.</div>
+                        {% endif %}
+                        {% if username is defined %}
+                            <strong><a href="/profil"><div class="mt-5">{{ username }} {{ comments.creation_date }}</div></a></strong>
+                        {% else %}
+                            <a href="/login"><div>Se connecter pour publier un commentaire</div></a>
+                        {% endif %}
                         <div>
-                            <textarea name="" id="" cols="50" rows="10" class="w-100 mt-4"></textarea>
+                            <input type="hidden" name="username" value="{{ username }}">
+                            <input type="hidden" name="id" value="{{ user.id }}">
+                            <input type="hidden" name="id" value="{{ post.id }}">
+                            <textarea name="content" id="" cols="50" rows="10" class="w-100 mt-4"></textarea>
                             <button type="submit" class="btn btn-success">Envoyer</button>
                         </div>
-                        {% else %}
-                        <a href="/login"><div>Se connecter pour publier un commentaire</div></a>
-                    {% endif %}
+                    </form>
                 </div>
             </div>
         </div>

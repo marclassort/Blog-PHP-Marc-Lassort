@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Comment;
+use App\Entity\Post;
+use App\Entity\User;
 use Core\Database;
 use PDO;
 
@@ -42,5 +45,18 @@ class CommentManager
         $query->execute([$postId]);
         $query->setFetchMode(PDO::FETCH_CLASS, '\App\Entity\\Comment');
         return $query->fetch();
+    }
+
+    public function postComment(Comment $comment, User $user, Post $post)
+    {
+        $sql = 'INSERT INTO ' . $this->table . ' (username, content, creation_date, is_valid, user_id, post_id) VALUES (?, ?, NOW(), ?, ?, ?)';
+        $query = $this->bdd->preparation($sql);
+        $query->execute([
+            $comment->getUsername(),
+            $comment->getContent(),
+            $comment->getIsValid(),
+            $user->getId(),
+            $post->getId()
+        ]);
     }
 }

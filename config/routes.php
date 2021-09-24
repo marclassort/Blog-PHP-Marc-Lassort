@@ -19,6 +19,7 @@ SimpleRouter::all('/creer-un-article', 'AdminController@createPost');
 SimpleRouter::get('/liste-articles', 'AdminController@listPosts');
 SimpleRouter::all('/editer-un-article/{idPost?}', 'AdminController@editPost', ['idPost']);
 SimpleRouter::all('/supprimer-un-article/{idPost?}', 'AdminController@deletePost', ['idPost']);
+SimpleRouter::post('/poster-un-commentaire', 'CommentController@postComment');
 SimpleRouter::get('/gerer-commentaires', 'AdminController@manageComments');
 SimpleRouter::get('/profil', 'AdminController@profile');
 SimpleRouter::get('/a-propos', 'HomeController@aPropos');

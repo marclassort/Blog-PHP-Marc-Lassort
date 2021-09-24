@@ -112,11 +112,4 @@ class UserManager
             $user->getId()
         ]);
     }
-
-    public function verifyIfUserExists()
-    {
-        $sql = "SELECT email, password FROM " . $this->table . " WHERE";
-        $query = $this->bdd->preparation($sql);
-        // $query->execute()
-    }
 }

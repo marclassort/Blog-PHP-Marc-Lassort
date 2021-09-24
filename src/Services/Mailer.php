@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Core\BaseController;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 

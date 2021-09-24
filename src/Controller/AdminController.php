@@ -13,8 +13,7 @@ class AdminController extends BaseController
 
     public function admin() 
     {
-
-        return $this->render('backend/admin.html.twig', []);
+        $this->render('backend/admin.html.twig', []);
     }
 
     public function createPost()
@@ -85,20 +84,20 @@ class AdminController extends BaseController
 
         $comments = $commentManager->getAllComments();
 
-        return $this->render('backend/manageComments.html.twig', [
+        $this->render('backend/manageComments.html.twig', [
             "comments" => $comments
         ]);
     }
 
     public function profile()
     {
-        return $this->render('backend/profile.html.twig');
+        $this->render('frontend/profile.html.twig');
     }
 
     public function deconnect()
     {
         session_destroy();
         header('Location: /');
-        return $this->render('frontend/home.html.twig');
+        $this->render('frontend/home.html.twig');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Core\Session;
 use App\Entity\User;
 use App\Repository\UserManager;
 use Core\BaseController;
@@ -63,6 +64,7 @@ class LoginHandler extends BaseController
             $user = $userManager->getUserByToken($token);
             $userManager->setActiveModeForUser($user);
 
+            $this->redirect('registered');
             header('Location: /registered');
             $this->render('frontend/registered.html.twig', []);
         } else
@@ -96,6 +98,7 @@ class LoginHandler extends BaseController
             $this->render('frontend/password-sent.html.twig');
         } else 
         {
+            $this->redirect('password');
             header('Location: /password');
             $this->render('frontend/forgot-password.html.twig', []);
         }
@@ -116,15 +119,18 @@ class LoginHandler extends BaseController
 
             if ($user->getToken() == $token)
             {
+                $this->redirect('create-new-password');
                 header('Location: /create-new-password');
                 $this->render('frontend/create-new-password.html.twig', []);
             } else
             {
+                $this->redirect('password');
                 header('Location: /password');
                 $this->render('frontend/forgot-password.html.twig', []);
             }
         } else
         {
+            $this->redirect('password');
             header('Location: /password');
             $this->render('frontend/forgot-password.html.twig', []);
         }
@@ -147,6 +153,7 @@ class LoginHandler extends BaseController
             $this->render('frontend/password-registered.html.twig', []);
         } else 
         {
+            $this->redirect('password');
             header('Location: /password');
             $this->render('frontend/forgot-password.html.twig', []);
         }
@@ -189,10 +196,11 @@ class LoginHandler extends BaseController
                 {
                     if (password_verify($_POST['password'], $user->getPassword()) == true)
                     {
-                        $_SESSION['id'] = $user->getId();
-                        $_SESSION['mail'] = $user->getEmail();
+                        $session = new Session();
+                        $session->set('username', $user->getUsername());
+                        $session->set('email', $user->getEmail());
 
-                        header('Location: /admin');
+                        $this->redirect('admin');
                         $this->render('backend/admin.html.twig', []);
                     } else 
                     {
@@ -205,8 +213,12 @@ class LoginHandler extends BaseController
                     {
                         if (password_verify($_POST['password'], $user->getPassword()) == true)
                         {
-                            header('Location: /');
-                            $this->render('frontend/home.html.twig', []);
+                            $session = new Session();
+                            $session->set('username', $user->getUsername());
+                            $session->set('email', $user->getEmail());
+                            
+                            $this->redirect('profil');
+                            $this->render('frontend/profile.html.twig', []);
                         } else 
                         {
                             echo "<p class='text-white'>Votre identifiant et/ou votre mot de passe ne sont pas valides.</p>";
