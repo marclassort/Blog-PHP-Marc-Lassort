@@ -7,12 +7,16 @@ use App\Entity\Post;
 use App\Repository\CommentManager;
 use App\Repository\ImageManager;
 use App\Repository\PostManager;
+use App\Services\SessionHandler;
 
 class AdminController extends BaseController
 {
 
     public function admin() 
     {
+        // $session = new SessionHandler();
+        // $session->checkAdmin();
+
         $this->render('backend/admin.html.twig', []);
     }
 

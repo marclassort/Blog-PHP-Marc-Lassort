@@ -10,6 +10,7 @@ use Core\BaseController;
 class LoginHandler extends BaseController
 {
     const URL = "http://localhost:8888";
+    const invalidLogin = "<p class='text-white'>Veuillez saisir votre identifiant et/ou votre mot de passe.</p>";
 
     /**
      * Allows the user to register an account on the blog
@@ -69,7 +70,6 @@ class LoginHandler extends BaseController
             $userManager->setActiveModeForUser($user);
 
             $this->redirect('registered');
-            header('Location: /registered');
             $this->render('frontend/registered.html.twig', []);
         } else
         {
@@ -84,8 +84,6 @@ class LoginHandler extends BaseController
      */
     public function createNewTokenAndSendEmailForNewPassword()
     {
-        $user = new User($_POST);
-
         $userManager = new UserManager('user', 'User');
 
         if ($userManager->getByMail($_POST['email']) != NULL)
@@ -106,7 +104,6 @@ class LoginHandler extends BaseController
         } else 
         {
             $this->redirect('password');
-            header('Location: /password');
             $this->render('frontend/forgot-password.html.twig', []);
         }
     }
@@ -127,18 +124,15 @@ class LoginHandler extends BaseController
             if ($user->getToken() == $token)
             {
                 $this->redirect('create-new-password');
-                header('Location: /create-new-password');
                 $this->render('frontend/create-new-password.html.twig', []);
             } else
             {
                 $this->redirect('password');
-                header('Location: /password');
                 $this->render('frontend/forgot-password.html.twig', []);
             }
         } else
         {
             $this->redirect('password');
-            header('Location: /password');
             $this->render('frontend/forgot-password.html.twig', []);
         }
     }
@@ -161,7 +155,6 @@ class LoginHandler extends BaseController
         } else 
         {
             $this->redirect('password');
-            header('Location: /password');
             $this->render('frontend/forgot-password.html.twig', []);
         }
     }
@@ -211,7 +204,7 @@ class LoginHandler extends BaseController
                         $this->render('backend/admin.html.twig', []);
                     } else 
                     {
-                        echo "<p class='text-white'>Votre identifiant et/ou votre mot de passe ne sont pas valides.</p>";
+                        echo SELF::invalidLogin;
                         $this->render('frontend/login.html.twig', []);
                     };
                 } else 
@@ -228,7 +221,7 @@ class LoginHandler extends BaseController
                             $this->render('frontend/profile.html.twig', []);
                         } else 
                         {
-                            echo "<p class='text-white'>Votre identifiant et/ou votre mot de passe ne sont pas valides.</p>";
+                            echo SELF::invalidLogin;
                             $this->render('frontend/login.html.twig', []);
                         };
                     } else
@@ -239,14 +232,14 @@ class LoginHandler extends BaseController
                             $this->render('frontend/login.html.twig', []);
                         } else 
                         {
-                            echo "<p class='text-white'>Votre identifiant et/ou votre mot de passe ne sont pas valides.</p>";
+                            echo SELF::invalidLogin;
                             $this->render('frontend/login.html.twig', []);
                         };
                     }
                 }
             } else 
             {
-                echo "<p class='text-white'>Veuillez saisir votre identifiant et/ou votre mot de passe.</p>";
+                echo SELF::invalidLogin;
                 $this->render('frontend/login.html.twig', []);
             }
         } else

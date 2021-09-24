@@ -49,6 +49,9 @@ SimpleRouter::error(function(Request $request, \Exception $exception) {
         // Server error
         case 500:
             response()->redirect('/500');
+        // Default error
+        default:
+            $request->setRewriteCallback('ErrorController@error404');
     }
     
 });

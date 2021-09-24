@@ -46,4 +46,18 @@ class SessionHandler extends BaseController
             ]);
         }
     }
+
+    // public function checkAdmin()
+    // {
+    //     $session = new Session();
+
+    //     if ($session->get('id') != NULL && $session->get('email') != NULL && $session->get('admin') == 1)
+    //     {
+    //         $this->render('backend/admin.html.twig');
+    //     } else
+    //     {
+    //         $this->redirect('');
+    //         $this->render('frontend/home.html.twig');
+    //     }
+    // }
 }

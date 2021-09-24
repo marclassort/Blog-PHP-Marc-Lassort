@@ -16,6 +16,7 @@ class UserManager
     protected $bdd;
     
     public const SELECTQUERY = 'SELECT * FROM ';
+    public const UPDATEQUERY = 'UPDATE ';
 
     public function __construct($table, $object)
     {
@@ -86,7 +87,7 @@ class UserManager
 
     public function setActiveModeForUser(User $user)
     {
-        $sql = "UPDATE " . $this->table . " SET isActive = 1 WHERE id = ?";
+        $sql = self::UPDATEQUERY . $this->table . " SET isActive = 1 WHERE id = ?";
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $user->getId()
@@ -95,7 +96,7 @@ class UserManager
 
     public function createNewTokenForUser(User $user)
     {        
-        $sql = "UPDATE " . $this->table . " SET token = ? WHERE id = ?";
+        $sql = self::UPDATEQUERY . $this->table . " SET token = ? WHERE id = ?";
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $this->getToken(),
@@ -105,7 +106,7 @@ class UserManager
 
     public function setNewPassword(User $user)
     {
-        $sql = "UPDATE " . $this->table . " SET password = ? WHERE id = ?";
+        $sql = self::UPDATEQUERY . $this->table . " SET password = ? WHERE id = ?";
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $user->getPassword(),

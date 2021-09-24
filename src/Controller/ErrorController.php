@@ -38,5 +38,5 @@ class ErrorController extends BaseController
             "string" => $string
         ]);
     }
-
+    
 }
