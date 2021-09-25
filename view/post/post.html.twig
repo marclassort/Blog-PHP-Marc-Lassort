@@ -26,13 +26,15 @@
                     <div class="mt-5 mb-3 text-center"><h3>Commentaires</h3></div>
                     <form action="/poster-un-commentaire" method="post">
                         {% if comments is not empty %}
-                            <div>{{ comments.username }} {{ comments.creation_date }}</div>
-                            <div>{{ comments.content }}</div>
+                            {% for comment in comments %}
+                                <div><img src="{{  }}" alt="">{{ comment.username }} - {{ comment.creation_date|date("d/m/Y", "Europe/Paris") }}</div>
+                                <div>{{ comment.content }}</div>
+                            {% endfor %}
                         {% else %}
                             <div class="mt-5">Aucun commentaire publié.</div>
                         {% endif %}
                         {% if username is defined %}
-                            <strong><a href="/profil"><div class="mt-5">{{ username }} {{ comments.creation_date }}</div></a></strong>
+                            <strong><a href="/profil"><div class="mt-5">{{ username }} :</div></a></strong>
                         {% else %}
                             <a href="/login"><div>Se connecter pour publier un commentaire</div></a>
                         {% endif %}

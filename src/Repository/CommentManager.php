@@ -40,17 +40,17 @@ class CommentManager
      */
     public function getAllCommentsForABlogPost($postId)
     {
-        $sql = self::SELECTQUERY . $this->table . ' WHERE id = ?';
+        $sql = self::SELECTQUERY . $this->table . ' WHERE post_id = ?';
         $query = $this->bdd->preparation($sql);
         $query->execute([$postId]);
-        $query->setFetchMode(PDO::FETCH_CLASS, '\App\Entity\\Comment');
-        return $query->fetch();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function postComment(Comment $comment, User $user, Post $post)
     {
         $sql = 'INSERT INTO ' . $this->table . ' (username, content, creation_date, is_valid, user_id, post_id) VALUES (?, ?, NOW(), ?, ?, ?)';
         $query = $this->bdd->preparation($sql);
+
         $query->execute([
             $comment->getUsername(),
             $comment->getContent(),

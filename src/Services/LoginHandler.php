@@ -200,6 +200,7 @@ class LoginHandler extends BaseController
                 $session = new Session();
                 $session->set('username', $user->getUsername());
                 $session->set('email', $user->getEmail());
+                $session->set('id', $user->getId());
 
                 $this->redirect('admin');
                 $this->render('backend/admin.html.twig', []);
@@ -210,7 +211,8 @@ class LoginHandler extends BaseController
                     $session = new Session();
                     $session->set('username', $user->getUsername());
                     $session->set('email', $user->getEmail());
-                    
+                    $session->set('id', $user->getId());
+
                     $this->redirect('profil');
                     $this->render('frontend/profile.html.twig', []);
                 } else

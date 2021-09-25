@@ -44,7 +44,7 @@ class UserManager
 
     public function getByMail($email)
     {
-        $sql = "SELECT * FROM " . $this->table . " WHERE email = ?";
+        $sql = self::SELECTQUERY . $this->table . " WHERE email = ?";
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $email  
