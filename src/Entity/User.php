@@ -19,12 +19,12 @@ class User extends Entity
     /**
      * @var string
      */
-    private $firstName; 
+    private $first_name; 
 
     /**
      * @var string
      */
-    private $lastName; 
+    private $last_name; 
 
     /**
      * @var string
@@ -39,12 +39,22 @@ class User extends Entity
     /**
      * @var string
      */
-    private $password;
+    public $password;
 
     /**
-     * @var array
+     * @var bool
      */
     private $role;
+
+    /**
+     * @var string
+     */
+    public $token;
+
+    /**
+     * @var bool
+     */
+    public $isActive;
 
     /**
      * @param array $data Data used with the comment form 
@@ -70,12 +80,12 @@ class User extends Entity
         return $this->username;
     }
 
-    /**
+     /**
      * @return string
      */
     public function getFirstName(): string
     {
-        return $this->firstName;
+        return $this->first_name;
     }
 
     /**
@@ -83,7 +93,7 @@ class User extends Entity
      */
     public function getLastName(): string
     {
-        return $this->lastName;
+        return $this->last_name;
     }
 
     /**
@@ -111,20 +121,27 @@ class User extends Entity
     }
 
     /**
-     * @return array
+     * @return bool|null
      */
-    public function getRole(): array
+    public function getRole(): bool
     {
         return $this->role;
     }
 
     /**
-     * @param int $id 
-     * @return void 
+     * @return string
      */
-    public function setId($id)
+    public function getToken(): string
     {
-        $this->id = $id; 
+        return $this->token;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsActive(): bool
+    {
+        return $this->isActive;
     }
 
     /**
@@ -137,21 +154,21 @@ class User extends Entity
     }
 
     /**
-     * @param string $firstName 
+     * @param string $first_name 
      * @return void 
      */
-    public function setFirstName($firstName)
+    public function setFirstName($first_name)
     {
-        $this->firstName = $firstName; 
+        $this->first_name = $first_name; 
     }
 
     /**
      * @param string $lastName 
      * @return void 
      */
-    public function setLastName($lastName)
+    public function setLastName($last_name)
     {
-        $this->lastName = $lastName; 
+        $this->last_name = $last_name; 
     }
 
     /**
@@ -182,11 +199,29 @@ class User extends Entity
     }
 
     /**
-     * @param array $role 
+     * @param bool $role 
      * @return void 
      */
     public function setRole($role)
     {
         $this->role = $role; 
+    }
+
+    /**
+     * @param string $token 
+     * @return void 
+     */
+    public function setToken($token)
+    {
+        $this->token = $token; 
+    }
+
+    /**
+     * @param bool $isActive 
+     * @return void 
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive; 
     }
 }

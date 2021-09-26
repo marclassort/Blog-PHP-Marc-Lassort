@@ -1,0 +1,11 @@
+{
+    "Host" : "Votre adresse hôte",
+    "SMTPAuth" : true,
+    "Username" : "Votre adresse email",
+    "Password" : "Votre mot de passe",
+    "SMTPSecure" : "ssl",
+    "Port" : "Votre port",
+    "Charset" : "UTF-8",
+    "SetFrom" : "Votre adresse email d'envoi",
+    "ReplyAddress" : "Votre adresse de réponse"
+}

@@ -4,18 +4,20 @@ namespace App\Controller;
 
 use Core\BaseController;
 use App\Entity\Post;   
-use App\Entity\Image;
 use App\Repository\CommentManager;
 use App\Repository\ImageManager;
 use App\Repository\PostManager;
+use App\Services\SessionHandler;
 
 class AdminController extends BaseController
 {
 
     public function admin() 
     {
+        $session = new SessionHandler();
+        $session->checkAdmin();
 
-        return $this->render('backend/admin.html.twig', []);
+        $this->render('backend/admin.html.twig', []);
     }
 
     public function createPost()
@@ -30,7 +32,7 @@ class AdminController extends BaseController
             $this->redirect('liste-articles');
         }
         
-        return $this->render('backend/postForm.html.twig', []);
+        $this->render('backend/postForm.html.twig', []);
     }
 
     public function listPosts()
@@ -41,7 +43,7 @@ class AdminController extends BaseController
         $posts = $postManager->getAllPosts();
         $images = $imageManager->getImages();
 
-        return $this->render('backend/postList.html.twig', [
+        $this->render('backend/postList.html.twig', [
             "posts" => $posts,
             "images" => $images
         ]);
@@ -86,13 +88,20 @@ class AdminController extends BaseController
 
         $comments = $commentManager->getAllComments();
 
-        return $this->render('backend/manageComments.html.twig', [
+        $this->render('backend/manageComments.html.twig', [
             "comments" => $comments
         ]);
     }
 
     public function profile()
     {
-        return $this->render('backend/profile.html.twig');
+        $this->render('frontend/profile.html.twig');
+    }
+
+    public function deconnect()
+    {
+        session_destroy();
+        header('Location: /');
+        $this->render('frontend/home.html.twig');
     }
 }

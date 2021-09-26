@@ -1,4 +1,4 @@
-{% extends "/frontend/template.html.twig" %}
+{% extends "/templates/template.html.twig" %}
 
 {% block title %}{{ string }}{% endblock %}
 {% block head %}
@@ -19,21 +19,34 @@
             </div>
             <!-- Blog Grid Items-->
             <div class="row justify-content-center">
-
-                {% set i = 1 %}
-                {% for post in posts %}
-                    <div class="col-md-6 col-lg-4 mb-5">
-                        <a href="/blog/articles/{{ post.id }}">
-                            <div class="blog-item mx-auto" data-bs-toggle="modal" data-bs-target="#blogModal{{ i }}">
-                                {% set i = i + 1 %}
-                                <div class="blog-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                    <div class="blog-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                                </div>
-                                <img class="img-fluid" src="/public/img/blog/{{ post.imageName }}" alt="..." />
-                            </div>
-                        </a>
-                    </div> 
-                {% endfor %}
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <img src="/public/img/blog/{{ post.imageName }}" alt="{{ post.imageAlt }}" class="w-100">
+                    <h1 class="mt-4 mb-4">{{ post.title }}</h1>
+                    <div class="mt-2 mb-4">{{ post.content|e }}</div>
+                    <div class="mt-5 mb-3 text-center"><h3>Commentaires</h3></div>
+                    <form action="/poster-un-commentaire" method="post">
+                        {% if comments is not empty %}
+                            {% for comment in comments %}
+                                <div><img src="{{  }}" alt="">{{ comment.username }} - {{ comment.creation_date|date("d/m/Y", "Europe/Paris") }}</div>
+                                <div>{{ comment.content }}</div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="mt-5">Aucun commentaire publié.</div>
+                        {% endif %}
+                        {% if username is defined %}
+                            <strong><a href="/profil"><div class="mt-5">{{ username }} :</div></a></strong>
+                        {% else %}
+                            <a href="/login"><div>Se connecter pour publier un commentaire</div></a>
+                        {% endif %}
+                        <div>
+                            <input type="hidden" name="username" value="{{ username }}">
+                            <input type="hidden" name="id" value="{{ user.id }}">
+                            <input type="hidden" name="id" value="{{ post.id }}">
+                            <textarea name="content" id="" cols="50" rows="10" class="w-100 mt-4"></textarea>
+                            <button type="submit" class="btn btn-success">Envoyer</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>

@@ -8,11 +8,10 @@
     ],
     "database" : {
         "name" : "Ma base de données",
-        "dbname" : "blog_marc_lassort",
-        "server" : "localhost",
-        "host" : "127.0.0.1",
-        "user" : "root",
-        "password" : "root"
+        "dbname" : "Renommez votre base de données",
+        "host" : "Renommez le nom de l'hôte",
+        "user" : "Renommez votre login de connexion à la base de données",
+        "password" : "Renommez le mot de passe de votre base de données"
     },
     "basepath" : "/"
 }

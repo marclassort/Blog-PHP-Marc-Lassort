@@ -7,24 +7,23 @@ use PDO;
 
 class Database
 {
-    //----------------------------------------
-    //SINGLETON
-    //----------------------------------------
     private static $connect = null;
     private $bdd;
 
     public function __construct()
     {
-        $strBddServeur = "localhost";
-        $strBddLogin = "root";             
-        $strBddPassword = "root";
-        $strBddBase = "blog_marc_lassort";
-            
+        $databaseJsonFileContents = file_get_contents("../config/config.json");
+        $array = json_decode($databaseJsonFileContents, true);
+
+        $server = $array["database"]["server"];
+        $login = $array["database"]["user"];             
+        $password = $array["database"]["password"];
+        $dbname = $array["database"]["dbname"];
             
         //Création d'un lien à la base de données de type PDO
         try
         {
-            $this->bdd = new PDO('mysql:host=' .$strBddServeur. ';dbname=' .$strBddBase,$strBddLogin,$strBddPassword,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+            $this->bdd = new PDO('mysql:host=' .$server. ';dbname=' .$dbname,$login,$password,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
             $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         }
         catch(Exception $e)

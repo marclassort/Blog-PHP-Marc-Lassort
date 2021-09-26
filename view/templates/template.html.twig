@@ -7,7 +7,7 @@
             <meta name="description" content="Blog professionnel de Marc Lassort">
             <meta name="author" content="Marc Lassort">
             <meta name="title" content="Blog de Marc Lassort">
-            <title>{% block title %}{% endblock %} - Mon blog</title>
+            <title>Marc Lassort - Mon blog</title>
             
             <!-- Favicon-->
             <link rel="shortcut icon" type="image/svg" href="/public/img/avataaars.svg"/>
@@ -20,12 +20,53 @@
             <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
 
             <!-- Core theme CSS (includes Bootstrap)-->
-            <link rel="stylesheet" href="css/style.css">
+            <link rel="stylesheet" href="/public/css/style.css">            
 
         {% endblock %}
     </head>
     <body id="page-top">
-        {# <header>{% include 'elements/header.html.twig' %}</header> #}
+        
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '243173601020394',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v11.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="/">Blog pro de Marc Lassort</a>
+                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/blog">Blog</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="a-propos">À propos</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/contact">Contact</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/login">Me connecter</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
         <div id="content">{% block content %}{% endblock %}</div>
         <div id="footer">
@@ -50,14 +91,14 @@
                             <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/marc.lassort"><i class="fab fa-fw fa-facebook-f"></i></a>
                             <a class="btn btn-outline-light btn-social mx-1" href="https://www.twitter.com/marc-lassort"><i class="fab fa-fw fa-twitter"></i></a>
                             <a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/marc-lassort"><i class="fab fa-fw fa-linkedin-in"></i></a>
-                            <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
+                            <a class="btn btn-outline-light btn-social mx-1" href="/"><i class="fab fa-fw fa-dribbble"></i></a>
                         </div>
                         <!-- Footer About Text-->
                         <div class="col-lg-4">
                             <h4 class="text-uppercase mb-4">À propos de Marc Lassort</h4>
                             <p class="lead mb-0">
                                 Marc Lassort est un développeur web PHP-Symfony qui a créé
-                                <a href="http://localhost:8888/">ce blog pro</a>.
+                                <a href="/">ce blog pro</a>.
                             </p>
                         </div>
                     </div>
@@ -65,23 +106,12 @@
             </footer>
             <!-- Copyright Section-->
             <div class="copyright py-4 text-center text-white">
-                <div class="container"><small>Copyright &copy; Marc Lassort 2021</small></div>
+                <div class="container">Copyright &copy; Marc Lassort 2021</div>
+                 <div class="text-center pt-4">
+                    <a href="/admin"><span>Se connecter à l'interface d'administration</span></a>
+                </div>
             </div>
             {% endblock %}
         </div>
     </body>
 </html>
-
-
-
-
-{# 
-
-    <hr><hr><hr>
-    <main class="container">
-        {% block body %}
-        {% endblock %}
-    </main>
-
-<footer>{% include 'elements/footer.html.twig' %}</footer>
-</body> #}

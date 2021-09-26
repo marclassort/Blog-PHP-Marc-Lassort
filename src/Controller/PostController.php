@@ -14,7 +14,7 @@ class PostController extends BaseController
 
         $post = $this->postManager->getPost($slug);
 
-        return $this->render('frontend/blog.html.twig', [
+        $this->render('frontend/blog.html.twig', [
             "post" => $post
         ]);
     }
@@ -26,7 +26,7 @@ class PostController extends BaseController
             $this->redirect('/');
         } else 
         {
-            return $this->render('errors/404.html.twig');
+            $this->render('errors/404.html.twig');
         }
     }
     

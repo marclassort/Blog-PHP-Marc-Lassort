@@ -9,7 +9,7 @@ class Post extends Entity
     /**
      * @var int
      */
-    public $id;
+    private $id;
 
     /**
      * @var string
@@ -60,9 +60,9 @@ class Post extends Entity
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
