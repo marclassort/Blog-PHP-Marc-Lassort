@@ -121,24 +121,14 @@ class LoginHandler extends BaseController
     public function verifyEmailAddressForNewPassword($token)
     {
         $userManager = new UserManager('user', 'User');
+        $user = $userManager->getUserByToken($token);
          
-        if ($userManager->getUserByToken($token) != NULL)
-        {
-            $user = $userManager->getUserByToken($token);
-
-            if ($user->getToken() == $token)
-            {
-                $this->redirect('create-new-password');
-                $this->render('frontend/create-new-password.html.twig', []);
-            } else
-            {
-                $this->redirect('password');
-                $this->render(SELF::FORGOT_PASSWORD, []);
-            }
+        if ($user != NULL && $user->getToken() == $token)
+        {            
+            $this->redirect('create-new-password');
         } else
         {
             $this->redirect('password');
-            $this->render(SELF::FORGOT_PASSWORD, []);
         }
     }
 
@@ -149,37 +139,30 @@ class LoginHandler extends BaseController
      */
     public function createNewPassword()
     {
-        $userManager = new UserManager('user', 'User');
-
-        if (isset($_POST['email']))
-        {
-            $user = $userManager->getByMail($_POST['email']);
-            $userManager->setNewPassword($user);
-            
-            $this->render('frontend/password-registered.html.twig', []);
-        } else 
-        {
-            $this->redirect('password');
-            $this->render(SELF::FORGOT_PASSWORD, []);
-        }
-    }
-
-    /**
-     * Check if the users
-     */
-    public function login2()
-    {
         $user = new User($_POST);
 
         if (!empty($_POST))
-        {
+        {           
             $userManager = new UserManager('user', 'User');
-            $userManager->addUser($user);
-            
-            $this->render(SELF::REGISTERED, []);
-        } else 
+
+            $userByMail = $userManager->getByMail($_POST['email']);
+
+            if ($userByMail == NULL)
+            {
+                echo 'Cette adresse email n\'existe pas.';
+                $this->render('frontend/create-new-password.html.twig');
+            } else 
+            {
+                $hashPassword = password_hash($user->getPassword(), PASSWORD_BCRYPT);
+                $userByMail->password = $hashPassword;
+
+                $userManager->setNewPassword($userByMail);
+
+                $this->redirect('registered');
+            }
+        } else
         {
-            $this->render(SELF::LOGIN, []);
+            $this->render('frontend/create-new-password.html.twig');
         }
     }
 
@@ -188,11 +171,8 @@ class LoginHandler extends BaseController
      * 
      * @return void 
      */
-    public function checkLogin()
+    public function checkLogin($user)
     {
-        $userManager = new UserManager('user', 'User');
-        $user = $userManager->getByMail($_POST['email']);
-
         if (!empty($user) && password_verify($_POST['password'], $user->getPassword()))
         {
             if ($user->getRole() != NULL && $user->getRole() != "" && $user->getRole() == 1)
@@ -201,9 +181,9 @@ class LoginHandler extends BaseController
                 $session->set('username', $user->getUsername());
                 $session->set('email', $user->getEmail());
                 $session->set('id', $user->getId());
+                $session->set('isActive', $user->getIsActive());
 
-                $this->redirect('admin');
-                $this->render('backend/admin.html.twig', []);
+                return true;
             } else 
             {
                 if ($user->getIsActive() != NULL && $user->getIsActive() != "" && $user->getIsActive() == 1)
@@ -214,7 +194,9 @@ class LoginHandler extends BaseController
                     $session->set('id', $user->getId());
 
                     $this->redirect('profil');
-                    $this->render('frontend/profile.html.twig', []);
+                    $this->render('frontend/profile.html.twig', [
+                        "user" => $user
+                    ]);
                 } else
                 {
                     echo SELF::UNACTIVATED_ACCOUNT;

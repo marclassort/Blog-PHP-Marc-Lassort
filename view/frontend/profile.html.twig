@@ -9,12 +9,60 @@
 
 <!-- 404 Error Text -->
 <div class="text-center">
-    <h1 class="h3 mb-2 text-gray-800">Profil</h1>
-    <div class="w-25 text-center">
-        <img class="img-profile rounded-circle" src="/public/img/undraw_profile.svg">
-    </div>
-    <p class="lead text-gray-800 mb-5">Page trouvée</p>
-    <p class="text-gray-500 mb-0">À développer</p>
-    <a href="/admin">&larr; Retour au tableau de bord</a>
+    <h1 class="h3 mb-5 mt-5 text-gray-800">Profil</h1>
+    
+    <form action="" method="post">
+        <div class="w-25 text-center m-auto image-upload pt-5 mb-3">
+            <label for="file-input">
+                <img id="image-profil" class="img-profile rounded-circle w-25" src="/public/img/undraw_profile.svg">
+            </label>
+            <input type="file" name="file-input" id="file-input" style="text-align-last: center;" placeholder="Choisir une image" class="mt-5 mb-5 d-none" accept=".jpg, .jpeg, .png" onclick="changePhoto()">
+        </div>
+
+
+        <p class="text-gray-800 mb-2">
+            <label for="username" class="m-2">Pseudo :</label>
+            <input type="text" class="mb-2 text-center" name="username" id="username" value="{{ user.username }}">
+        </p>
+        <p class="text-gray-800 mb-2">
+            <label for="first-name" class="m-2">Prénom :</label>
+            <input type="text" class="mb-2 text-center" name="first-name" id="first-name" value="{{ user.firstName }} {{ user.lastName }}">
+        </p>
+        <p class="text-gray-800 mb-2">
+            <label for="last-name" class="m-2">Nom :</label>
+            <input type="text" class="mb-2 text-center" name="last-name" id="last-name" value="{{ user.lastName }}">
+        </p>
+        <p class="text-gray-800 mb-2">
+            <label for="email" class="m-2">Courriel :</label>
+            <input type="email" class="mb-2 text-center" name="email" id="email" value="{{ user.email }}">
+        </p>
+        <p class="text-gray-800 mb-2">
+            <label for="phone" class="m-2">Téléphone :</label>
+            <input type="text" class="mb-2 text-center" name="phone" id="phone" value="{% if phoneNumber is defined %}{{ user.phoneNumber }}{% endif %}">
+        </p>
+        <p class="text-gray-800 mb-5">
+            <label for="phone" class="m-2">Mot de passe :</label>
+            <input type="password" class="mb-2 text-center" name="password" id="password" value="{% if password is defined %}{{ user.password }}{% endif %}">
+        </p>
+        
+            <input type="submit" class="btn btn-primary mb-5" value="Valider mes informations">
+    </form>
+
+
+
+    {# <p class="text-gray-500 mb-0">À développer</p>
+    <a href="/admin">&larr; Retour au tableau de bord</a> #}
 </div>
+
+<script>
+var photo = document.getElementById('image-profil');
+var input = document.getElementById('file-input');
+
+function changePhoto()
+{
+
+}
+
+</script>
+
 {% endblock %}

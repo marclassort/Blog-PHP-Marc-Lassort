@@ -16,7 +16,7 @@
 <!-- List of articles -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Liste des commentaires</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Commentaires publiés</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -29,6 +29,7 @@
                         <th>Validité</th>
                         <th>Auteur article</th>
                         <th>Titre de l'article</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -39,24 +40,206 @@
                         <th>Validité</th>
                         <th>Auteur article</th>
                         <th>Titre de l'article</th>
+                        <th>Action</th>
                     </tr>
                 </tfoot>
                 <tbody>
                     {% for comment in comments %}
-                    <tr>
-                        <td>{{ comment.username }}</td>
-                        <td>{{ comment.content }}</td>
-                        <td>{{ comment.creation_date }}</td>
-                        <td>{{ comment.is_valid }}</td>
-                        <td>{{ comment.user_id }}</td>
-                        <td>{{ comment.post_id }}</td>
-                    </tr>
+                        {% if comment.is_valid == 1 %}
+                            <tr>
+                                <td>{{ comment.username }}</td>
+                                <td>{{ comment.content }}</td>
+                                <td>{{ comment.creation_date }}</td>
+                                <td>{{ comment.is_valid }}</td>
+                                <td>{{ comment.user_id }}</td>
+                                <td>{{ comment.post_id }}</td>
+                                <td><button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalInvalidate{{ comment.id }}"><i class="fas fa-thumbs-down"></i></button></td>
+                            </tr>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalInvalidate{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Invalidation du commentaire {{ comment.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Êtes-vous sûr de vouloir invalider ce commentaire ? 
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        <a href="/invalider-un-commentaire/{{ comment.id }}">Invalider</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Commentaires en attente de validation</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Contenu</th>
+                        <th>Date de création</th>
+                        <th>Validité</th>
+                        <th>Auteur article</th>
+                        <th>Titre de l'article</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Contenu</th>
+                        <th>Date de création</th>
+                        <th>Validité</th>
+                        <th>Auteur article</th>
+                        <th>Titre de l'article</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for comment in comments %}
+                        {% if comment.is_valid == NULL %}
+                            <tr>
+                                <td>{{ comment.username }}</td>
+                                <td>{{ comment.content }}</td>
+                                <td>{{ comment.creation_date }}</td>
+                                <td>{{ comment.is_valid }}</td>
+                                <td>{{ comment.user_id }}</td>
+                                <td>{{ comment.post_id }}</td>
+                                <td><button type="button" class="btn" data-toggle="modal" data-target="#modalValidate{{ comment.id }}"><i class="fas fa-thumbs-up" style="display: flex;"></i></button><button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalInvalidate{{ comment.id }}"><i class="fas fa-thumbs-down"></i></button></td>
+                            </tr>
 
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalValidate{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Validation du commentaire {{ comment.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Êtes-vous sûr de vouloir valider ce commentaire ? 
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        <a href="/valider-un-commentaire/{{ comment.id }}">Valider</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalInvalidate{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Invalidation du commentaire {{ comment.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Êtes-vous sûr de vouloir invalider ce commentaire ? 
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        <a href="/invalider-un-commentaire/{{ comment.id }}">Invalider</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Commentaires invalidés</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Contenu</th>
+                        <th>Date de création</th>
+                        <th>Validité</th>
+                        <th>Auteur article</th>
+                        <th>Titre de l'article</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Contenu</th>
+                        <th>Date de création</th>
+                        <th>Validité</th>
+                        <th>Auteur article</th>
+                        <th>Titre de l'article</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for comment in comments %}
+                        {% if comment.is_valid == 0 %}
+                            <tr>
+                                <td>{{ comment.username }}</td>
+                                <td>{{ comment.content }}</td>
+                                <td>{{ comment.creation_date }}</td>
+                                <td>{{ comment.is_valid }}</td>
+                                <td>{{ comment.user_id }}</td>
+                                <td>{{ comment.post_id }}</td>
+                                <td><button type="button" class="btn" data-toggle="modal" data-target="#modalValidate{{ comment.id }}"><i class="fas fa-thumbs-up" style="display: flex;"></i></button></td>
+                            </tr>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalValidate{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Validation du commentaire {{ comment.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Êtes-vous sûr de vouloir valider ce commentaire ? 
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        <a href="/valider-un-commentaire/{{ comment.id }}">Valider</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}   
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

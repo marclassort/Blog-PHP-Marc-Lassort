@@ -43,4 +43,20 @@ class CommentController extends BaseController
             
         ]);
     }
+
+    public function validateComment($idComment)
+    {
+        $commentManager = new CommentManager('comment', 'Comment');
+        $commentManager->validateComment($idComment);
+
+        $this->redirect('gerer-commentaires');
+    }
+
+    public function invalidateComment($idComment)
+    {
+        $commentManager = new CommentManager('comment', 'Comment');
+        $commentManager->invalidateComment($idComment);
+
+        $this->redirect('gerer-commentaires');
+    }
 }

@@ -27,7 +27,7 @@
                     <form action="/poster-un-commentaire" method="post">
                         {% if comments is not empty %}
                             {% for comment in comments %}
-                                <div><img src="{{  }}" alt="">{{ comment.username }} - {{ comment.creation_date|date("d/m/Y", "Europe/Paris") }}</div>
+                                <div><img src="" alt="">{{ comment.username }} - {{ comment.creation_date|date("d/m/Y", "Europe/Paris") }}</div>
                                 <div>{{ comment.content }}</div>
                             {% endfor %}
                         {% else %}
