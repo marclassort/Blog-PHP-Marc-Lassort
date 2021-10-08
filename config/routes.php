@@ -19,7 +19,7 @@ SimpleRouter::all('/creer-un-article', 'AdminController@createPost');
 SimpleRouter::get('/liste-articles', 'AdminController@listPosts');
 SimpleRouter::all('/editer-un-article/{idPost?}', 'AdminController@editPost', ['idPost']);
 SimpleRouter::all('/supprimer-un-article/{idPost?}', 'AdminController@deletePost', ['idPost']);
-SimpleRouter::post('/poster-un-commentaire', 'CommentController@postComment');
+SimpleRouter::post('/poster-un-commentaire/{idPost?}', 'CommentController@postComment', ['idPost']);
 SimpleRouter::all('/valider-un-commentaire/{idComment?}', 'CommentController@validateComment', ['idComment']);
 SimpleRouter::all('/invalider-un-commentaire/{idComment?}', 'CommentController@invalidateComment', ['idComment']);
 SimpleRouter::get('/gerer-commentaires', 'AdminController@manageComments');

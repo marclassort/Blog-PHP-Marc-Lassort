@@ -24,11 +24,17 @@
                     <h1 class="mt-4 mb-4">{{ post.title }}</h1>
                     <div class="mt-2 mb-4">{{ post.content|e }}</div>
                     <div class="mt-5 mb-3 text-center"><h3>Commentaires</h3></div>
-                    <form action="/poster-un-commentaire" method="post">
+                    <form action="/poster-un-commentaire/{{ post.id }}" method="post">
                         {% if comments is not empty %}
                             {% for comment in comments %}
-                                <div><img src="" alt="">{{ comment.username }} - {{ comment.creation_date|date("d/m/Y", "Europe/Paris") }}</div>
-                                <div>{{ comment.content }}</div>
+                                {% if comment.is_valid == 1 %}
+                                    <div class="mb-4 p-2 bg-light">
+                                        <div class="">
+                                            <img src="" alt=""><span class="text-danger"><strong>{{ comment.username }}</strong></span> <span class="text-secondary blockquote-footer">{{ comment.creation_date|date("d/m/Y", "Europe/Paris") }}</span>
+                                        </div>
+                                        <div>{{ comment.content }}</div>
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                         {% else %}
                             <div class="mt-5">Aucun commentaire publié.</div>
@@ -36,7 +42,7 @@
                         {% if username is defined %}
                             <strong><a href="/profil"><div class="mt-5">{{ username }} :</div></a></strong>
                         {% else %}
-                            <a href="/login"><div>Se connecter pour publier un commentaire</div></a>
+                            <a href="/login"><div>Se connecter pour publier ou lire un commentaire</div></a>
                         {% endif %}
                         <div>
                             <input type="hidden" name="username" value="{{ username }}">
