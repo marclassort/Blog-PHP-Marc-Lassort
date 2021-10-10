@@ -19,7 +19,7 @@ class AdminController extends BaseController
         $session = new SessionHandler();
         $checkAdmin = $session->checkAdmin();
 
-        if ($checkAdmin == false)
+        if (!$checkAdmin)
         {
             $this->redirect('');
         }
