@@ -91,8 +91,7 @@ class AdminController extends BaseController
 
     public function manageComments()
     {
-        $commentManager = new CommentManager('comment', 'Comment');
-
+        $commentManager = new CommentManager('comment', 'Comment', 'post');
         $comments = $commentManager->getAllComments();
 
         $this->render('backend/manageComments.html.twig', [
@@ -110,12 +109,5 @@ class AdminController extends BaseController
         $this->render('frontend/profile.html.twig', [
             "user" => $user
         ]);
-    }
-
-    public function deconnect()
-    {
-        session_destroy();
-        header('Location: /');
-        $this->render('frontend/home.html.twig');
     }
 }

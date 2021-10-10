@@ -104,6 +104,15 @@ class UserManager
         ]);
     }
 
+    public function deleteToken(User $user)
+    {
+        $sql = self::UPDATEQUERY . $this->table . " SET token = NULL WHERE id = ?";
+        $query = $this->bdd->preparation($sql);
+        $query->execute([
+            $user->getId()
+        ]);
+    }
+
     public function setNewPassword(User $user)
     {
         $sql = self::UPDATEQUERY . $this->table . " SET password = ? WHERE id = ?";

@@ -43,6 +43,7 @@ class SessionHandler extends BaseController
         {
             $this->render('post/post.html.twig', [
                 "post" => $post,
+                "comments" => $comments,
                 "date" => $date
             ]);
         }
