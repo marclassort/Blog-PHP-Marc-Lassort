@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Core\Session;
 use Core\BaseController;
 use App\Entity\Post;   
 use App\Repository\CommentManager;
 use App\Repository\ImageManager;
 use App\Repository\PostManager;
+use App\Repository\UserManager;
 use App\Services\SessionHandler;
 
 class AdminController extends BaseController
@@ -15,7 +17,12 @@ class AdminController extends BaseController
     public function admin() 
     {
         $session = new SessionHandler();
-        $session->checkAdmin();
+        $checkAdmin = $session->checkAdmin();
+
+        if (!$checkAdmin)
+        {
+            $this->redirect('');
+        }
 
         $this->render('backend/admin.html.twig', []);
     }
@@ -84,8 +91,7 @@ class AdminController extends BaseController
 
     public function manageComments()
     {
-        $commentManager = new CommentManager('comment', 'Comment');
-
+        $commentManager = new CommentManager('comment', 'Comment', 'post');
         $comments = $commentManager->getAllComments();
 
         $this->render('backend/manageComments.html.twig', [
@@ -95,13 +101,13 @@ class AdminController extends BaseController
 
     public function profile()
     {
-        $this->render('frontend/profile.html.twig');
-    }
+        $userManager = new UserManager('user', 'User');
+        $session = new Session();
+        $mail = $session->get('email');
+        $user = $userManager->getByMail($mail);
 
-    public function deconnect()
-    {
-        session_destroy();
-        header('Location: /');
-        $this->render('frontend/home.html.twig');
+        $this->render('frontend/profile.html.twig', [
+            "user" => $user
+        ]);
     }
 }

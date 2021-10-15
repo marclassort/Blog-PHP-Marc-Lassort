@@ -48,7 +48,7 @@ class LoginHandler extends BaseController
 
                 $mailer->sendEmail($lastUser->getEmail(), $subject, $body);
                 
-                $this->render(SELF::REGISTER, []);
+                $this->render(SELF::REGISTERED, []);
             } else 
             {
                 echo 'Vous ne pouvez pas utiliser cette adresse email.';
@@ -74,8 +74,7 @@ class LoginHandler extends BaseController
             $user = $userManager->getUserByToken($token);
             $userManager->setActiveModeForUser($user);
 
-            $this->redirect('registered');
-            $this->render(SELF::REGISTERED, []);
+            $this->redirect('mot-de-passe-enregistre');
         } else
         {
             $this->render('frontend/registering.html.twig', []);
@@ -101,7 +100,7 @@ class LoginHandler extends BaseController
             $mailer = new Mailer();
 
             $subject = "Blog Marc Lassort - Création d'un nouveau mot de passe";
-            $body = "<p>Bonjour " . $user->getFirstName() . ' ' . $user->getLastName() . ",</p><p>Pour créer un nouveau mot de passe, vous devez valider la procédure via ce courriel :</p><a href='" . self::URL . "/verification-password/" . $user->getToken() . "'><button>Cliquez ici pour recréer mon mot de passe</button></a></p><p>Merci pour votre confiance,</p><p>Marc Lassort</p>";
+            $body = "<p>Bonjour " . $user->getFirstName() . ' ' . $user->getLastName() . ",</p><p>Pour créer un nouveau mot de passe, vous devez valider la procédure via ce courriel :</p><a href='" . self::URL . "/creer-nouveau-mot-de-passe/" . $user->getToken() . "'><button>Cliquez ici pour recréer mon mot de passe</button></a></p><p>Merci pour votre confiance,</p><p>Marc Lassort</p>";
 
             $mailer->sendEmail($user->getEmail(), $subject, $body);
             
@@ -114,73 +113,38 @@ class LoginHandler extends BaseController
     }
 
     /**
-     * Checks if the email address is valid and allows to create a new password
+     * Checks if the email address is valid and allows to create a new password for the user
      * 
      * @return void
      */
-    public function verifyEmailAddressForNewPassword($token)
+    public function createNewPassword($token)
     {
         $userManager = new UserManager('user', 'User');
+        $user = $userManager->getUserByToken($token);
          
-        if ($userManager->getUserByToken($token) != NULL)
+        if ($user != NULL && $user->getToken() == $token)
         {
-            $user = $userManager->getUserByToken($token);
+            if ($this->isSubmitted('changeInput') && $this->isValid($user))
+            {                
+                $hashPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                $user->password = $hashPassword;
 
-            if ($user->getToken() == $token)
-            {
-                $this->redirect('create-new-password');
-                $this->render('frontend/create-new-password.html.twig', []);
+                $userManager->setNewPassword($user);
+                $userManager->deleteToken($user);
+
+                $this->redirect('mot-de-passe-enregistre');
+
             } else
             {
-                $this->redirect('password');
-                $this->render(SELF::FORGOT_PASSWORD, []);
+                $this->render('frontend/create-new-password.html.twig', [
+                    "token" => $token
+                ]);
             }
         } else
         {
-            $this->redirect('password');
-            $this->render(SELF::FORGOT_PASSWORD, []);
-        }
-    }
-
-    /**
-     * Create new password for the user
-     * 
-     * @return void
-     */
-    public function createNewPassword()
-    {
-        $userManager = new UserManager('user', 'User');
-
-        if (isset($_POST['email']))
-        {
-            $user = $userManager->getByMail($_POST['email']);
-            $userManager->setNewPassword($user);
-            
-            $this->render('frontend/password-registered.html.twig', []);
-        } else 
-        {
-            $this->redirect('password');
-            $this->render(SELF::FORGOT_PASSWORD, []);
-        }
-    }
-
-    /**
-     * Check if the users
-     */
-    public function login2()
-    {
-        $user = new User($_POST);
-
-        if (!empty($_POST))
-        {
-            $userManager = new UserManager('user', 'User');
-            $userManager->addUser($user);
-            
-            $this->render(SELF::REGISTERED, []);
-        } else 
-        {
-            $this->render(SELF::LOGIN, []);
-        }
+            echo 'Cet utilisateur n\'existe pas.';
+            $this->redirect('login');
+        }  
     }
 
     /**
@@ -188,11 +152,8 @@ class LoginHandler extends BaseController
      * 
      * @return void 
      */
-    public function checkLogin()
+    public function checkLogin($user)
     {
-        $userManager = new UserManager('user', 'User');
-        $user = $userManager->getByMail($_POST['email']);
-
         if (!empty($user) && password_verify($_POST['password'], $user->getPassword()))
         {
             if ($user->getRole() != NULL && $user->getRole() != "" && $user->getRole() == 1)
@@ -201,20 +162,23 @@ class LoginHandler extends BaseController
                 $session->set('username', $user->getUsername());
                 $session->set('email', $user->getEmail());
                 $session->set('id', $user->getId());
+                $session->set('isActive', $user->getIsActive());
 
-                $this->redirect('admin');
-                $this->render('backend/admin.html.twig', []);
+                return true;
             } else 
             {
                 if ($user->getIsActive() != NULL && $user->getIsActive() != "" && $user->getIsActive() == 1)
-                {
+                {                    
                     $session = new Session();
                     $session->set('username', $user->getUsername());
                     $session->set('email', $user->getEmail());
                     $session->set('id', $user->getId());
 
                     $this->redirect('profil');
-                    $this->render('frontend/profile.html.twig', []);
+                    $this->render('frontend/profile.html.twig', [
+                        "user" => $user,
+                        "session" => $session
+                    ]);
                 } else
                 {
                     echo SELF::UNACTIVATED_ACCOUNT;

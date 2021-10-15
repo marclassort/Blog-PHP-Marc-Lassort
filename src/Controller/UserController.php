@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Core\Session;
+use App\Repository\UserManager;
 use App\Services\LoginHandler;
 use Core\BaseController;
 
@@ -33,28 +35,16 @@ class UserController extends BaseController {
 
     public function sendEmailForNewPassword()
     {
-        $login = new LoginHandler();
+        $sendEmail = new LoginHandler();
 
-        $login->createNewTokenAndSendEmailForNewPassword();
+        $sendEmail->createNewTokenAndSendEmailForNewPassword();
     }
 
-    public function verifyEmailForNewPassword($token)
+    public function createNewPassword($token)
     {
-        $login = new LoginHandler();
+        $createNewPassword = new LoginHandler();
 
-        $login->verifyEmailAddressForNewPassword($token);
-    }
-
-    public function sendEmailAndPasswordInformation()
-    {
-        $this->render('frontend/create-new-password.html.twig', []);
-    }
-
-    public function createNewPassword()
-    {
-        $login = new LoginHandler();
-
-        $login->createNewPassword();
+        $createNewPassword->createNewPassword($token);
     }
 
     public function login()
@@ -64,8 +54,22 @@ class UserController extends BaseController {
 
     public function authenticate()
     {        
-        $login = new LoginHandler();
+        $userManager = new UserManager('user', 'User');
+        $user = $userManager->getByMail($_POST['email']);
 
-        $login->checkLogin();
+        $authenticate = new LoginHandler();
+
+        $adminCheck = $authenticate->checkLogin($user);
+
+        if ($adminCheck)
+        {
+            $this->redirect('admin');
+        }
+    }
+
+    public function deconnect()
+    {
+        session_destroy();
+        $this->redirect('');
     }
 }

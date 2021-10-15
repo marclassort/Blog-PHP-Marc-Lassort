@@ -36,12 +36,14 @@ class SessionHandler extends BaseController
                 "comments" => $comments,
                 "username" => $username,
                 "date" => $date,
-                "user" => $user
+                "user" => $user,
+                "session" => $session
             ]);
         } else
         {
             $this->render('post/post.html.twig', [
                 "post" => $post,
+                "comments" => $comments,
                 "date" => $date
             ]);
         }
@@ -51,13 +53,11 @@ class SessionHandler extends BaseController
     {
         $session = new Session();
 
-        if ($session->get('id') != NULL && $session->get('email') != NULL && $session->get('admin') == 1)
+        if ($session->get('id') != NULL && $session->get('email') != NULL && $session->get('isActive') == 1)
         {
-            $this->render('backend/admin.html.twig');
-        } else
-        {
-            $this->redirect('');
-            $this->render('frontend/home.html.twig');
-        }
+            return true;
+        } 
+
+        return false;
     }
 }
