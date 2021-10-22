@@ -60,12 +60,13 @@ class PostManager
      */
     public function createPost(Post $post)
     {
-        $sql = 'INSERT INTO ' . $this->table . ' (title, blurb, creation_date, modif_date, content, author, user_id, imageName, imageAlt) VALUES (?, ?, NOW(), NULL, ?, ?, 1, ?, ?)';
+        $sql = 'INSERT INTO ' . $this->table . ' (title, blurb, creation_date, modif_date, content, author, user_id, imageName, imageAlt) VALUES (?, ?, NOW(), NULL, ?, ?, ?, ?, ?)';
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $post->getTitle(),
             $post->getBlurb(),
             $post->getContent(),
+            $post->getAuthor(),
             $post->getAuthor(),
             $post->getImageName(),
             $post->getImageAlt()
@@ -78,13 +79,14 @@ class PostManager
     public function editPost(Post $post)
     {
         $sql = "UPDATE post
-                SET title = ?, blurb = ?, modif_date = NOW(), content = ?, author = ?, user_id = 1, imageName = ?, imageAlt = ?
+                SET title = ?, blurb = ?, modif_date = NOW(), content = ?, author = ?, user_id = ?, imageName = ?, imageAlt = ?
                 WHERE id = ?";
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $post->getTitle(),
             $post->getBlurb(),
             $post->getContent(),
+            $post->getAuthor(),
             $post->getAuthor(),
             $post->getImageName(),
             $post->getImageAlt(),

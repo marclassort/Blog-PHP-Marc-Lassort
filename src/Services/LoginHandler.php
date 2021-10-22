@@ -130,7 +130,6 @@ class LoginHandler extends BaseController
                 $user->password = $hashPassword;
 
                 $userManager->setNewPassword($user);
-                $userManager->deleteToken($user);
 
                 $this->redirect('mot-de-passe-enregistre');
 

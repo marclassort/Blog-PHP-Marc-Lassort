@@ -1,48 +1,50 @@
 {% extends '/templates/adminTemplate.html.twig' %}
 
-{% block title %}{{ string }}{% endblock %}
+{% block title %}{{ parent() }}Création d'un article{% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
 
 {% block content %}
 
-<!-- 404 Error Text -->
-<div class="text-center">
+<div class="">
     <h1 class="h3 mb-2 text-gray-800">Créer un article</h1>
 
     <form action="/creer-un-article" method="post">
-        <div class="titre-article mb-2 mt-5">
-            <p>Titre : </p>
-            <input type="text" name="title" id="" class="w-50">
+        <div class="form-group mb-2 mt-5">
+            <label>Titre : </label>
+            <input type="text" name="title" class="form-control">
         </div>
-        <div class="titre-article mb-2 mt-5">
-            <p>Chapô : </p>
-            <input type="text" name="blurb" id="" class="w-50">
+        <div class="form-group mb-2 mt-5">
+            <label>Chapô : </label>
+            <input type="text" name="blurb" class="form-control">
         </div>
-        <div class="titre-article mb-2 mt-5">
-            <p>Image : </p>
-            <input type="file" name="imageName" id="" class="" accept=".jpg, .jpeg, .png">
+        <div class="form-group mb-2 mt-5">
+            <label>Image : </label>
+            <input type="file" name="imageName" class="form-control-file" accept=".jpg, .jpeg, .png">
         </div>
-        <div class="titre-article mb-2 mt-5">
+        <div class="form-group mb-2 mt-5">
             <p>Texte alternatif : </p>
-            <input type="text" name="imageAlt" id="" class="w-50">
+            <input type="text" name="imageAlt" class="form-control">
         </div>
-        <div class="contenu-article mb-2 mt-5" style="text-align: -webkit-center;">
-            <p>Contenu : </p>
-            <textarea class="mytextarea w-50 mt-5" name="content">
+        <div class="form-group contenu-article mb-2 mt-5">
+            <label>Contenu : </label>
+            <textarea class="mytextarea mt-5" name="content">
                 Veuillez écrire votre article ici.
             </textarea>
-            <style>.tox-tinymce { max-width: 50%; }</style>
         </div>
-        <div class="titre-article mb-2 mt-5">
-            <p>Auteur : </p>
-            <input type="text" name="author" id="" class="w-50">
+        <div class="form-group mb-2 mt-5">
+            <label>Auteur : </label>
+            <select name="author" id="author" class="form-control">
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <button type="submit" name="editInput" class="btn-primary mt-5 mb-4">Envoyer</button>
+        <button type="submit" name="createInput" class="btn btn-primary mt-5 mb-4">Envoyer</button>
     </form>
 
-    <a href="/admin">&larr; Retour au tableau de bord</a>
+    <a href="/admin"><p class="mt-5 mb-5">&larr; Retour au tableau de bord</p> </a>
 
 </div>
 {% endblock %}

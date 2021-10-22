@@ -1,6 +1,6 @@
 {% extends "/templates/template.html.twig" %}
 
-{% block title %}{{ string }}{% endblock %}
+{% block title %}{{ parent() }}Blog{% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
@@ -10,7 +10,7 @@
     <section class="page-section blog" id="blog">
         <div class="container">
             <!-- Blog Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mt-lg-5 mb-0">Blog</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Blog</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
@@ -31,6 +31,7 @@
                                 <img class="img-fluid" src="/public/img/blog/{{ post.imageName }}" alt="..." />
                             </div>
                         </a>
+                        <h3 class="mt-4 mb-4">{{ post.title }}</h1>
                     </div> 
                 {% endfor %}
             </div>

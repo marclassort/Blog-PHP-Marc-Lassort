@@ -24,7 +24,7 @@ class ImageManager
     /**
      * Find all images
      */
-    public function getImages()
+    public function getAllImages()
     {
         $sql = self::SELECTQUERY . $this->table;
         $query = $this->bdd->preparation($sql);

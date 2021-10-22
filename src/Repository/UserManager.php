@@ -72,7 +72,7 @@ class UserManager
 
     public function addUser(User $user)
     {
-        $sql = "INSERT INTO " . $this->table . " (username, first_name, last_name, phone_number, email, password, role, token, isActive) VALUES (?, ?, ?, ?, ?, ?, 0, ?, 0)";
+        $sql = "INSERT INTO " . $this->table . " (username, first_name, last_name, phone_number, email, password, role, token, isActive, image) VALUES (?, ?, ?, ?, ?, ?, 0, ?, 0, ?)";
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $user->getUsername(),
@@ -81,7 +81,24 @@ class UserManager
             $user->getPhoneNumber(),
             $user->getEmail(),
             $user->getPassword(),
-            $this->getToken()
+            $this->getToken(),
+            $user->getImage()
+        ]);
+    }
+
+    public function editUser(User $user)
+    {
+        $sql = self::UPDATEQUERY . $this->table . " SET username = ?, first_name = ?, last_name = ?, phone_number = ?, email = ?, password = ?, image = ? WHERE id = ?";
+        $query = $this->bdd->preparation($sql);
+        $query->execute([
+            $user->getUsername(),
+            $user->getFirstName(),
+            $user->getLastName(),
+            $user->getPhoneNumber(),
+            $user->getEmail(),
+            $user->getPassword(),
+            $user->getImage(),
+            $user->getId()
         ]);
     }
 
@@ -104,18 +121,9 @@ class UserManager
         ]);
     }
 
-    public function deleteToken(User $user)
-    {
-        $sql = self::UPDATEQUERY . $this->table . " SET token = NULL WHERE id = ?";
-        $query = $this->bdd->preparation($sql);
-        $query->execute([
-            $user->getId()
-        ]);
-    }
-
     public function setNewPassword(User $user)
     {
-        $sql = self::UPDATEQUERY . $this->table . " SET password = ? WHERE id = ?";
+        $sql = self::UPDATEQUERY . $this->table . " SET password = ?, token = NULL WHERE id = ?";
         $query = $this->bdd->preparation($sql);
         $query->execute([
             $user->getPassword(),

@@ -1,50 +1,88 @@
 {% extends '/templates/adminTemplate.html.twig' %}
 
-{% block title %}{{ string }}{% endblock %}
+{% block title %}{{ parent() }}Édition d'un article{% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
 
 {% block content %}
 
-<!-- 404 Error Text -->
 <div class="text-center">
     <h1 class="h3 mb-2 text-gray-800">Éditer un article</h1>
 
     <form action="/editer-un-article/{{ post.id }}" method="post">
-        <div class="titre-article mb-2 mt-5">
-            <p>Titre : </p>
-            <input type="text" name="title" id="" class="w-50" value="{{ post.title }}">
+        <div class="form-group mb-2 mt-5">
+            <label>Titre : </label>
+            <input type="text" name="title" class="form-control" value="{{ post.title }}">
         </div>
-         <div class="titre-article mb-2 mt-5">
-            <p>Chapô : </p>
-            <input type="text" name="blurb" id="" class="w-50" value="{{ post.blurb }}">
+         <div class="form-group mb-2 mt-5">
+            <label>Chapô : </label>
+            <input type="text" name="blurb" class="form-control" value="{{ post.blurb }}">
         </div>
-        <div class="titre-article mb-2 mt-5">
-            <p>Image : </p>
-            <input type="file" name="imageName" id="" class="" accept=".jpg, .jpeg, .png" placeholder="{{ post.imageName }}">
+        <div class="form-group  mb-2 mt-5">
+            <label>Image : </label>
+            <input type="file" name="imageName" id="preexistingImage" class="form-control" accept=".jpg, .jpeg, .png">
         </div>
-        <div class="titre-article mb-2 mt-5">
-            <p>Texte alternatif : </p>
-            <input type="text" name="imageAlt" id="" class="w-50" value="{{ post.imageAlt }}">
+        <div class="form-group  mb-2 mt-5">
+            <label>Texte alternatif : </label>
+            <input type="text" name="imageAlt" class="form-control" value="{{ post.imageAlt }}">
         </div>
-        <div class="contenu-article mb-2 mt-5" style="text-align: -webkit-center;">
-            <p>Contenu : </p>
+        <div class="form-group contenu-article mb-2 mt-5">
+            <label>Contenu : </label>
             <textarea class="mytextarea w-50 mt-5" name="content">
                 {{ post.content }}
             </textarea>
-            <style>.tox-tinymce { max-width: 50%; }</style>
         </div>
-        <div class="titre-article mb-2 mt-5">
-            <p>Auteur : </p>
-            <input type="text" name="author" id="" class="w-50" value="{{ post.author }}">
+        <div class="form-group mb-2 mt-5">
+            <label>Auteur : </label>
+            {# <input type="text" name="author" id="" class="form-control" value="{{ post.author }}"> #}
+            <select name="author" id="author" class="form-control">
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                {% endfor %}
+            </select>
         </div>
-        <input type="submit" class="btn-primary mt-5 mb-4" name="editInput" id="editInput" value="Envoyer">
+        <button type="submit" name="editInput" class="btn btn-primary mt-5 mb-4">Envoyer</button>
     </form>
 
-    <a href="/liste-articles">&larr; Retour à la liste des articles</a>
-
-    
+    <a href="/liste-articles"><p class="mt-5 mb-5">&larr; Retour à la liste des articles</p> </a>    
 
 </div>
+
+<script>
+
+const myImage = document.getElementById("{{ post.imageName }}");
+const input = document.getElementById("preexistingImage");
+const url = "http://localhost:8888/public/img/blog/{{ post.imageName }}"
+window.onload = function() {
+  const dt = new DataTransfer();
+  const request = new XMLHttpRequest();
+  request.open("GET", url, true);
+  request.responseType = "arraybuffer";
+  const fileType = (url.substr(url.lastIndexOf(".") + 1));
+  const mimeType = ("image/" + fileType).replace("jpg", "jpeg"); 
+  request.overrideMimeType(mimeType);
+  request.onload = function(e) {
+    const blob = new Blob([this.response], {
+      type: mimeType
+    });
+    const file = new File([blob], "{{ post.imageName }}", {
+      type: mimeType
+    })
+    dt.items.add(file);
+    input.files = dt.files;
+    input.dispatchEvent(new Event("change"));
+  }
+  request.send(); 
+}
+
+input.addEventListener("change", function() {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    myImage.src = e.target.result;
+    myImage.removeAttribute("hidden");
+  };
+  reader.readAsDataURL(input.files[0]);
+})
+</script>
 {% endblock %}

@@ -16,7 +16,6 @@ class CommentManager
     protected string $entity;
     protected string $comment;
     protected $bdd;
-    public const SELECTQUERY = 'SELECT * FROM ';
 
     public function __construct($table, $object, $joinTable = NULL)
     {
@@ -31,18 +30,18 @@ class CommentManager
      */
     public function getAllComments()
     {
-        $sql = self::SELECTQUERY . $this->table . ' JOIN ' . $this->joinTable . ' WHERE ' . $this->joinTable . '.id = ' . $this->table . '.post_id';
+        $sql = "SELECT " . $this->table . ".username, " . $this->joinTable . ".title, " . $this->table . ".content, " . $this->table . ".creation_date, is_valid, " . $this->joinTable . ".user_id FROM " . $this->table . ' JOIN ' . $this->joinTable . ' WHERE ' . $this->joinTable . '.id = ' . $this->table . '.post_id';
         $query = $this->bdd->preparation($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    
     /**
      * Find all blog comments for a specific post
      */
     public function getAllCommentsForABlogPost($postId)
     {
-        $sql = self::SELECTQUERY . $this->table . ' WHERE post_id = ?';
+        $sql = 'SELECT * FROM '. $this->table . ' WHERE post_id = ?';
         $query = $this->bdd->preparation($sql);
         $query->execute([$postId]);
         return $query->fetchAll(PDO::FETCH_ASSOC);

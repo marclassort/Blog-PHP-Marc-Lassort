@@ -21,9 +21,10 @@ SimpleRouter::post('/poster-un-commentaire/{idPost?}', 'CommentController@postCo
 SimpleRouter::all('/valider-un-commentaire/{idComment?}', 'CommentController@validateComment', ['idComment']);
 SimpleRouter::all('/invalider-un-commentaire/{idComment?}', 'CommentController@invalidateComment', ['idComment']);
 SimpleRouter::get('/gerer-commentaires', 'AdminController@manageComments');
-SimpleRouter::get('/profil', 'AdminController@profile');
+SimpleRouter::all('/profil', 'UserController@profile');
 SimpleRouter::get('/a-propos', 'HomeController@aPropos');
-SimpleRouter::get('/contact', 'ContactController@contact');
+SimpleRouter::all('/contact', 'ContactController@contact');
+SimpleRouter::all('/gerer-les-contacts', 'ContactController@manageContacts');
 SimpleRouter::get('/blog', 'BlogController@blog');
 SimpleRouter::get('/blog/articles/{idPost?}/{slug?}', 'BlogController@openPost', ['slug', 'idPost']);
 SimpleRouter::get('/services', 'ServicesController@services');

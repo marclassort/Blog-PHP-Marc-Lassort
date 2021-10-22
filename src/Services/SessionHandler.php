@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Core\Session;
 use App\Repository\CommentManager;
+use App\Repository\ImageManager;
 use App\Repository\PostManager;
 use App\Repository\UserManager;
 use Core\BaseController;
@@ -24,6 +25,9 @@ class SessionHandler extends BaseController
         $postManager = new PostManager('post', 'Post');
         $post = $postManager->getPost($postId);
 
+        $imageManager = new ImageManager('image', 'Image');
+        $image = $imageManager->getImage($postId);
+
         $commentManager = new CommentManager('comment', 'Comment');
         $comments = $commentManager->getAllCommentsForABlogPost($postId);
 
@@ -33,6 +37,7 @@ class SessionHandler extends BaseController
         {
             $this->render('post/post.html.twig', [
                 "post" => $post,
+                "image" => $image,
                 "comments" => $comments,
                 "username" => $username,
                 "date" => $date,

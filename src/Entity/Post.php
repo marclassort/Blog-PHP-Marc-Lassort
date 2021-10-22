@@ -44,6 +44,11 @@ class Post extends Entity
     /**
      * @var string
      */
+    private $user_id;
+
+    /**
+     * @var string
+     */
     private $imageName;
 
     /**
@@ -113,6 +118,14 @@ class Post extends Entity
     public function getAuthor(): string
     {
         return $this->author;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): string
+    {
+        return $this->user_id;
     }
 
     /**
@@ -192,6 +205,15 @@ class Post extends Entity
     public function setAuthor($author)
     {
         $this->author = $author; 
+    }
+
+    /**
+     * @param int $user_id 
+     * @return void 
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id; 
     }
 
     /**
