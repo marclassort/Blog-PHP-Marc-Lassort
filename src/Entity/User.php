@@ -158,15 +158,6 @@ class User extends Entity
     }
 
     /**
-     * @param int $id 
-     * @return void 
-     */
-    public function setId($id)
-    {
-        $this->id = $id; 
-    }
-
-    /**
      * @param string $username 
      * @return void 
      */
@@ -227,24 +218,6 @@ class User extends Entity
     public function setRole($role)
     {
         $this->role = $role; 
-    }
-
-    /**
-     * @param string $token 
-     * @return void 
-     */
-    public function setToken($token)
-    {
-        $this->token = $token; 
-    }
-
-    /**
-     * @param bool $isActive 
-     * @return void 
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive; 
     }
 
     /**

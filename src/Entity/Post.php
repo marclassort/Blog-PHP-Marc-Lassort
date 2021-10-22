@@ -145,15 +145,6 @@ class Post extends Entity
     }
 
     /**
-     * @param int $id 
-     * @return void 
-     */
-    public function setId($id)
-    {
-        $this->id = $id; 
-    }
-
-    /**
      * @param string $title 
      * @return void 
      */
