@@ -1,66 +1,64 @@
 {% extends "/templates/template.html.twig" %}
 
-{% block title %}{{ string }}{% endblock %}
+{% block title %}{{ parent() }}Article - {{ post.title}}{% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
 {% block content %}
 
-    <!-- Blog Section-->
-    <section class="page-section blog" id="blog">
-        <div class="container">
-            <!-- Blog Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mt-lg-5 mb-0"></h2>
-            <!-- Icon Divider-->
-            <div class="divider-custom">
-                <div class="divider-custom-line"></div>
-                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                <div class="divider-custom-line"></div>
-            </div>
-            <!-- Blog Grid Items-->
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <img src="/public/img/blog/{{ post.imageName }}" alt="{{ post.imageAlt }}" class="w-100">
-                    <h1 class="mt-4 mb-4">{{ post.title }}</h1>
-                    <div class="mt-2 mb-4">{{ post.content|e }}</div>
-                    <div class="mt-5 mb-3 text-center"><h3>Commentaires</h3></div>
-                    <form action="/poster-un-commentaire/{{ post.id }}" method="post">
-                        {% if comments is not empty %}
-                            {% for comment in comments %}
-                                {% if comment.is_valid == 1 %}
-                                    <div class="mb-4 p-2 bg-light">
-                                        <div class="">
-                                            <img src="" alt=""><span class="text-danger"><strong>{{ comment.username }}</strong></span> <span class="text-secondary blockquote-footer">{{ comment.creation_date|date("d/m/Y", "Europe/Paris") }}</span>
-                                        </div>
-                                        <div>{{ comment.content }}</div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            <div class="mt-5">Aucun commentaire publié.</div>
+<!-- Blog Section-->
+<section class="page-section blog" id="blog">
+    <div class="container">
+        <!-- Blog Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mt-lg-5 mb-0"></h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Blog Grid Items-->
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4 mb-5">
+                <img src="/public/img/blog/{{ post.imageName }}" alt="{{ post.imageAlt }}" class="w-100">
+                <h1 class="mt-4 mb-4">{{ post.title }}</h1>
+                <div class="mt-2 mb-4">{{ post.content|striptags }}</div>
+                <div class="mt-5 mb-3 text-center"><h3>Commentaires</h3></div>
+                <form action="/poster-un-commentaire/{{ post.id }}" method="post">
+                    {% for comment in comments %}
+                        {% if comment.is_valid == 1 %}
+                            <div class="mb-4 p-2 bg-light">
+                                <div class="">
+                                    <img src="" alt=""><span class="text-danger"><strong>{{ comment.username }}</strong></span> <span class="text-secondary" style="font-size: 0.8em;">- {{ comment.creation_date|date("d/m/Y", "Europe/Paris") }}</span>
+                                </div>
+                                <div>{{ comment.content }}</div>
+                            </div>
                         {% endif %}
-                        {% if username is defined %}
-                            <strong><a href="/profil"><div class="mt-5">{{ username }} :</div></a></strong>
                         {% else %}
-                            <a href="/login"><div>Se connecter pour publier un commentaire</div></a>
-                        {% endif %}
-                        <div>
-                            <input type="hidden" name="username" value="{{ username }}">
-                            <input type="hidden" name="id" value="{{ user.id }}">
-                            <input type="hidden" name="id" value="{{ post.id }}">
-                            <textarea name="content" id="" cols="50" rows="10" class="w-100 mt-4"></textarea>
-                            <button type="submit" class="btn btn-success">Envoyer</button>
-                        </div>
-                    </form>
-                </div>
+                        <div class="mt-5">Aucun commentaire publié.</div>
+                    {% endfor %}
+                    {% if username is defined %}
+                        <strong><a href="/profil"><div class="mt-5">{{ username }} :</div></a></strong>
+                    {% else %}
+                        <a href="/login"><div>Se connecter pour publier un commentaire</div></a>
+                    {% endif %}
+                    <div>
+                        <input type="hidden" name="username" value="{{ username }}">
+                        <input type="hidden" name="id" value="{{ user.id }}">
+                        <input type="hidden" name="id" value="{{ post.id }}">
+                        <textarea name="content" id="" cols="50" rows="10" class="w-100 mt-4"></textarea>
+                        <button type="submit" class="btn btn-success">Envoyer</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
 
 {% endblock %}
 

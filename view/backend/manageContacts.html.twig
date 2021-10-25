@@ -1,0 +1,151 @@
+{% extends '/templates/adminTemplate.html.twig' %}
+
+{% block title %}{{ parent() }}Gestion des commentaires{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Liste des contacts</h1>
+
+<!-- List of contacts -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Contacts reçus</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0" data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">Auteur</th>
+                        <th data-sortable="true">Adresse email</th>
+                        <th data-sortable="true">Sujet</th>
+                        <th>Contenu</th>
+                        <th data-sortable="true">Date de création</th>
+                        <th>Statut</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in contacts %}
+                        {% if contact.is_handled == 0 %}
+                        <tr>
+                            <td>{{ contact.author }}</td>
+                            <td>{{ contact.email_address }}</td>
+                            <td>{{ contact.subject }}</td>
+                            <td class="text-truncate" style="max-width: 200px;">{{ contact.content }}</td>
+                            <td>{{ contact.creation_date|date('d/m/Y à H:i') }}</td>
+                            <td>{{ contact.is_handled|replace({ '0': '<span class="badge badge-danger"> À traiter</span>' })|raw }}</td>
+                            <td><button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalManage{{ contact.id }}"><i class="fas fa-thumbs-down"></i></button></td>
+                        </tr>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalManage{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Invalidation du commentaire {{ contact.subject }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    Êtes-vous sûr de vouloir invalider ce commentaire ? 
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                    <a href="/invalider-un-commentaire/{{ contact.id }}">Invalider</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Contacts traités</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0" data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">Auteur</th>
+                        <th data-sortable="true">Adresse email</th>
+                        <th data-sortable="true">Sujet</th>
+                        <th>Contenu</th>
+                        <th data-sortable="true">Date de création</th>
+                        <th>Statut</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in contacts %}
+                        {% if contact.is_handled == 1 %}
+                            <tr>
+                                <td>{{ contact.author }}</td>
+                                <td>{{ contact.email_address }}</td>
+                                <td>{{ contact.subject }}</td>
+                                <td class="text-truncate" style="max-width: 200px;">{{ contact.content }}</td>
+                                <td>{{ contact.creation_date|date('d/m/Y à H:i') }}</td>
+                                <td>{{ contact.is_handled|replace({ '1': '<span class="badge badge-success"> Traité</span>' })|raw }}</td>
+                                <td><button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalManage{{ contact.id }}"><i class="fas fa-thumbs-down"></i></button></td>
+                            </tr>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalValidate{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Validation du commentaire {{ contact.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Êtes-vous sûr de vouloir valider ce commentaire ? 
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        <a href="/valider-un-commentaire/{{ contact.id }}">Valider</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalInvalidate{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Invalidation du commentaire {{ comment.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Êtes-vous sûr de vouloir invalider ce commentaire ? 
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        <a href="/invalider-un-commentaire/{{ comment.id }}">Invalider</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

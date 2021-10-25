@@ -17,7 +17,7 @@ class BlogController extends BaseController
         $imageManager = new ImageManager('image', 'Image');
 
         $posts = $postManager->getAllPosts();
-        $images = $imageManager->getImages();
+        $images = $imageManager->getAllImages();
 
         $titles = array_column($posts, 'title');
 
