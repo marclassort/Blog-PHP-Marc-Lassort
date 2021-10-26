@@ -1,6 +1,6 @@
 {% extends '/templates/adminTemplate.html.twig' %}
 
-{% block title %}{{ string }}{% endblock %}
+{% block title %}{{ parent() }}Liste des articles{% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
@@ -12,45 +12,30 @@
 
 <!-- List of articles -->
 <div class="card shadow mb-4">
-    {# <div class="card-header py-3"> #}
-        {# <h6 class="m-0 font-weight-bold text-primary">Liste des articles</h6> #}
-    {# </div> #}
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+       <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0" data-toggle="table" data-search="true" data-show-columns="true" data-pagination="true">
                 <thead>
                     <tr>
-                        <th>Titre</th>
+                        <th data-sortable="true">Titre</th>
                         <th>Chapô</th>
-                        <th>Date de création</th>
-                        <th>Date de modification</th>
+                        <th data-sortable="true">Date création</th>
+                        <th data-sortable="true">Date modification</th>
                         <th>Contenu</th>
                         <th>Photo</th>
                         <th>Auteur</th>
                         <th>Édition</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Titre</th>
-                        <th>Chapô</th>
-                        <th>Date de création</th>
-                        <th>Date de modification</th>
-                        <th>Contenu</th>
-                        <th>Photo</th>
-                        <th>Auteur</th>
-                        <th>Édition</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     {% for post in posts %}
                         <tr>
                         <td>{{ post.title }}</td>
-                        <td>{{ post.blurb }}</td>
-                        <td>{{ post.creation_date }}</td>
-                        <td>{{ post.modif_date }}</td>
-                        <td width="500">{{ post.content|e }}</td>
-                        <td><img src="/public/img/blog/{{ post.imageName }}" alt="{{ post.imageAlt }}" width="200"></td>
+                        <td class="text-truncate" style="max-width: 100px;">{{ post.blurb }}</td>
+                        <td>{{ post.creation_date|date('d/m/Y à H:i') }}</td>
+                        <td>{{ post.modif_date|date('d/m/Y à H:i') }}</td>
+                        <td class="text-truncate" style="max-width: 200px;">{{ post.content|e }}</td>
+                        <td><img src="/public/img/blog/{{ post.imageName }}" alt="{{ post.imageAlt }}" width="100"></td>
                         <td>{{ post.author }}</td>
                         <td><button type="button" id="buttonDelete{{ post.id }}" class="btn" data-toggle="modal" data-target="#modalDelete{{ post.id }}"><i class="fas fa-trash-alt" style="display: flex;"></i></button><a href="/editer-un-article/{{ post.id }}"><button type="button" class="btn" style="display: flex;"><i class="fas fa-edit"></i></button></a></td>
                     </tr>

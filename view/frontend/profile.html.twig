@@ -1,20 +1,91 @@
 {% extends '/templates/template.html.twig' %}
 
-{% block title %}{{ string }}{% endblock %}
+{% block title %}{{ parent() }}Profil{% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
-
 {% block content %}
 
-<!-- 404 Error Text -->
-<div class="text-center">
-    <h1 class="h3 mb-2 text-gray-800">Profil</h1>
-    <div class="w-25 text-center">
-        <img class="img-profile rounded-circle" src="/public/img/undraw_profile.svg">
-    </div>
-    <p class="lead text-gray-800 mb-5">Page trouvée</p>
-    <p class="text-gray-500 mb-0">À développer</p>
-    <a href="/admin">&larr; Retour au tableau de bord</a>
+<div class="container-fluid w-50">
+    <h1 class="h3 mb-2 mt-5 text-center text-gray-800">Profil</h1>
+    <form action="/profil" method="post">
+        <input type="hidden" name="id" value="{{ user.id }}">
+        <div class="form-group text-center m-auto image-upload pt-5 mb-5">
+            <label for="file-input">
+                <img src="/public/img/{{ user.image }}" class="img-profile rounded-circle w-25" alt="photo de profil" id="image-profil">
+            </label>
+            <input type="file" name="image" id="file-input" style="text-align-last: center;" placeholder="Choisir une image" class="mt-5 mb-5 d-none" accept=".jpg, .jpeg, .png" onclick="changePhoto()">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="username">Pseudo :</label>
+                <input type="text" class="form-control mb-2" name="username" id="username" value="{{ user.username }}">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="email">Courriel :</label>
+                <input type="email" class="form-control mb-2" name="email" id="email" value="{{ user.email }}">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="phone">Mot de passe :</label>
+                <input type="password" class="form-control mb-2" name="password" id="password" value="{{ user.password }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="first-name">Prénom :</label>
+                <input type="text" class="form-control mb-2" name="first-name" id="first-name" value="{{ user.firstName }}">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="last-name">Nom :</label>
+                <input type="text" class="form-control mb-2" name="last-name" id="last-name" value="{{ user.lastName }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="phone">Téléphone :</label>
+            <input type="text" class="form-control mb-5" name="phone" id="phone" value="{{ user.phoneNumber }}">
+        </div>
+        <div class="text-center">
+            <button type="submit" name="profileInput" class="btn btn-primary mt-2 mb-5">Valider mes informations</button>
+        </div>
+    </form>
 </div>
+
+<script>
+
+const myImage = document.getElementById("{{ post.imageName }}");
+const input = document.getElementById("preexistingImage");
+const url = "http://localhost:8888/public/img/blog/{{ post.imageName }}"
+window.onload = function() {
+  const dt = new DataTransfer();
+  const request = new XMLHttpRequest();
+  request.open("GET", url, true);
+  request.responseType = "arraybuffer";
+  const fileType = (url.substr(url.lastIndexOf(".") + 1));
+  const mimeType = ("image/" + fileType).replace("jpg", "jpeg"); 
+  request.overrideMimeType(mimeType);
+  request.onload = function(e) {
+    const blob = new Blob([this.response], {
+      type: mimeType
+    });
+    const file = new File([blob], "{{ post.imageName }}", {
+      type: mimeType
+    })
+    dt.items.add(file);
+    input.files = dt.files;
+    input.dispatchEvent(new Event("change"));
+  }
+  request.send(); 
+}
+
+input.addEventListener("change", function() {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    myImage.src = e.target.result;
+    myImage.removeAttribute("hidden");
+  };
+  reader.readAsDataURL(input.files[0]);
+})
+
+</script>
+
 {% endblock %}

@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Core\Session;
 use Core\BaseController;
 use App\Entity\Post;   
 use App\Repository\CommentManager;
+use App\Repository\ContactManager;
 use App\Repository\ImageManager;
 use App\Repository\PostManager;
+use App\Repository\UserManager;
 use App\Services\SessionHandler;
 
 class AdminController extends BaseController
@@ -15,24 +18,57 @@ class AdminController extends BaseController
     public function admin() 
     {
         $session = new SessionHandler();
-        $session->checkAdmin();
+        $checkAdmin = $session->checkAdmin();
 
-        $this->render('backend/admin.html.twig', []);
+        if (!$checkAdmin)
+        {
+            $this->redirect('');
+        }
+
+        $postManager = new PostManager('post', 'Post');
+        $posts = $postManager->getAllPosts();
+        $imageManager = new ImageManager('image', 'Image');
+        $images = $imageManager->getAllImages();
+        $userManager = new UserManager('user', 'User');
+        $users = $userManager->getAllUsers();
+        $contactManager = new ContactManager('contact', 'Contact');
+        $contacts = $contactManager->getContactList();
+        $commentManager = new CommentManager('comment', 'Comment', 'post');
+        $comments = $commentManager->getAllComments();
+
+        $this->render('backend/admin.html.twig', [
+            "posts" => $posts,
+            "images" => $images,
+            "users" => $users,
+            "contacts" => $contacts,
+            "comments" => $comments
+        ]);
     }
 
     public function createPost()
     {
         $post = new Post($_POST);
+        $userManager = new UserManager('user', 'User');
+        $users = $userManager->getAllUsers();
 
-        if (!empty($_POST))
+        if ($this->isSubmitted('createInput') && $this->isValid($post))
         {
             $postManager = new PostManager('post', 'Post');
             $postManager->createPost($post);
 
             $this->redirect('liste-articles');
         }
-        
-        $this->render('backend/postForm.html.twig', []);
+
+        $contactManager = new ContactManager('contact', 'Contact');
+        $contacts = $contactManager->getContactList();
+        $commentManager = new CommentManager('comment', 'Comment', 'post');
+        $comments = $commentManager->getAllComments();
+
+        $this->render('backend/postForm.html.twig', [
+            "contacts" => $contacts,
+            "comments" => $comments,
+            "users" => $users
+        ]);
     }
 
     public function listPosts()
@@ -41,9 +77,16 @@ class AdminController extends BaseController
         $imageManager = new ImageManager('image', 'Image');
 
         $posts = $postManager->getAllPosts();
-        $images = $imageManager->getImages();
+        $images = $imageManager->getAllImages();
+
+        $contactManager = new ContactManager('contact', 'Contact');
+        $contacts = $contactManager->getContactList();
+        $commentManager = new CommentManager('comment', 'Comment', 'post');
+        $comments = $commentManager->getAllComments();
 
         $this->render('backend/postList.html.twig', [
+            "contacts" => $contacts,
+            "comments" => $comments,
             "posts" => $posts,
             "images" => $images
         ]);
@@ -55,6 +98,8 @@ class AdminController extends BaseController
         $post = $postManager->getPost($idPost);
         $imageManager = new ImageManager('image', 'Image');
         $image = $imageManager->getImage($idPost);
+        $userManager = new UserManager('user', 'User');
+        $users = $userManager->getAllUsers();
 
         if ($this->isSubmitted('editInput') && $this->isValid($post))
         {   
@@ -62,15 +107,24 @@ class AdminController extends BaseController
             $post->setBlurb($_POST['blurb']);
             $post->setContent($_POST['content']);
             $post->setAuthor($_POST['author']);
+            $post->setUserId($_POST['author']);
             $post->setImageName($_POST['imageName']);
             $post->setImageAlt($_POST['imageAlt']);
             $postManager->editPost($post);
             $this->redirect('liste-articles');
         }
 
-        return $this->render('backend/postEdit.html.twig', [
+        $contactManager = new ContactManager('contact', 'Contact');
+        $contacts = $contactManager->getContactList();
+        $commentManager = new CommentManager('comment', 'Comment', 'post');
+        $comments = $commentManager->getAllComments();
+
+        $this->render('backend/postEdit.html.twig', [
             "post" => $post,
-            "image" => $image
+            "image" => $image,
+            "users" => $users,
+            "contacts" => $contacts,
+            "comments" => $comments
         ]);
     }
 
@@ -84,24 +138,15 @@ class AdminController extends BaseController
 
     public function manageComments()
     {
-        $commentManager = new CommentManager('comment', 'Comment');
-
+        $commentManager = new CommentManager('comment', 'Comment', 'post');
         $comments = $commentManager->getAllComments();
 
+        $contactManager = new ContactManager('contact', 'Contact');
+        $contacts = $contactManager->getContactList();
+
         $this->render('backend/manageComments.html.twig', [
-            "comments" => $comments
+            "comments" => $comments,
+            "contacts" => $contacts
         ]);
-    }
-
-    public function profile()
-    {
-        $this->render('frontend/profile.html.twig');
-    }
-
-    public function deconnect()
-    {
-        session_destroy();
-        header('Location: /');
-        $this->render('frontend/home.html.twig');
     }
 }

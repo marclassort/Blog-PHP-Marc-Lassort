@@ -1,19 +1,18 @@
-{% extends '/templates/adminTemplate.html.twig' %}
+{% extends '/templates/template.html.twig' %}
 
-{% block title %}{{ string }}{% endblock %}
+{% block title %}{{ parent() }}Erreur 403{% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
 
 {% block content %}
 
-<!-- 404 Error Text -->
-
+<!-- 403 Error Text -->
 <div class="text-center">
     <div class="error mx-auto" data-text="404">403</div>
     <p class="lead text-gray-800 mb-5">Accès interdit</p>
     <p class="text-gray-500 mb-0">Il semble que vous ayez trouvé un trou dans la matrice...</p>
-    <a href="/admin">&larr; Retour au tableau de bord</a>
+    <a href="/">&larr; Retour sur la page d'accueil</a>
 </div>
 {% endblock %}
 

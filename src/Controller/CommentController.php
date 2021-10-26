@@ -8,6 +8,7 @@ use App\Entity\Post;
 use Core\BaseController;
 use App\Repository\CommentManager;
 use App\Repository\UserManager;
+use App\Services\SessionHandler as ServicesSessionHandler;
 
 class CommentController extends BaseController
 {
@@ -23,7 +24,7 @@ class CommentController extends BaseController
         ]);
     }
 
-    public function postComment()
+    public function postComment($postId)
     {
         $session = new Session();
 
@@ -37,10 +38,27 @@ class CommentController extends BaseController
         {
             $commentManager = new CommentManager('comment', 'Comment');
             $commentManager->postComment($comment, $user, $post);
+
+            echo 'Votre commentaire va être soumis à validation';
         }
 
-        $this->render('frontend/post.html.twig', [
-            
-        ]);
+        $sessionHandler = new ServicesSessionHandler();
+        $sessionHandler->checkSession($postId);
+    }
+
+    public function validateComment($idComment)
+    {
+        $commentManager = new CommentManager('comment', 'Comment');
+        $commentManager->validateComment($idComment);
+
+        $this->redirect('gerer-commentaires');
+    }
+
+    public function invalidateComment($idComment)
+    {
+        $commentManager = new CommentManager('comment', 'Comment');
+        $commentManager->invalidateComment($idComment);
+
+        $this->redirect('gerer-commentaires');
     }
 }

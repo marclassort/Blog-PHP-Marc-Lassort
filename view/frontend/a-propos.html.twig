@@ -1,13 +1,13 @@
 {% extends "/templates/template.html.twig" %}
 
-{% block title %}{{ string }}{% endblock %}
+{% block title %}{{ parent() }}À propos{% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
 {% block content %}
 
     <!-- About Section-->
-    <section class="page-section bg-primary text-white mb-0 mt-xxl-5" id="about">
+    <section class="page-section bg-primary text-white mb-0" id="about">
         <div class="container">
             <!-- About Section Heading-->
             <h2 class="page-section-heading text-center text-uppercase text-white">À propos</h2>
@@ -19,8 +19,8 @@
             </div>
             <!-- About Section Content-->
             <div class="row">
-                <div class="col-lg-4 ms-auto"><p class="lead">{{ string }} est un développeur web spécialisé en PHP/Symfony qui travaille comme Growth Hacker chez Oaan Consulting, une entreprise spécialisée dans la rénovation énergétique.</p></div>
-                <div class="col-lg-4 me-auto"><p class="lead">Développeur web full stack, avec une compétence particulière pour le développement WordPress, {{ string }} est également rédacteur de contenu, community manager et marketer digital.</p></div>
+                <div class="col-lg-4 ms-auto"><p class="lead">Marc Lassort est un développeur web spécialisé en PHP/Symfony qui travaille comme Growth Hacker chez Oaan Consulting, une entreprise spécialisée dans la rénovation énergétique.</p></div>
+                <div class="col-lg-4 me-auto"><p class="lead">Développeur web full stack, avec une compétence particulière pour le développement WordPress, Marc Lassort est également rédacteur de contenu, community manager et marketer digital.</p></div>
             </div>
             <!-- About Section Button-->
             <div class="text-center mt-4">

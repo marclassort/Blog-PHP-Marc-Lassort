@@ -29,7 +29,7 @@ class User extends Entity
     /**
      * @var string
      */
-    private $phoneNumber; 
+    private $phone_number; 
 
     /**
      * @var string
@@ -55,6 +55,11 @@ class User extends Entity
      * @var bool
      */
     public $isActive;
+
+    /**
+     * @var string
+     */
+    public $image;
 
     /**
      * @param array $data Data used with the comment form 
@@ -101,7 +106,7 @@ class User extends Entity
      */
     public function getPhoneNumber(): string
     {
-        return $this->phoneNumber;
+        return $this->phone_number;
     }
 
     /**
@@ -145,6 +150,14 @@ class User extends Entity
     }
 
     /**
+     * @return string
+     */
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
+    /**
      * @param string $username 
      * @return void 
      */
@@ -175,9 +188,9 @@ class User extends Entity
      * @param string $lastName 
      * @return void 
      */
-    public function setPhoneNumber($phoneNumber)
+    public function setPhoneNumber($phone_number)
     {
-        $this->phoneNumber = $phoneNumber; 
+        $this->phone_number = $phone_number; 
     }
 
     /**
@@ -208,20 +221,11 @@ class User extends Entity
     }
 
     /**
-     * @param string $token 
-     * @return void 
+     * @param string $image
+     * @return void
      */
-    public function setToken($token)
+    public function setImage($image)
     {
-        $this->token = $token; 
-    }
-
-    /**
-     * @param bool $isActive 
-     * @return void 
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive; 
+        $this->image = $image;
     }
 }

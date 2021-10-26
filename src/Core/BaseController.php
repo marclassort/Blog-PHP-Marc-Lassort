@@ -21,7 +21,6 @@ class BaseController
 	{
 		if (file_exists(VIEW_DIR . '//' . $filename))
 		{
-            $this->twig->addGlobal('Session', $_SESSION);
             $view = $this->twig->load($filename);
             $content = $view->render($array);
             $response = new Response($content);

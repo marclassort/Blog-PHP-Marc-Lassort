@@ -1,6 +1,6 @@
 {% extends "/templates/template.html.twig" %}
 
-{% block title %}Marc Lassort{% endblock %}
+{% block title %}{{ parent() }}Contact{% endblock %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
@@ -20,25 +20,25 @@
             <!-- Contact Section Form-->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
-                    <form>
+                    <form action="/contact" method="post">
                         <div class="form-floating">
-                            <input class="form-control" id="inputName" type="text" placeholder="Enter your name..." />
+                            <input class="form-control" name="name" id="inputName" type="text" placeholder="Entrez votre nom..." />
                             <label for="inputName">Nom</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="inputEmail" type="email" placeholder="Enter your email..." />
+                            <input class="form-control" name="email" id="inputEmail" type="email" placeholder="Entrez votre email..." />
                             <label for="inputEmail">Adresse email</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number..." />
-                            <label for="inputPhone">Numéro de téléphone</label>
+                            <input class="form-control" name="subject" id="inputPhone" type="tel" placeholder="Entrez le sujet .." />
+                            <label for="inputPhone">Sujet</label>
                         </div>
                         <div class="form-floating">
-                            <textarea class="form-control" id="inputMessage" placeholder="Enter your message here..." style="height: 12rem"></textarea>
+                            <textarea class="form-control" name="message" id="inputMessage" placeholder="Entrez votre message ici..." style="height: 12rem"></textarea>
                             <label for="inputMessage">Message</label>
                         </div>
                         <br />
-                        <button class="btn btn-primary btn-xl" type="submit">Envoyer</button>
+                        <button class="btn btn-primary btn-xl" name="contactInput" type="submit">Envoyer</button>
                     </form>
                 </div>
             </div>
