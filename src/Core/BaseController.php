@@ -63,11 +63,6 @@ class BaseController
         return $isValid;
     }
 
-    public function verifyTokenCsrf()
-    {
-        
-    }
-
     public function hydrate($object, $values = null)
     {
         if ($values != null)
