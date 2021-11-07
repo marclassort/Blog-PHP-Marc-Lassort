@@ -22,7 +22,7 @@ class LoginHandler extends BaseController
      * 
      * @return void 
      */
-    public function register()
+    public function register(): void
     {
         $user = new User($_POST);
 
@@ -63,9 +63,11 @@ class LoginHandler extends BaseController
     /**
      * Checks if the email address is valid 
      * 
+     * @param string $token
+     * 
      * @return void
      */
-    public function verifyEmailAddress($token)
+    public function verifyEmailAddress($token): void
     {
         $userManager = new UserManager('user', 'User');
          
@@ -115,6 +117,8 @@ class LoginHandler extends BaseController
     /**
      * Checks if the email address is valid and allows to create a new password for the user
      * 
+     * @param string $token
+     * 
      * @return void
      */
     public function createNewPassword($token)
@@ -149,10 +153,14 @@ class LoginHandler extends BaseController
     /**
      * Checks if the user is admin or not and if the login and password are correct
      * 
+     * @param mixed $user
+     * 
      * @return void 
      */
     public function checkLogin($user)
     {
+        $token = $user->getToken();
+
         if (!empty($user) && password_verify($_POST['password'], $user->getPassword()))
         {
             if ($user->getRole() != NULL && $user->getRole() != "" && $user->getRole() == 1)
@@ -162,6 +170,7 @@ class LoginHandler extends BaseController
                 $session->set('email', $user->getEmail());
                 $session->set('id', $user->getId());
                 $session->set('isActive', $user->getIsActive());
+                $session->set('token', $token);
 
                 return true;
             } else 
@@ -172,11 +181,11 @@ class LoginHandler extends BaseController
                     $session->set('username', $user->getUsername());
                     $session->set('email', $user->getEmail());
                     $session->set('id', $user->getId());
+                    $session->set('token', $token);
 
                     $this->redirect('profil');
                     $this->render('frontend/profile.html.twig', [
-                        "user" => $user,
-                        "session" => $session
+                        "user" => $user
                     ]);
                 } else
                 {

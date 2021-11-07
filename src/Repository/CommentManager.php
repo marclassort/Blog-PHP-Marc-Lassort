@@ -26,31 +26,56 @@ class CommentManager
     }
 
     /**
-     * Find all blog comments and titles of posts
+     * Retrieves all blog comments and titles of posts
+     * 
+     * @return mixed 
      */
     public function getAllComments()
     {
-        $sql = "SELECT " . $this->table . ".username, " . $this->joinTable . ".title, " . $this->table . ".content, " . $this->table . ".creation_date, is_valid, " . $this->joinTable . ".user_id FROM " . $this->table . ' JOIN ' . $this->joinTable . ' WHERE ' . $this->joinTable . '.id = ' . $this->table . '.post_id';
+        $sql = 'SELECT ' . $this->table . '.id, ' . $this->table . '.username, ' . $this->table . '.content, ' . $this->table . '.creation_date, ' . $this->table . '.is_valid, ' . $this->joinTable . '.title FROM ' . $this->table . ' JOIN ' . $this->joinTable . ' WHERE ' . $this->joinTable . '.id = ' . $this->table . '.post_id';
+        $query = $this->bdd->preparation($sql);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Counts the number of validated comments
+     * 
+     * @return mixed
+     */
+    public function getValidatedComments()
+    {
+        $sql = "SELECT * FROM " . $this->table . ' WHERE is_valid = 1';
         $query = $this->bdd->preparation($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
     
     /**
-     * Find all blog comments for a specific post
+     * Finds all blog comments for a specific post
+     * 
+     * @param int $postId
+     * 
+     * @return mixed
      */
     public function getAllCommentsForABlogPost($postId)
     {
-        $sql = 'SELECT * FROM '. $this->table . ' WHERE post_id = ?';
+        $sql = 'SELECT * FROM '. $this->table . ' JOIN ' . $this->joinTable . ' ON ' . $this->joinTable . '.id = ' . $this->table . '.user_id ' . ' WHERE post_id = ?';
         $query = $this->bdd->preparation($sql);
         $query->execute([$postId]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
-     * Post a comment for a specific post
+     * Adds a comment for a specific post
+     * 
+     * @param Comment $comment
+     * @param User $user
+     * @param Post $post
+     * 
+     * @return void 
      */
-    public function postComment(Comment $comment, User $user, Post $post)
+    public function postComment(Comment $comment, User $user, Post $post): void
     {
         $sql = 'INSERT INTO ' . $this->table . ' (username, content, creation_date, is_valid, user_id, post_id) VALUES (?, ?, NOW(), ?, ?, ?)';
         $query = $this->bdd->preparation($sql);
@@ -64,7 +89,11 @@ class CommentManager
     }
 
     /**
-     * Validate a specific blog comment
+     * Validates a specific blog comment
+     * 
+     * @param int $commentInd
+     * 
+     * @return void
      */
     public function validateComment($commentId): void
     {
@@ -77,7 +106,11 @@ class CommentManager
     }
 
     /**
-     * Invalidate a specific blog comment
+     * Invalidates a specific blog comment
+     * 
+     * @param int $commentId
+     * 
+     * @return void
      */
     public function invalidateComment($commentId): void
     {

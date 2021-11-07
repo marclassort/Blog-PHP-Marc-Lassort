@@ -16,25 +16,27 @@ SimpleRouter::get('/admin', 'AdminController@admin');
 SimpleRouter::all('/creer-un-article', 'AdminController@createPost');
 SimpleRouter::get('/liste-articles', 'AdminController@listPosts');
 SimpleRouter::all('/editer-un-article/{idPost?}', 'AdminController@editPost', ['idPost']);
-SimpleRouter::all('/supprimer-un-article/{idPost?}', 'AdminController@deletePost', ['idPost']);
+SimpleRouter::all('/supprimer-un-article/{idPost?}/{token?}', 'AdminController@deletePost', ['idPost', 'token']);
 SimpleRouter::post('/poster-un-commentaire/{idPost?}', 'CommentController@postComment', ['idPost']);
-SimpleRouter::all('/valider-un-commentaire/{idComment?}', 'CommentController@validateComment', ['idComment']);
-SimpleRouter::all('/invalider-un-commentaire/{idComment?}', 'CommentController@invalidateComment', ['idComment']);
+SimpleRouter::all('/valider-un-commentaire/{idComment?}/{token?}', 'CommentController@validateComment', ['idComment', 'token']);
+SimpleRouter::all('/invalider-un-commentaire/{idComment?}/{token?}', 'CommentController@invalidateComment', ['idComment', 'token']);
+SimpleRouter::all('/contact', 'ContactController@contact');
 SimpleRouter::get('/gerer-commentaires', 'AdminController@manageComments');
 SimpleRouter::all('/profil', 'UserController@profile');
 SimpleRouter::get('/a-propos', 'HomeController@aPropos');
-SimpleRouter::all('/contact', 'ContactController@contact');
-SimpleRouter::all('/gerer-les-contacts', 'ContactController@manageContacts');
+SimpleRouter::all('/gerer-les-contacts', 'ContactController@displayContactList');
+SimpleRouter::all('/valider-un-contact/{idContact?}/{token?}', 'ContactController@validateContact', ['idContact', 'token']);
+SimpleRouter::all('/invalider-un-contact/{idContact?}/{token?}', 'ContactController@invalidateContact', ['idContact', 'token']);
+SimpleRouter::all('/repondre-contact/{idContact?}', 'ContactController@answerContact', ['idContact']);
 SimpleRouter::get('/blog', 'BlogController@blog');
 SimpleRouter::get('/blog/articles/{idPost?}/{slug?}', 'BlogController@openPost', ['slug', 'idPost']);
-SimpleRouter::get('/services', 'ServicesController@services');
-SimpleRouter::get('/projets', 'ProjectsController@projects');
 SimpleRouter::get('/politique-de-confidentialite', 'PrivacyController@privacy');
 SimpleRouter::get('/deconnexion', 'UserController@deconnect');
 SimpleRouter::get('/404', 'ErrorController@error404');
 SimpleRouter::get('/403', 'ErrorController@error403');
 SimpleRouter::get('/405', 'ErrorController@error405');
 SimpleRouter::get('/500', 'ErrorController@error500');
+
 SimpleRouter::error(function(Request $request, \Exception $exception) {
 
     switch($exception->getCode()) {
@@ -56,3 +58,4 @@ SimpleRouter::error(function(Request $request, \Exception $exception) {
     }
     
 });
+

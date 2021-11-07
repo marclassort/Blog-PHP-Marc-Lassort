@@ -10,7 +10,9 @@
     <section class="page-section mt-xxl-5" id="contact">
         <div class="container">
             <!-- Contact Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Me contacter</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Me contacter {% for sess in sessions %}
+                {{ sess }}
+            {% endfor %}</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>

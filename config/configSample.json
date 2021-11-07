@@ -9,6 +9,7 @@
     "database" : {
         "name" : "Ma base de données",
         "dbname" : "Renommez votre base de données",
+        "server" : "Renommez votre serveur",
         "host" : "Renommez le nom de l'hôte",
         "user" : "Renommez votre login de connexion à la base de données",
         "password" : "Renommez le mot de passe de votre base de données"

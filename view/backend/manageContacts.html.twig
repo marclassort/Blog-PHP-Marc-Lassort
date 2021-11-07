@@ -32,36 +32,59 @@
                 <tbody>
                     {% for contact in contacts %}
                         {% if contact.is_handled == 0 %}
-                        <tr>
-                            <td>{{ contact.author }}</td>
-                            <td>{{ contact.email_address }}</td>
-                            <td>{{ contact.subject }}</td>
-                            <td class="text-truncate" style="max-width: 200px;">{{ contact.content }}</td>
-                            <td>{{ contact.creation_date|date('d/m/Y à H:i') }}</td>
-                            <td>{{ contact.is_handled|replace({ '0': '<span class="badge badge-danger"> À traiter</span>' })|raw }}</td>
-                            <td><button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalManage{{ contact.id }}"><i class="fas fa-thumbs-down"></i></button></td>
-                        </tr>
+                            <tr>
+                                <td>{{ contact.author }}</td>
+                                <td>{{ contact.email_address }}</td>
+                                <td>{{ contact.subject }}</td>
+                                <td class="text-truncate" style="max-width: 200px;">{{ contact.content }}</td>
+                                <td>{{ contact.creation_date|date('d/m/Y à H:i') }}</td>
+                                <td>{{ contact.is_handled|replace({ '0': '<span class="badge badge-danger"> À traiter</span>' })|raw }}</td>
+                                <td>
+                                    <button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalRead{{ contact.id }}"><i class="fas fa-book-reader"></i></button>
+                                    <button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalAnswer{{ contact.id }}"><i class="fas fa-envelope-open"></i></button>
+                                </td>
+                            </tr>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="modalManage{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Invalidation du commentaire {{ contact.subject }}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    </div>
-                                    <div class="modal-body">
-                                    Êtes-vous sûr de vouloir invalider ce commentaire ? 
-                                    </div>
-                                    <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                    <a href="/invalider-un-commentaire/{{ contact.id }}">Invalider</a>
+                            <!-- Modals -->
+                            <div class="modal fade" id="modalRead{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Consulter le message : {{ contact.subject }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">{{ contact.content }}</div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        <a href="/valider-un-contact/{{ contact.id }}/{{ session.token }}">Valider</a>
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="modal fade" id="modalAnswer{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <form action="repondre-contact/{{ contact.id }}" method="post">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Répondre au courriel : {{ contact.subject }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <textarea name="textMail" id="textMail" cols="30" rows="10"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                            <button type="submit" name="mailInput" class="btn btn-primary btn-user btn-block">Envoyer le mail</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         {% endif %}
                     {% endfor %}
                 </tbody>
@@ -97,45 +120,26 @@
                                 <td class="text-truncate" style="max-width: 200px;">{{ contact.content }}</td>
                                 <td>{{ contact.creation_date|date('d/m/Y à H:i') }}</td>
                                 <td>{{ contact.is_handled|replace({ '1': '<span class="badge badge-success"> Traité</span>' })|raw }}</td>
-                                <td><button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalManage{{ contact.id }}"><i class="fas fa-thumbs-down"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalRead{{ contact.id }}"><i class="fas fa-book-reader"></i></button>
+                                </td>
                             </tr>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="modalValidate{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                           
+                            <!-- Modals -->
+                            <div class="modal fade" id="modalRead{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Validation du commentaire {{ contact.title }}</h5>
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Consulter le message : {{ contact.subject }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                         </div>
-                                        <div class="modal-body">
-                                        Êtes-vous sûr de vouloir valider ce commentaire ? 
-                                        </div>
+                                        <div class="modal-body">{{ contact.content }}</div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/valider-un-commentaire/{{ contact.id }}">Valider</a>
+                                        <a href="/invalider-un-contact/{{ contact.id }}/{{ session.token }}">Invalider</a>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Modal -->
-                            <div class="modal fade" id="modalInvalidate{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Invalidation du commentaire {{ comment.title }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                        <div class="modal-body">
-                                        Êtes-vous sûr de vouloir invalider ce commentaire ? 
-                                        </div>
-                                        <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/invalider-un-commentaire/{{ comment.id }}">Invalider</a>
                                         </div>
                                     </div>
                                 </div>

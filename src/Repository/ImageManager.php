@@ -22,7 +22,9 @@ class ImageManager
     }
 
     /**
-     * Find all images
+     * Finds all images
+     * 
+     * @return mixed
      */
     public function getAllImages()
     {
@@ -33,7 +35,11 @@ class ImageManager
     }
 
     /**
-     * Find a specific image
+     * Finds a specific image
+     * 
+     * @param int $postId
+     * 
+     * @return mixed
      */
     public function getImage($postId)
     {
@@ -45,9 +51,14 @@ class ImageManager
     }
 
     /**
-     * Insert a new image during the creation of a blog post
+     * Inserts a new image during the creation of a blog post
+     * 
+     * @param Image $image
+     * @param int $postId
+     * 
+     * @return void
      */
-    public function setImage(Image $image, $postId)
+    public function setImage(Image $image, $postId): void
     {
         $sql = 'INSERT INTO ' . $this->table . ' (url, alt_text, name, post_id) VALUES (?, ?, ?, ?)';
         $query = $this->bdd->preparation($sql);

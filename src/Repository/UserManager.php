@@ -25,6 +25,11 @@ class UserManager
         $this->bdd = Database::getInstance();
     }
 
+    /**
+     * Retrieves the list of all registered users 
+     * 
+     * @return mixed
+     */
     public function getAllUsers()
     {
         $sql = self::SELECTQUERY . $this->table;
@@ -33,6 +38,11 @@ class UserManager
         return $query->fetchAll(PDO::FETCH_CLASS);
     }
 
+    /**
+     * Retrives the last user who registered to the blog
+     * 
+     * @return mixed
+     */
     public function getLastUserAdded()
     {
         $sql = self::SELECTQUERY . $this->table . " ORDER BY ID DESC LIMIT 1";
@@ -42,6 +52,13 @@ class UserManager
         return $query->fetch();
     }
 
+    /**
+     * Retrieves a specific user with his email address
+     * 
+     * @param string $email
+     * 
+     * @return mixed
+     */
     public function getByMail($email)
     {
         $sql = self::SELECTQUERY . $this->table . " WHERE email = ?";
@@ -53,6 +70,11 @@ class UserManager
         return $query->fetch();
     }
 
+    /**
+     * Returns a new random token 
+     * 
+     * @return Uuid
+     */
     public function getToken()
     {
         $token = Uuid::uuid4();
@@ -61,6 +83,13 @@ class UserManager
         return $token;
     }
 
+    /**
+     * Retrieves a specific user from his token
+     * 
+     * @param string $token
+     * 
+     * @return mixed
+     */
     public function getUserByToken($token)
     {
         $sql = self::SELECTQUERY . $this->table . ' WHERE token = ?';
@@ -70,7 +99,14 @@ class UserManager
         return $query->fetch();
     }
 
-    public function addUser(User $user)
+    /**
+     * Adds a new user 
+     * 
+     * @param User $user
+     * 
+     * @return void
+     */
+    public function addUser(User $user): void
     {
         $sql = "INSERT INTO " . $this->table . " (username, first_name, last_name, phone_number, email, password, role, token, isActive, image) VALUES (?, ?, ?, ?, ?, ?, 0, ?, 0, ?)";
         $query = $this->bdd->preparation($sql);
@@ -86,7 +122,14 @@ class UserManager
         ]);
     }
 
-    public function editUser(User $user)
+    /**
+     * Edits information about a specific user
+     * 
+     * @param User $user
+     * 
+     * @return void
+     */
+    public function editUser(User $user): void
     {
         $sql = self::UPDATEQUERY . $this->table . " SET username = ?, first_name = ?, last_name = ?, phone_number = ?, email = ?, password = ?, image = ? WHERE id = ?";
         $query = $this->bdd->preparation($sql);
@@ -102,7 +145,14 @@ class UserManager
         ]);
     }
 
-    public function setActiveModeForUser(User $user)
+    /**
+     * Changes the status of a specific user into active
+     * 
+     * @param User $user
+     * 
+     * @return void
+     */
+    public function setActiveModeForUser(User $user): void
     {
         $sql = self::UPDATEQUERY . $this->table . " SET isActive = 1 WHERE id = ?";
         $query = $this->bdd->preparation($sql);
@@ -111,7 +161,14 @@ class UserManager
         ]);
     }
 
-    public function createNewTokenForUser(User $user)
+    /**
+     * Creates a new token for a specific user
+     * 
+     * @param User $user
+     * 
+     * @return void
+     */
+    public function createNewTokenForUser(User $user): void
     {        
         $sql = self::UPDATEQUERY . $this->table . " SET token = ? WHERE id = ?";
         $query = $this->bdd->preparation($sql);
@@ -121,7 +178,14 @@ class UserManager
         ]);
     }
 
-    public function setNewPassword(User $user)
+    /**
+     * Changes a specific user's password
+     * 
+     * @param User $user
+     * 
+     * @return void
+     */
+    public function setNewPassword(User $user): void
     {
         $sql = self::UPDATEQUERY . $this->table . " SET password = ?, token = NULL WHERE id = ?";
         $query = $this->bdd->preparation($sql);

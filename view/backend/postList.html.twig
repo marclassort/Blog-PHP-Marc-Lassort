@@ -55,8 +55,7 @@
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                            <a href="/supprimer-un-article/{{ post.id }}">Supprimer</a>
-                            {# <button  id="modalButton" type="button" class="btn btn-primary"> #}
+                            <a href="/supprimer-un-article/{{ post.id }}/{{ session.token }}">Supprimer</a>
                             </div>
                         </div>
                         </div>
@@ -67,8 +66,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script>
 var button = document.getElementById('buttonDelete');

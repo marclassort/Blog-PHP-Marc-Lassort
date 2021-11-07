@@ -20,7 +20,6 @@ class Database
         $password = $array["database"]["password"];
         $dbname = $array["database"]["dbname"];
             
-        //Création d'un lien à la base de données de type PDO
         try
         {
             $this->bdd = new PDO('mysql:host=' .$server. ';dbname=' .$dbname,$login,$password,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
@@ -32,34 +31,36 @@ class Database
         }
     }
 
-    public static function getInstance() {
-        if(is_null(self::$connect)) {
+    public static function getInstance() 
+    {
+        if (is_null(self::$connect))
+        {
             self::$connect = new Database(); 
         }
         return self::$connect;
     }
     
-    //----------------------------------------
-    //FONCTIONS
-    //----------------------------------------
-        
-    // Permet d'effectuer une requête SQL. Retourne le résultat (s'il y en a un) de la requête sous forme d'objet
-    public function requete($req){
+    // Allows to perform a SQL query. Returns the result (if any) of the query as an object
+    public function requete($req)
+    {
         return $this->bdd->query($req);
     }
 
-    // Permet de préparer une requête SQL. Retourne la requête préparée sous forme d'objet
-    public function preparation($req){
+    // Allows to prepare a SQL query. Returns the prepared query as an object
+    public function preparation($req)
+    {
         return $this->bdd->prepare($req);
     }
 
-    // Permet d'exécuter une requête SQL préparée. Retourne le résultat (s'il y en a un) de la requête sous forme d'objet
-    public function execution($query, $tab){
+    // Allows to execute a prepared SQL query. Returns the result (if any) of the query as an object
+    public function execution($query, $tab)
+    {
         return $query->execute($tab);
     }
 
-    // Retourne l'id de la dernière insertion par auto-incrément dans la base de données
-    public function dernierIndex(){
+    // Returns the id of the last auto-increment insertion in the database
+    public function lastIndex()
+    {
         return $this->bdd->lastInsertId();
     }
 }

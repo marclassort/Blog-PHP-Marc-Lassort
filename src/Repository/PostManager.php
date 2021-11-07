@@ -22,7 +22,9 @@ class PostManager
     }
 
     /**
-     * Find all blog posts
+     * Finds all blog posts
+     * 
+     * @return mixed
      */
     public function getAllPosts()
     {
@@ -33,7 +35,11 @@ class PostManager
     }
 
     /**
-     * Find all blog posts according to a specific author 
+     * Finds all blog posts according to a specific author 
+     * 
+     * @param mixed $author
+     * 
+     * @return mixed
      */
     public function getPostsbyAuthor($author)
     {
@@ -44,7 +50,11 @@ class PostManager
     }
 
     /**
-     * Find a specific blog posts
+     * Finds a specific blog posts
+     * 
+     * @param int $postId
+     * 
+     * @return mixed
      */
     public function getPost($postId)
     {
@@ -56,9 +66,13 @@ class PostManager
     }
 
     /**
-     * Create a new blog post
+     * Creates a new blog post
+     * 
+     * @param Post $post
+     * 
+     * @return void
      */
-    public function createPost(Post $post)
+    public function createPost(Post $post): void
     {
         $sql = 'INSERT INTO ' . $this->table . ' (title, blurb, creation_date, modif_date, content, author, user_id, imageName, imageAlt) VALUES (?, ?, NOW(), NULL, ?, ?, ?, ?, ?)';
         $query = $this->bdd->preparation($sql);
@@ -74,9 +88,13 @@ class PostManager
     }
 
     /**
-     * Edit a specific blog post
+     * Edits a specific blog post
+     * 
+     * @param Post $post
+     * 
+     * @return void
      */
-    public function editPost(Post $post)
+    public function editPost(Post $post): void
     {
         $sql = "UPDATE post
                 SET title = ?, blurb = ?, modif_date = NOW(), content = ?, author = ?, user_id = ?, imageName = ?, imageAlt = ?
@@ -95,7 +113,11 @@ class PostManager
     }
 
     /**
-     * Delete a specific blog post
+     * Deletes a specific blog post
+     * 
+     * @param int $postId
+     * 
+     * @return void
      */
     public function deletePost($postId): void
     {
@@ -106,7 +128,11 @@ class PostManager
     }
 
     /**
-     * Retrieve an array of columns name to use in SQL queries 
+     * Retrieves an array of columns name to use in SQL queries 
+     * 
+     * @param Post $properties
+     * 
+     * @return array
      */
     protected function getTables(Post $properties): array
     {
@@ -121,7 +147,11 @@ class PostManager
     }
 
     /**
-     * Retrieve an array of values to use in SQL queries
+     * Retrieves an array of values to use in SQL queries
+     * 
+     * @param array $properties
+     * 
+     * @return array
      */
     protected function getValues(array $properties): array
     {
