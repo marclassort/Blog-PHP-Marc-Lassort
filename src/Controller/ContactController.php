@@ -14,7 +14,6 @@ class ContactController extends BaseController
     public function contact() 
     {
         $contactManager = new ContactManager('contact', 'Contact');
-        $session = new Session();
         $contact = new Contact($_POST);
 
         if ($this->isSubmitted('contactInput') && $this->isValid($contact))
@@ -27,12 +26,18 @@ class ContactController extends BaseController
             $this->redirect('');
         }
 
-        $this->render('frontend/contact.html.twig', [
-            "session" => $session
-        ]);
+        $this->render('frontend/contact.html.twig', []);
     }
 
-    public function manageContacts()
+    public function answerContact($idContact)
+    {
+        $contactManager = new ContactManager('contact', 'Contact');
+        $contactManager->sendEmail($idContact);
+
+        $this->redirect('gerer-les-contacts');
+    }
+
+    public function displayContactList()
     {
         $contactManager = new ContactManager('contact', 'Contact');
         $contacts = $contactManager->getContactList();
@@ -46,4 +51,31 @@ class ContactController extends BaseController
         ]);
     }
 
+    public function validateContact()
+    {
+        if ($_SESSION['token'] == $_POST['token'])
+        {
+            $contactManager = new ContactManager('contact', 'Contact');
+            $contactManager->validateContact($_POST['idContact']);
+
+            $this->redirect('gerer-les-contacts');
+        } else
+        {
+            $this->redirect('403');
+        }
+    }
+
+    public function invalidateContact()
+    {
+        if ($_SESSION['token'] == $_POST['token'])
+        {
+            $contactManager = new ContactManager('contact', 'Contact');
+            $contactManager->invalidateContact($_POST['idContact']);
+
+            $this->redirect('gerer-les-contacts');
+        } else
+        {
+            $this->redirect('403');
+        }
+    }
 }

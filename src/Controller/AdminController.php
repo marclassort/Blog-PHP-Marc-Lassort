@@ -35,13 +35,15 @@ class AdminController extends BaseController
         $contacts = $contactManager->getContactList();
         $commentManager = new CommentManager('comment', 'Comment', 'post');
         $comments = $commentManager->getAllComments();
+        $validatedComments = $commentManager->getValidatedComments();
 
         $this->render('backend/admin.html.twig', [
             "posts" => $posts,
             "images" => $images,
             "users" => $users,
             "contacts" => $contacts,
-            "comments" => $comments
+            "comments" => $comments,
+            "validatedComments" => $validatedComments
         ]);
     }
 
@@ -128,12 +130,18 @@ class AdminController extends BaseController
         ]);
     }
 
-    public function deletePost($idPost)
+    public function deletePost()
     {
-        $postManager = new PostManager('post', 'Post');
-        $postManager->deletePost($idPost);
-
-        $this->redirect('liste-articles');
+        if ($_SESSION['token'] == $_POST['token']) 
+        {
+            $postManager = new PostManager('post', 'Post');
+            $postManager->deletePost($_POST['idPost']);
+    
+            $this->redirect('liste-articles');
+        } else
+        {
+            $this->redirect('403');
+        }
     }
 
     public function manageComments()

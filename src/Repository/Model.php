@@ -8,8 +8,6 @@ use PropertyNotFoundException;
 
 class Model
 {
-    // Méthodes getBy() et getAll() pour récupérer les posts et les commentaires create, update et delete (CRUD) pour gérer les posts et les commentaires
-
     private $table;
     private $object;
     protected $database;
@@ -21,14 +19,26 @@ class Model
         $this->database = Database::getInstance($datasource);
     }
 
+    /**
+     * Get everything from a specific table by id
+     * 
+     * @param int $id
+     * 
+     * @return mixed
+     */
     public function getById($id)
     {
-        $req = $this->database->prepare("SELECT * FROM " . $this->table . " WHERE id=?");
+        $req = $this->database->prepare("SELECT * FROM " . $this->table . " WHERE id = ?");
         $req->execute(array($id));
         $req->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->obj);
         return $req->fetch();
     }
 
+    /**
+     * Get everything from a specific table
+     * 
+     * @return mixed
+     */
     public function getAll()
     {
         $req = $this->database->prepare("SELECT * FROM " . $this->table);
@@ -37,7 +47,17 @@ class Model
         return $req->fetch();
     }
 
-    public function create($obj, $param)
+    /**
+     * Creates an object 
+     * 
+     * @param mixed $obj
+     * @param mixed $param
+     * 
+     * @throws PropertyNotFoundException
+     * 
+     * @return void
+     */
+    public function create($obj, $param): void
     {
         $paramNumber = count($param);
         $valueArray = array_fill(1, $paramNumber, "?");
@@ -58,7 +78,17 @@ class Model
         $req->execute($boundParam);
     }
 
-    public function update($obj, $param)
+    /**
+     * Updates a specific objects
+     * 
+     * @param mixed $obj
+     * @param mixed $param 
+     * 
+     * @throws PropertyNotFoundException
+     * 
+     * @return void
+     */
+    public function update($obj, $param): void
     {
         $sql = "UPDATE " . $this->table . " SET ";
         foreach ($param as $paramName)
@@ -82,11 +112,20 @@ class Model
         
     }
 
+    /**
+     * Deletes a specific object
+     * 
+     * @param mixed $obj
+     * 
+     * @throws PropertyNotFoundException
+     * 
+     * @return mixed
+     */
     public function delete($obj)
     {
         if (property_exists($obj, 'id'))
         {
-            $req = $this->database->prepare("DELETE * FROM " . $this->table . " WHERE id=?");
+            $req = $this->database->prepare("DELETE * FROM " . $this->table . " WHERE id = ?");
             return $req->execute(array($obj->id));
         }
         else

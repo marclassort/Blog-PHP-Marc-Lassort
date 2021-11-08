@@ -55,8 +55,11 @@
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                            <a href="/supprimer-un-article/{{ post.id }}">Supprimer</a>
-                            {# <button  id="modalButton" type="button" class="btn btn-primary"> #}
+                            <form action="/supprimer-un-article" method="post">
+                                <input type="hidden" name="token" value="{{ session.token }}">
+                                <input type="hidden" name="idPost" value="{{ post.id }}">
+                                <button type="submit" class="btn btn-primary">Supprimer</button> 
+                            </form>
                             </div>
                         </div>
                         </div>
@@ -67,8 +70,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script>
 var button = document.getElementById('buttonDelete');

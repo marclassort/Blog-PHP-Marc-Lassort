@@ -37,10 +37,29 @@
                                 <td class="text-truncate" style="max-width: 200px;">{{ comment.content }}</td>
                                 <td>{{ comment.creation_date|date('d/m/Y à H:i') }}</td>
                                 <td>{{ comment.is_valid|replace({ '1': '<span class="badge badge-success"> Valide</span>' })|raw }}</td>
-                                <td><button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalInvalidate{{ comment.id }}"><i class="fas fa-thumbs-down"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalRead{{ comment.id }}"><i class="fas fa-book-reader"></i></button>
+                                    <button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalInvalidate{{ comment.id }}"><i class="fas fa-thumbs-down"></i></button>
+                                </td>
                             </tr>
 
-                            <!-- Modal -->
+                            <!-- Modals -->
+                            <div class="modal fade" id="modalRead{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Consulter le commentaire : {{ comment.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">{{ comment.content }}</div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="modal fade" id="modalInvalidate{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -55,7 +74,11 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/invalider-un-commentaire/{{ comment.id }}">Invalider</a>
+                                        <form action="/invalider-un-commentaire" method="post">
+                                            <input type="hidden" name="token" value="{{ session.token }}">
+                                            <input type="hidden" name="idComment" value="{{ comment.id }}">
+                                            <button type="submit" class="btn btn-primary">Invalider</button> 
+                                        </form>
                                         </div>
                                     </div>
                                 </div>
@@ -93,10 +116,30 @@
                                 <td class="text-truncate" style="max-width: 200px;">{{ comment.content }}</td>
                                 <td>{{ comment.creation_date|date('d/m/Y à H:i') }}</td>
                                 <td>{{ comment.is_valid|default('<span class="badge badge-warning">En attente de validation</span>')|raw }}</td>
-                                <td><button type="button" class="btn" data-toggle="modal" data-target="#modalValidate{{ comment.id }}"><i class="fas fa-thumbs-up" style="display: flex;"></i></button><button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalInvalidate{{ comment.id }}"><i class="fas fa-thumbs-down"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalRead{{ comment.id }}"><i class="fas fa-book-reader"></i></button>
+                                    <button type="button" class="btn" data-toggle="modal" data-target="#modalValidate{{ comment.id }}"><i class="fas fa-thumbs-up" style="display: flex;"></i></button>
+                                    <button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalInvalidate{{ comment.id }}"><i class="fas fa-thumbs-down"></i></button>
+                                </td>
                             </tr>
 
-                            <!-- Modal -->
+                            <!-- Modals -->
+                            <div class="modal fade" id="modalRead{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Consulter le commentaire : {{ comment.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">{{ comment.content }}</div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="modal fade" id="modalValidate{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -107,11 +150,15 @@
                                         </button>
                                         </div>
                                         <div class="modal-body">
-                                        Êtes-vous sûr de vouloir valider ce commentaire ? 
+                                        Êtes-vous sûr de vouloir valider ce commentaire ?
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/valider-un-commentaire/{{ comment.id }}">Valider</a>
+                                        <form action="/valider-un-commentaire" method="post">
+                                            <input type="hidden" name="token" value="{{ session.token }}">
+                                            <input type="hidden" name="idComment" value="{{ comment.id }}">
+                                            <button type="submit" class="btn btn-primary">Valider</button> 
+                                        </form>
                                         </div>
                                     </div>
                                 </div>
@@ -131,7 +178,11 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/invalider-un-commentaire/{{ comment.id }}">Invalider</a>
+                                        <form action="/invalider-un-commentaire" method="post">
+                                            <input type="hidden" name="token" value="{{ session.token }}">
+                                            <input type="hidden" name="idComment" value="{{ comment.id }}">
+                                            <button type="submit" class="btn btn-primary">Invalider</button> 
+                                        </form>
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +207,7 @@
                         <th data-sortable="true">Titre de l'article</th>
                         <th>Contenu</th>
                         <th data-sortable="true">Date de création</th>
-                        <th>Statut</th>                        
+                        <th>Statut</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -169,10 +220,29 @@
                                 <td class="text-truncate" style="max-width: 200px;">{{ comment.content }}</td>
                                 <td>{{ comment.creation_date|date('d/m/Y à H:i') }}</td>
                                 <td>{{ comment.is_valid|replace({ '0': '<span class="badge badge-danger">Invalide</span>' })|raw }}</td>
-                                <td><button type="button" class="btn" data-toggle="modal" data-target="#modalValidate{{ comment.id }}"><i class="fas fa-thumbs-up" style="display: flex;"></i></button></td>
+                                <td>
+                                    <button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalRead{{ comment.id }}"><i class="fas fa-book-reader"></i></button>
+                                    <button type="button" class="btn" style="display: flex;" data-toggle="modal" data-target="#modalValidate{{ comment.id }}"><i class="fas fa-thumbs-up"></i></button>
+                                </td>
                             </tr>
 
-                            <!-- Modal -->
+                            <!-- Modals -->
+                            <div class="modal fade" id="modalRead{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Consulter le commentaire : {{ comment.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">{{ comment.content }}</div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="modal fade" id="modalValidate{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -187,12 +257,16 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/valider-un-commentaire/{{ comment.id }}">Valider</a>
+                                        <form action="/valider-un-commentaire" method="post">
+                                            <input type="hidden" name="token" value="{{ session.token }}">
+                                            <input type="hidden" name="idComment" value="{{ comment.id }}">
+                                            <button type="submit" class="btn btn-primary">Valider</button> 
+                                        </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        {% endif %}   
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

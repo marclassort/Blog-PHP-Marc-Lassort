@@ -74,7 +74,7 @@ class UserController extends BaseController {
         $mail = $session->get('email');
         $user = $userManager->getByMail($mail);
 
-        if ($this->isSubmitted('profileInput') && (!isset($_POST['image']) || empty($_POST['image'])))
+        if ($this->isSubmitted('profileInput'))
         {
             $user->setUsername($_POST['username']);
             $user->setEmail($_POST['email']);
@@ -82,26 +82,16 @@ class UserController extends BaseController {
             $user->setFirstName($_POST['first-name']);
             $user->setLastName($_POST['last-name']);
             $user->setPhoneNumber($_POST['phone']);
-            $user->setId($_POST['id']);
-            $userManager->editUser($user);
-            $this->redirect('profil');
-        } else if ($this->isSubmitted('profileInput') && isset($_POST['image']) && !empty($_POST['image']))
-        {
-            $user->setUsername($_POST['username']);
-            $user->setEmail($_POST['email']);
-            $user->setPassword($_POST['password']);
-            $user->setFirstName($_POST['first-name']);
-            $user->setLastName($_POST['last-name']);
-            $user->setPhoneNumber($_POST['phone']);
-            $user->setImage($_POST['image']);
-            $user->setId($_POST['id']);
-            $userManager->editUser($user);
-            $this->redirect('profil');
-        }
 
+            if (isset($_POST['image']) && !empty($_POST['image']))
+            {
+                $user->setImage($_POST['image']);
+            }
+            $userManager->editUser($user);
+            $this->redirect('profil');
+        } 
         $this->render('frontend/profile.html.twig', [
-            "user" => $user,
-            "session" => $session
+            "user" => $user
         ]);
     }
 

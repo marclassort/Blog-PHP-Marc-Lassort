@@ -15,6 +15,7 @@ class BaseController
     {
         $loader = new \Twig\Loader\FilesystemLoader(VIEW_DIR . '//');
         $this->twig = new \Twig\Environment($loader, ['debug' => true]);
+        $this->twig->addGlobal('session', $_SESSION);
     }
 
     protected function render($filename, $array = [])
