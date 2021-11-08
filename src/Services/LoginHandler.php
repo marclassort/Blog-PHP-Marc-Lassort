@@ -6,6 +6,7 @@ use App\Core\Session;
 use App\Entity\User;
 use App\Repository\UserManager;
 use Core\BaseController;
+use Ramsey\Uuid\Uuid;
 
 class LoginHandler extends BaseController
 {
@@ -159,7 +160,8 @@ class LoginHandler extends BaseController
      */
     public function checkLogin($user)
     {
-        $token = $user->getToken();
+        $token = Uuid::uuid4();
+        $token->toString();
 
         if (!empty($user) && password_verify($_POST['password'], $user->getPassword()))
         {

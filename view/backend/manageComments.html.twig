@@ -74,7 +74,11 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/invalider-un-commentaire/{{ comment.id }}/{{ session.token }}">Invalider</a>
+                                        <form action="/invalider-un-commentaire" method="post">
+                                            <input type="hidden" name="token" value="{{ session.token }}">
+                                            <input type="hidden" name="idComment" value="{{ comment.id }}">
+                                            <button type="submit" class="btn btn-primary">Invalider</button> 
+                                        </form>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +154,11 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/valider-un-commentaire/{{ comment.id }}/{{ session.token }}">Valider</a>
+                                        <form action="/valider-un-commentaire" method="post">
+                                            <input type="hidden" name="token" value="{{ session.token }}">
+                                            <input type="hidden" name="idComment" value="{{ comment.id }}">
+                                            <button type="submit" class="btn btn-primary">Valider</button> 
+                                        </form>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +178,11 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/invalider-un-commentaire/{{ comment.id }}/{{ session.token }}">Invalider</a>
+                                        <form action="/invalider-un-commentaire" method="post">
+                                            <input type="hidden" name="token" value="{{ session.token }}">
+                                            <input type="hidden" name="idComment" value="{{ comment.id }}">
+                                            <button type="submit" class="btn btn-primary">Invalider</button> 
+                                        </form>
                                         </div>
                                     </div>
                                 </div>
@@ -245,7 +257,11 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                        <a href="/valider-un-commentaire/{{ comment.id }}/{{ session.token }}">Valider</a>
+                                        <form action="/valider-un-commentaire" method="post">
+                                            <input type="hidden" name="token" value="{{ session.token }}">
+                                            <input type="hidden" name="idComment" value="{{ comment.id }}">
+                                            <button type="submit" class="btn btn-primary">Valider</button> 
+                                        </form>
                                         </div>
                                     </div>
                                 </div>

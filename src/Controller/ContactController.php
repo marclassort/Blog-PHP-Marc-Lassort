@@ -51,15 +51,12 @@ class ContactController extends BaseController
         ]);
     }
 
-    public function validateContact($idContact, $token)
+    public function validateContact()
     {
-        $session = new Session();
-        $tokenCheck = $session->get('token');
-
-        if ($token == $tokenCheck)
+        if ($_SESSION['token'] == $_POST['token'])
         {
             $contactManager = new ContactManager('contact', 'Contact');
-            $contactManager->validateContact($idContact);
+            $contactManager->validateContact($_POST['idContact']);
 
             $this->redirect('gerer-les-contacts');
         } else
@@ -68,15 +65,12 @@ class ContactController extends BaseController
         }
     }
 
-    public function invalidateContact($idContact, $token)
+    public function invalidateContact()
     {
-        $session = new Session();
-        $tokenCheck = $session->get('token');
-
-        if ($token == $tokenCheck)
+        if ($_SESSION['token'] == $_POST['token'])
         {
             $contactManager = new ContactManager('contact', 'Contact');
-            $contactManager->invalidateContact($idContact);
+            $contactManager->invalidateContact($_POST['idContact']);
 
             $this->redirect('gerer-les-contacts');
         } else

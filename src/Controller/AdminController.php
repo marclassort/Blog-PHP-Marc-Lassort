@@ -130,15 +130,12 @@ class AdminController extends BaseController
         ]);
     }
 
-    public function deletePost($idPost, $token)
+    public function deletePost()
     {
-        $session = new Session();
-        $tokenCheck = $session->get('token');
-
-        if ($token == $tokenCheck)
+        if ($_SESSION['token'] == $_POST['token']) 
         {
             $postManager = new PostManager('post', 'Post');
-            $postManager->deletePost($idPost);
+            $postManager->deletePost($_POST['idPost']);
     
             $this->redirect('liste-articles');
         } else

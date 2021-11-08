@@ -46,15 +46,12 @@ class CommentController extends BaseController
         $sessionHandler->checkSession($postId);
     }
 
-    public function validateComment($idComment, $token)
+    public function validateComment()
     {
-        $session = new Session();
-        $tokenCheck = $session->get('token');
-
-        if ($token == $tokenCheck)
+        if ($_SESSION['token'] == $_POST['token'])        
         {
             $commentManager = new CommentManager('comment', 'Comment');
-            $commentManager->validateComment($idComment);
+            $commentManager->validateComment($_POST['idComment']);
 
             $this->redirect('gerer-commentaires');
         } else
@@ -63,15 +60,12 @@ class CommentController extends BaseController
         }  
     }
 
-    public function invalidateComment($idComment, $token)
+    public function invalidateComment()
     {
-        $session = new Session();
-        $tokenCheck = $session->get('token');
-
-        if ($token == $tokenCheck)
+        if ($_SESSION['token'] == $_POST['token'])
         {
             $commentManager = new CommentManager('comment', 'Comment');
-            $commentManager->invalidateComment($idComment);
+            $commentManager->invalidateComment($_POST['idComment']);
 
             $this->redirect('gerer-commentaires');
         } else
