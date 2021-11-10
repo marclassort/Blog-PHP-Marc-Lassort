@@ -84,7 +84,7 @@ class CommentManager
             $comment->getContent(),
             $comment->getIsValid(),
             $user->getId(),
-            $post->getId()
+            $_GET['id']
         ]);
     }
 

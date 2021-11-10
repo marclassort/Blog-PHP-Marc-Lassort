@@ -11,9 +11,7 @@ use Ramsey\Uuid\Uuid;
 class LoginHandler extends BaseController
 {
     const URL = "http://localhost:8888";
-    const INVALID_LOGIN = "<p class='text-white'>Votre identifiant et/ou votre mot de passe ne sont pas valides.</p>";
-    const UNACTIVATED_ACCOUNT = "<p class='text-white'>Vous n'avez pas encore activé votre compte. Veuillez vérifier votre boîte mail.</p>";
-
+    
     /**
      * Allows the user to register an account on the blog
      * 
@@ -171,12 +169,12 @@ class LoginHandler extends BaseController
                     $this->redirect('profil');
                 } else
                 {
-                    echo SELF::UNACTIVATED_ACCOUNT;
+                    echo "<p class='text-white'>Vous n'avez pas encore activé votre compte. Veuillez vérifier votre boîte mail.</p>";
                 }
             }
         } else 
         {
-            echo SELF::INVALID_LOGIN;
+            echo "<p class='text-white'>Votre identifiant et/ou votre mot de passe ne sont pas valides.</p>";
         }
     }
 }

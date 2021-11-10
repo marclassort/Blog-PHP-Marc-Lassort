@@ -59,7 +59,7 @@ class BlogController extends BaseController
 
         $sessionHandler = new SessionHandler();
 
-        $sessionHandler->checkSession($postId);
+        $sessionHandler->checkSession();
 
         if ($sessionHandler)
         {
