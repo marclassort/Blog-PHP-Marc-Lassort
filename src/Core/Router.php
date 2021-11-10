@@ -43,7 +43,7 @@ class Router
 
     public function run(): self
     {
-        require_once CONF_DIR . DIRECTORY_SEPARATOR . 'routes.php';
+        require CONF_DIR . DIRECTORY_SEPARATOR . 'routes.php';
         $match = $this->router->match();
         
         if(is_array($match)) {
@@ -59,7 +59,7 @@ class Router
 
     public function runFunction()
     {
-        require_once CONF_DIR . DIRECTORY_SEPARATOR . 'routes.php';
+        require CONF_DIR . DIRECTORY_SEPARATOR . 'routes.php';
         return $this->router->match();
     }
 }

@@ -13,10 +13,6 @@ class LoginHandler extends BaseController
     const URL = "http://localhost:8888";
     const INVALID_LOGIN = "<p class='text-white'>Votre identifiant et/ou votre mot de passe ne sont pas valides.</p>";
     const UNACTIVATED_ACCOUNT = "<p class='text-white'>Vous n'avez pas encore activé votre compte. Veuillez vérifier votre boîte mail.</p>";
-    const LOGIN = "frontend/login.html.twig";
-    const REGISTER = 'frontend/register.html.twig';
-    const REGISTERED = 'frontend/registered.html.twig';
-    const FORGOT_PASSWORD = 'frontend/forgot-password.html.twig';
 
     /**
      * Allows the user to register an account on the blog
@@ -28,7 +24,7 @@ class LoginHandler extends BaseController
         $user = new User($_POST);
 
         if (!empty($_POST))
-        {
+        {            
             $userManager = new UserManager('user', 'User');
 
             $userByMail = $userManager->getByMail($_POST['email']);
@@ -49,16 +45,12 @@ class LoginHandler extends BaseController
 
                 $mailer->sendEmail($lastUser->getEmail(), $subject, $body);
                 
-                $this->render(SELF::REGISTERED, []);
+                $this->redirect('mot-de-passe-enregistre');
             } else 
             {
                 echo 'Vous ne pouvez pas utiliser cette adresse email.';
-                $this->render(SELF::REGISTER, []);
             }
-        } else
-        {
-            $this->render(SELF::REGISTER, []);
-        }
+        } 
     }
 
     /**
@@ -80,7 +72,7 @@ class LoginHandler extends BaseController
             $this->redirect('mot-de-passe-enregistre');
         } else
         {
-            $this->render('frontend/registering.html.twig', []);
+            $this->redirect('echec-verification');
         }
     }
 
@@ -106,12 +98,9 @@ class LoginHandler extends BaseController
             $body = "<p>Bonjour " . $user->getFirstName() . ' ' . $user->getLastName() . ",</p><p>Pour créer un nouveau mot de passe, vous devez valider la procédure via ce courriel :</p><a href='" . self::URL . "/creer-nouveau-mot-de-passe/" . $user->getToken() . "'><button>Cliquez ici pour recréer mon mot de passe</button></a></p><p>Merci pour votre confiance,</p><p>Marc Lassort</p>";
 
             $mailer->sendEmail($user->getEmail(), $subject, $body);
-            
-            $this->render('frontend/password-sent.html.twig');
         } else 
         {
-            $this->redirect('password');
-            $this->render(SELF::FORGOT_PASSWORD, []);
+            $this->redirect('mot-de-passe-oublie');
         }
     }
 
@@ -137,12 +126,6 @@ class LoginHandler extends BaseController
                 $userManager->setNewPassword($user);
 
                 $this->redirect('mot-de-passe-enregistre');
-
-            } else
-            {
-                $this->render('frontend/create-new-password.html.twig', [
-                    "token" => $token
-                ]);
             }
         } else
         {
@@ -165,7 +148,7 @@ class LoginHandler extends BaseController
 
         if (!empty($user) && password_verify($_POST['password'], $user->getPassword()))
         {
-            if ($user->getRole() != NULL && $user->getRole() != "" && $user->getRole() == 1)
+            if ($user->getRole() != NULL && $user->getRole() != false)
             {
                 $session = new Session();
                 $session->set('username', $user->getUsername());
@@ -186,19 +169,14 @@ class LoginHandler extends BaseController
                     $session->set('token', $token);
 
                     $this->redirect('profil');
-                    $this->render('frontend/profile.html.twig', [
-                        "user" => $user
-                    ]);
                 } else
                 {
                     echo SELF::UNACTIVATED_ACCOUNT;
-                    $this->render(SELF::LOGIN, []);
                 }
             }
         } else 
         {
             echo SELF::INVALID_LOGIN;
-            $this->render(SELF::LOGIN, []);
         }
     }
 }

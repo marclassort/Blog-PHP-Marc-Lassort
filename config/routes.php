@@ -6,6 +6,7 @@ use Pecee\SimpleRouter\SimpleRouter;
 SimpleRouter::get('/', 'HomeController@home');
 SimpleRouter::all('/enregistrement', 'UserController@registerMyAccount');
 SimpleRouter::all('/verification/{token?}', 'UserController@verifyEmailAddress', ['token']);
+SimpleRouter::all('/echec-verification', 'UserController@registrationFailure');
 SimpleRouter::all('/mot-de-passe-enregistre', 'UserController@registered');
 SimpleRouter::all('/mot-de-passe-oublie', 'UserController@password');
 SimpleRouter::post('/mot-de-passe-envoye', 'UserController@sendEmailForNewPassword');

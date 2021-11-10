@@ -14,11 +14,13 @@ class UserController extends BaseController {
         $register = new LoginHandler();
         
         $register->register();
+
+        $this->render('frontend/register.html.twig');
     }
 
     public function registered()
     {
-        $this->render('frontend/registered.html.twig', []);
+        $this->render('frontend/registered.html.twig');
     }
     
     public function verifyEmailAddress($token)
@@ -26,11 +28,18 @@ class UserController extends BaseController {
         $verify = new LoginHandler();
 
         $verify->verifyEmailAddress($token);
+
+        $this->render('frontend/registering.html.twig');
+    }
+
+    public function registrationFailure()
+    {
+        $this->render('frontend/registering.html.twig');
     }
 
     public function password()
     {
-        $this->render('frontend/forgot-password.html.twig', []);
+        $this->render('frontend/forgot-password.html.twig');
     }
 
     public function sendEmailForNewPassword()
@@ -38,6 +47,8 @@ class UserController extends BaseController {
         $sendEmail = new LoginHandler();
 
         $sendEmail->createNewTokenAndSendEmailForNewPassword();
+
+        $this->render('frontend/password-sent.html.twig');
     }
 
     public function createNewPassword($token)
@@ -45,11 +56,15 @@ class UserController extends BaseController {
         $createNewPassword = new LoginHandler();
 
         $createNewPassword->createNewPassword($token);
+
+        $this->render('frontend/create-new-password.html.twig', [
+            "token" => $token
+        ]);
     }
 
     public function login()
     {
-        $this->render('frontend/login.html.twig', []);
+        $this->render('frontend/login.html.twig');
     }
 
     public function authenticate()
@@ -65,6 +80,8 @@ class UserController extends BaseController {
         {
             $this->redirect('admin');
         }
+        
+        $this->render('frontend/login.html.twig');
     }
 
     public function profile()
