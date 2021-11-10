@@ -27,31 +27,30 @@ class CommentController extends BaseController
 
     public function postComment($postId)
     {
+        $session = new Session();
+
+        $postManager = new PostManager('post', 'Post');
+        $post = $postManager->getPost($postId);
+
+        $commentManager = new CommentManager('comment', 'Comment', 'user');
+        $comments = $commentManager->getAllCommentsForABlogPost($postId);
+
+        $username = $session->get('username');
+
+        date_default_timezone_set('Europe/Paris');
+        setlocale(LC_TIME, ['fr', 'fra', 'fr_FR']);
+        $date = strftime('%d %B %Y - %Hh%M');
+
+        $userManager = new UserManager('user', 'User');
+        $user = $userManager->getByMail($session->get('email'));
+
         if (!empty($_POST))
         {
-            $session = new Session();
-
-            $userManager = new UserManager('user', 'User');
-            $user = $userManager->getByMail($session->get('email'));
-    
             $comment = new Comment($_POST);
             $post = new Post($_POST);
 
-            date_default_timezone_set('Europe/Paris');
-            setlocale(LC_TIME, ['fr', 'fra', 'fr_FR']);
-            $date = strftime('%d %B %Y - %Hh%M');
-
-            $postManager = new PostManager('post', 'Post');
-            $post = $postManager->getPost($postId);
-
-            $commentManager = new CommentManager('comment', 'Comment', 'user');
-            $comments = $commentManager->getAllCommentsForABlogPost($postId);
-
-            $username = $session->get('username');
-
             $commentManager = new CommentManager('comment', 'Comment');
-
-            $commentManager->postComment($comment, $user, $post);
+            $commentManager->postComment($comment, $user, $postId);
 
             $sessionHandler = new SessionHandler();
 
@@ -60,6 +59,7 @@ class CommentController extends BaseController
             if ($sessionHandler)
             {
                 echo "Votre commentaire va être soumis à validation";
+                $this->redirect('blog');
             } 
         }
         

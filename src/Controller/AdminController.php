@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Core\Session;
 use Core\BaseController;
 use App\Entity\Post;   
 use App\Repository\CommentManager;
@@ -20,7 +19,7 @@ class AdminController extends BaseController
         $session = new SessionHandler();
         $checkAdmin = $session->checkAdmin();
 
-        if (!$checkAdmin)
+        if (!$checkAdmin) 
         {
             $this->redirect('');
         }

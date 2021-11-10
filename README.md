@@ -53,5 +53,5 @@ Then you have to edit the file `configSample.json` as such:
 
 ## **Code checking**
 
-__CodeClimate__: https://codeclimate.com/github/marclassort/Blog-PHP-Marc-Lassort 
-__SonarCloud__: https://sonarcloud.io/project/overview?id=marclassort_Blog-PHP-Marc-Lassort
+- __CodeClimate__: https://codeclimate.com/github/marclassort/Blog-PHP-Marc-Lassort 
+- __SonarCloud__: https://sonarcloud.io/project/overview?id=marclassort_Blog-PHP-Marc-Lassort

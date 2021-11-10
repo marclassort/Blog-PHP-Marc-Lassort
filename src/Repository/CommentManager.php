@@ -71,11 +71,10 @@ class CommentManager
      * 
      * @param Comment $comment
      * @param User $user
-     * @param Post $post
      * 
      * @return void 
      */
-    public function postComment(Comment $comment, User $user, Post $post): void
+    public function postComment(Comment $comment, User $user, $postId): void
     {
         $sql = 'INSERT INTO ' . $this->table . ' (username, content, creation_date, is_valid, user_id, post_id) VALUES (?, ?, NOW(), ?, ?, ?)';
         $query = $this->bdd->preparation($sql);
@@ -84,7 +83,7 @@ class CommentManager
             $comment->getContent(),
             $comment->getIsValid(),
             $user->getId(),
-            $_GET['id']
+            $postId
         ]);
     }
 

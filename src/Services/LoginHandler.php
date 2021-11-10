@@ -141,11 +141,10 @@ class LoginHandler extends BaseController
      */
     public function checkLogin($user)
     {
-        $token = Uuid::uuid4();
-        $token->toString();
-
         if (!empty($user) && password_verify($_POST['password'], $user->getPassword()))
         {
+            $token = Uuid::uuid4()->toString();
+
             if ($user->getRole() != NULL && $user->getRole() != false)
             {
                 $session = new Session();
