@@ -59,9 +59,7 @@ class BlogController extends BaseController
 
         $sessionHandler = new SessionHandler();
 
-        $sessionHandler->checkSession();
-
-        if ($sessionHandler)
+        if ($sessionHandler->checkSession())
         {
             $this->render('post/post.html.twig', [
                 "post" => $post,

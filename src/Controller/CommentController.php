@@ -54,9 +54,7 @@ class CommentController extends BaseController
 
             $sessionHandler = new SessionHandler();
 
-            $sessionHandler->checkSession();
-
-            if ($sessionHandler)
+            if ($sessionHandler->checkSession())
             {
                 echo "Votre commentaire va être soumis à validation";
                 $this->redirect('blog');
