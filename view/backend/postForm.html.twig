@@ -13,29 +13,29 @@
     <form action="/creer-un-article" method="post">
         <div class="form-group mb-2 mt-5">
             <label>Titre : </label>
-            <input type="text" name="title" class="form-control">
+            <input type="text" name="title" class="form-control" required>
         </div>
         <div class="form-group mb-2 mt-5">
             <label>Chapô : </label>
-            <input type="text" name="blurb" class="form-control">
+            <input type="text" name="blurb" class="form-control" required>
         </div>
         <div class="form-group mb-2 mt-5">
             <label>Image : </label>
-            <input type="file" name="imageName" class="form-control-file" accept=".jpg, .jpeg, .png">
+            <input type="file" name="imageName" class="form-control-file" accept=".jpg, .jpeg, .png" required>
         </div>
         <div class="form-group mb-2 mt-5">
             <p>Texte alternatif : </p>
-            <input type="text" name="imageAlt" class="form-control">
+            <input type="text" name="imageAlt" class="form-control" required>
         </div>
         <div class="form-group contenu-article mb-2 mt-5">
             <label>Contenu : </label>
-            <textarea class="mytextarea mt-5" name="content">
+            <textarea class="mytextarea mt-5" name="content" required>
                 Veuillez écrire votre article ici.
             </textarea>
         </div>
         <div class="form-group mb-2 mt-5">
             <label>Auteur : </label>
-            <select name="author" id="author" class="form-control">
+            <select name="author" id="author" class="form-control" required>
                 {% for user in users %}
                     <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
                 {% endfor %}

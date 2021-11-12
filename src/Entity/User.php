@@ -62,7 +62,7 @@ class User extends Entity
     public $image;
 
     /**
-     * @param array $data Data used with the comment form 
+     * @param array $data Data used with the user form 
      */
     public function __construct(array $data = [])
     {

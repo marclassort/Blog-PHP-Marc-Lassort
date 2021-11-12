@@ -42,7 +42,7 @@ class Contact extends Entity
     private $isHandled;
 
     /**
-     * @param array $data Data used with the comment form 
+     * @param array $data Data used with the contact form 
      */
     public function __construct(array $data = []) 
     {

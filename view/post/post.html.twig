@@ -37,9 +37,14 @@
                         <div class="mt-5">Aucun commentaire publié.</div>
                     {% endfor %}
                     {% if username is defined %}
-                        <strong><a href="/profil"><div class="mt-5">{{ username }} :</div></a></strong>
+                        <div class="mt-5 p-2 bg-white">
+                            <img src="/public/img/{{ user.image }}" alt="photo profil" style="width: 40px;"><span class="text-danger pl-3"><a href="/profil" class="text-decoration-none"><strong>{{ username }}</strong></a></span> <span class="text-secondary" style="font-size: 0.8em;">- {{ comment.creation_date|date("d/m/Y", "Europe/Paris") }}</span>
+                        </div>
+
+                        {# <span class="d-flex"><img src="/public/img/blog/{{ user.image }}" alt="photo de profil" class="d-flex w-25"></span>
+                        <strong><a href="/profil"><div class="mt-5 d-flex">{{ username }} :</div></a></strong> #}
                         <form action="/poster-un-commentaire/{{ post.id }}" method="post">
-                            <div> 
+                            <div style="margin-top: -20px"> 
                                 <input type="hidden" name="username" value="{{ username }}">
                                 <input type="hidden" name="id" value="{{ user.id }}">
                                 <input type="hidden" name="idPost" value="{{ post.id }}">

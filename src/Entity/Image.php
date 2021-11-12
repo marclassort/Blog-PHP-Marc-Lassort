@@ -27,7 +27,7 @@ class Image extends Entity
     private $name;
 
     /**
-     * @param array $data Data used with the comment form 
+     * @param array $data Data used with the image form 
      */
     public function __construct(array $data = [])
     {

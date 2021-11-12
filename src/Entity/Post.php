@@ -57,7 +57,7 @@ class Post extends Entity
     private $imageAlt;
 
     /**
-     * @param array $data Data used with the comment form 
+     * @param array $data Data used with the post form 
      */
     public function __construct(array $data = [])
     {
