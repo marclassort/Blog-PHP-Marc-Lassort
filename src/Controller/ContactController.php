@@ -13,7 +13,7 @@ class ContactController extends BaseController
 
     public function contact() 
     {
-        $contactManager = new ContactManager('contact', 'Contact');
+        $contactManager = new ContactManager('contact', 'Contact', 'user');
         $contact = new Contact($_POST);
 
         if ($this->isSubmitted('contactInput') && $this->isValid($contact))

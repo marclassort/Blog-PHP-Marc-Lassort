@@ -9,15 +9,17 @@ use PDO;
 class PostManager
 {
     protected $table;
+    protected $secondTable;
     protected $object;
     protected $post;
     protected $bdd;
     public const SELECTQUERY = 'SELECT * FROM ';
 
-    public function __construct($table, $object)
+    public function __construct($table, $object, $secondTable = NULL)
     {
         $this->table = $table;
         $this->object = $object;
+        $this->secondTable = $secondTable;
         $this->bdd = Database::getInstance();
     }
 
@@ -121,6 +123,11 @@ class PostManager
      */
     public function deletePost($postId): void
     {
+        $sql = 'DELETE FROM ' . $this->secondTable . ' WHERE post_id = :id';
+        $query = $this->bdd->preparation($sql);
+        $query->bindValue(':id', $postId);
+        $query->execute();
+
         $sql = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
         $query = $this->bdd->preparation($sql);
         $query->bindValue(':id', $postId);

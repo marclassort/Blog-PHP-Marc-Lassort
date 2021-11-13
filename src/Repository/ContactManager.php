@@ -11,20 +11,22 @@ use PDO;
 class ContactManager extends BaseController
 {
     protected ?string $table;
+    protected ?string $secondTable;
     protected $object;
     protected string $entity;
     protected string $contact;
     protected $bdd;
     
-    public function __construct($table, $object)
+    public function __construct($table, $object, $secondTable = NULL)
     {
         $this->table = $table;
         $this->object = $object;
+        $this->secondTable = $secondTable;
         $this->bdd = Database::getInstance();
     }
 
     /**
-     * Adds contact messages written from the blog into the database
+     * Adds contact messages written from the blog into the database and sends a mail to the admin
      * 
      * @param Contact $contact
      * 
@@ -32,6 +34,18 @@ class ContactManager extends BaseController
      */
     public function sendContact(Contact $contact): void
     {
+        $mailer = new Mailer();
+
+        $sql = "SELECT email FROM " . $this->secondTable . " WHERE role = 1 LIMIT 1";
+        $query = $this->bdd->preparation($sql);
+        $query->execute();
+        $admin = $query->fetch();
+
+        $subject = "Contact";
+        $body = "<p>Bonjour,</p>Vous avez reçu le message suivant de : " . $contact->getAuthor() . "</p><p><strong>Adresse email</strong> : " . $contact->getEmailAddress() . "</p><p><strong>Sujet</strong> : " . $contact->getSubject() . "</p><p><strong>Contenu</strong> : " . $contact->getContent() . "</p><p>Connectez-vous sur l'interface d'administration pour y répondre,</p><p>Le blog de Marc Lassort</p>";
+
+        $mailer->sendEmail($admin[0], $subject, $body);
+
         $sql = "INSERT INTO " . $this->table . " (author, creation_date, subject, content, email_address, is_handled, user_id) VALUES (?, NOW(), ?, ?, ?, 0, 22)";
         $query = $this->bdd->preparation($sql);
         $query->execute([

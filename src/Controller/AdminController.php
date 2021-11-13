@@ -133,7 +133,7 @@ class AdminController extends BaseController
     {
         if ($_SESSION['token'] == $_POST['token']) 
         {
-            $postManager = new PostManager('post', 'Post');
+            $postManager = new PostManager('post', 'Post', 'comment');
             $postManager->deletePost($_POST['idPost']);
     
             $this->redirect('liste-articles');
